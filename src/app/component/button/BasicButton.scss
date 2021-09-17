@@ -3,13 +3,12 @@
 
 
 .app-button {
-  min-width: 20rem;
-  width: auto;
-  min-height: 56px;
+  width: 20rem;
+  height: 56px;
   margin-top: 2rem;
   border-radius: .3rem;
   cursor: pointer;
-  text-transform: uppercase;
+  font-weight: bold;
   font-family: $preferred-font !important;
   color: white;
   font-size: 18px;
@@ -26,6 +25,14 @@
 
     &:hover {
       background-color: $basic-dark-green;
+    }
+  }
+
+  &.reverse-button {
+    background-color: $basic-beige-normal;
+
+    &:hover{
+      background-color: $basic-beige-dark;
     }
   }
 

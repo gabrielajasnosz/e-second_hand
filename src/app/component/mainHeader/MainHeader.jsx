@@ -14,7 +14,7 @@ const MainHeader = () => (
                         <a className="nav-link" href="/login">Sign In</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/">Sign Up</a>
+                        <a className="nav-link" href="/register">Sign Up</a>
                     </li>
                 </ul>
             </div>

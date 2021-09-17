@@ -6,13 +6,6 @@
 }
 
 
-.container{
-  display:flex;
-  justify-content: center;
-  margin-left: 0px;
-}
-
-
 .login-heading{
   font-family: $preferred-font;
   font-size: 22px;
@@ -38,18 +31,12 @@
 
 }
 
-.createNewAccount{
+.createNewIcon{
   font-family: $preferred-font;
-  font-size: 16px;
+  font-size: 22px;
   color: black;
-  text-decoration: none;
-  margin-top: 1rem;
 
-}
-
-hr {
-  border-width: 1px;
-  background-color: #b3b3b3 !important;
-  margin: 2rem 1rem 1rem 1rem;
-  width: 18rem;
+  &:hover{
+    color: $basic-dark-green;
+  }
 }

@@ -4,9 +4,7 @@ import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
 import FormInput from "../../component/formInput/FormInput";
 
-import "./LoginPage.scss";
-
-const LoginPage = () => (
+const RegisterPage = () => (
     <div>
         <MainHeader />
         <div className="container-fluid ps-md-0">
@@ -16,22 +14,15 @@ const LoginPage = () => (
                     <div className="login d-flex align-items-center py-5">
                         <div className="container">
                             <div className="row">
-                                <div className="col-md-9 col-lg-8">
-                                    <h3 className="login-heading mb-4">Welcome back!</h3>
+                                <div className="col-md-9 col-lg-8 mx-auto">
+                                    <h3 className="login-heading mb-4">Create new account</h3>
                                     <FormInput type="email" />
                                     <FormInput type="password" />
                                     <div className="d-grid">
                                         <BasicButton onButtonClick={() => {}} label="Sign in">
                                             <span> Sign in </span>
                                         </BasicButton>
-                                        <hr />
-                                        <div className="createNewAccount">
-                                            <BasicButton onButtonClick={() => {}} label="Sign up" buttonClassName="reverse-button">
-                                                <span> Sign up </span>
-                                            </BasicButton>
-                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -43,4 +34,4 @@ const LoginPage = () => (
     </div>
 );
 
-export default LoginPage;
+export default RegisterPage;
