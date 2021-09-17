@@ -1,0 +1,77 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+
+.carousel {
+  margin: 0;
+  width: 100%;
+
+  .carousel-item {
+    height: 100vh;
+
+    &.carousel-first {
+      background: url("../../assets/images/carousel-first.jpg") no-repeat center center scroll;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+
+    }
+
+    &.carousel-second {
+      background: url("../../assets/images/carousel-second.jpg") no-repeat center center scroll;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+
+    }
+
+    &.carousel-third {
+      background: url("../../assets/images/carousel-third.jpg") no-repeat center center scroll;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+
+    .carousel-caption {
+      color: white;
+      font-family: $preferred-font !important;
+      width: auto;
+      top: 70% !important;
+      transform: translateY(-50%);
+      text-align: end;
+      bottom: initial;
+
+
+      & > p {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      & > span {
+        font-size: 20px;
+      }
+
+    }
+
+  }
+
+
+  .carousel-indicators {
+    top: 90% !important;
+    transform: translateY(-50%);
+  }
+
+  .carousel-control.left, .carousel-control.right {
+    background-image: none !important;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}

@@ -1,0 +1,58 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.app-button {
+  min-width: 8rem;
+  width: auto;
+  min-height: 2rem;
+  border-radius: .3rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: $preferred-font !important;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  outline: none;
+  border: none;
+
+  &.submit-button {
+    background-color: $basic-medium-green;
+
+    &:hover {
+      background-color: $basic-dark-green;
+    }
+  }
+
+
+  &:active, &:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: $basic-grey-color;
+    color: white;
+  }
+
+
+}
+
+.icon-button{
+  color: black !important;
+  border: none;
+
+  &:hover, &:focus {
+    color: $basic-dark-green !important;
+    background: transparent !important;
+    outline: none;
+  }
+}
+
+

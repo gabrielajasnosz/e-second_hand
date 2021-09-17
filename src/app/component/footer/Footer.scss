@@ -1,0 +1,17 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+#footer{
+  background-color: $basic-grey-color !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  .text-center{
+    font-family: $preferred-font;
+    font-size: 16px;
+    color: $basic-grey-dark !important;
+  }
+}
