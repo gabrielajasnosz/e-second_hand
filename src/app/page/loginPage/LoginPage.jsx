@@ -1,8 +1,8 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
 import MainHeader from "../../component/mainHeader/MainHeader";
 import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
+import FormInput from "../../component/formInput/FormInput";
 
 import "./LoginPage.scss";
 
@@ -17,13 +17,9 @@ const LoginPage = () => (
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-9 col-lg-8 mx-auto">
-                                    <h3 className="login-heading mb-4">Sign in to your account</h3>
-                                    <div className="form-floating mb-3">
-                                        <TextField variant="outlined" label="Email" required />
-                                    </div>
-                                    <div className="form-floating mb-3">
-                                        <TextField variant="outlined" label="Password" required />
-                                    </div>
+                                    <h3 className="login-heading mb-4">Welcome back!</h3>
+                                    <FormInput type="email" />
+                                    <FormInput type="password" />
                                     <div className="d-grid">
                                         <BasicButton onButtonClick={() => {}} label="Sign in">
                                             <span> Sign in </span>

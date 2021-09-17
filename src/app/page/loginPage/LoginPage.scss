@@ -1,19 +1,16 @@
 @import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
 
 .login {
   min-height: 100vh;
 }
 
-.btn-login {
-  font-size: 0.9rem;
-  border: none;
-  letter-spacing: 0.05rem;
-  padding: 0.75rem 1rem;
 
-  &hover {
-  }
+.login-heading{
+  font-family: $preferred-font;
+  font-size: 22px;
+  color: black;
 }
-
 
 .carousel{
   padding: 0 0 !important;
@@ -23,4 +20,13 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+.show-password-button{
+
+  &:hover, &:focus {
+    outline: none;
+    border: none;
+  }
+
 }
