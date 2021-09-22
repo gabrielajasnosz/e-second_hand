@@ -14,7 +14,8 @@ const propTypes = {
         cssFocused: PropTypes.string,
         notchedOutline: PropTypes.string
     }).isRequired,
-    type: PropTypes.string
+    type: PropTypes.string,
+    onChangeAction: PropTypes.func.isRequired
 };
 const styles = {
     textField: {
@@ -44,13 +45,14 @@ const defaultProps = {
     type: "email",
 };
 
-const FormInput = ({ type, classes }) => (
+const FormInput = ({ type, classes, onChangeAction }) => (
     <div className="form-floating mb-3">
         {type === "email" && (
         <TextField
             id="login-input"
             label="Login"
             className={classes.textField}
+            onChange={onChangeAction}
             margin="normal"
             variant="outlined"
             InputLabelProps={{
@@ -86,6 +88,7 @@ const FormInput = ({ type, classes }) => (
                     focused: classes.cssFocused,
                     notchedOutline: classes.notchedOutline
                 }}
+                onChange={onChangeAction}
                 endAdornment={(
                     <InputAdornment position="end">
                         <IconButton

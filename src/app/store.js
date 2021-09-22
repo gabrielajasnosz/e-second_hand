@@ -1,5 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { createStore, combineReducers } from "redux";
+import user from "./page/loginPage/reducer";
 
-export default configureStore({
-    reducer: {},
-});
+const store = createStore(combineReducers({
+    user
+}));
+
+export default store;
