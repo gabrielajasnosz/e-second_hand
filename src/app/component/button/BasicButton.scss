@@ -5,13 +5,13 @@
 .app-button {
   width: 20rem;
   height: 56px;
-  margin-top: 2rem;
+  margin-top: 1rem;
   border-radius: .3rem;
   cursor: pointer;
   font-weight: bold;
   font-family: $preferred-font !important;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   align-content: center;
@@ -36,7 +36,6 @@
     }
   }
 
-
   &:active, &:focus {
     outline: none;
     border: none;
@@ -45,8 +44,12 @@
 
   &:disabled {
     cursor: default;
-    background-color: $basic-grey-color;
+    background-color: $disabled;
     color: white;
+
+    &:hover{
+      background-color: $disabled;
+    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -62,6 +65,10 @@
 .icon-button{
   color: black !important;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 
   &:hover, &:focus {
     color: $basic-dark-green !important;
