@@ -2,19 +2,20 @@ import userActions from "../action/userActions";
 
 const initialState = {
     loginCredentials: {
-        username: "",
+        email: "",
         password: ""
-    }
+    },
+    isLoginSuccessful: null,
 };
 
 const user = (state = initialState, action) => {
     switch (action.type) {
-        case userActions.setUsername: {
+        case userActions.setEmail: {
             return {
                 ...state,
                 loginCredentials: {
                     ...state.loginCredentials,
-                    username: action.username
+                    email: action.email
                 }
             };
         }
@@ -25,6 +26,12 @@ const user = (state = initialState, action) => {
                     ...state.loginCredentials,
                     password: action.password
                 }
+            };
+        }
+        case userActions.setLoginStatus: {
+            return {
+                ...state,
+                isLoginSuccessful: action.loginStatus
             };
         }
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import compose from "recompose/compose";
+import { bindActionCreators } from "redux";
 import withHandlers from "recompose/withHandlers";
 import {
     FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, withStyles,
@@ -13,11 +13,16 @@ import MainHeader from "../../component/mainHeader/MainHeader";
 import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
 
+import {
+    getEmailValidation, getPasswordValidation, isLoginSuccessful as isLoginSuccessfulSelector
+} from "./selectors";
+
 import "./LoginPage.scss";
 
 import {
     setPassword as setPasswordActionCreator,
-    setUsername as setUsernameActionCreator
+    setEmail as setEmailActionCreator,
+    login as loginUserActionCreator
 } from "./action/user";
 
 const propTypes = {
@@ -27,10 +32,15 @@ const propTypes = {
         cssLabel: PropTypes.string,
         cssOutlinedInput: PropTypes.string,
         cssFocused: PropTypes.string,
-        notchedOutline: PropTypes.string
+        notchedOutline: PropTypes.string,
+        loginFail: PropTypes.string
     }).isRequired,
     setPassword: PropTypes.func.isRequired,
-    setUsername: PropTypes.func.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    passwordEmpty: PropTypes.bool.isRequired,
+    emailEmpty: PropTypes.bool.isRequired,
+    loginUser: PropTypes.func.isRequired,
+    isLoginSuccessful: PropTypes.bool.isRequired
 };
 
 const styles = {
@@ -56,43 +66,73 @@ const styles = {
     notchedOutline: {
         borderWidth: "1px",
     },
+    loginFail: {
+        backgroundColor: "#eb0000cf",
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "16px",
+        color: "black",
+        borderRadius: ".3rem",
+        marginBottom: "1rem",
+        backgroundOpacity: 0.7,
+        padding: "1rem 0",
+        display: "flex",
+        justifyContent: "center",
+        width: "20rem",
+    }
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setUsername: setUsernameActionCreator,
-    setPassword: setPasswordActionCreator
+    setEmail: setEmailActionCreator,
+    setPassword: setPasswordActionCreator,
+    loginUser: loginUserActionCreator
 }, dispatch);
 
+const mapStateToProps = (state) => ({
+    emailEmpty: getEmailValidation(state),
+    passwordEmpty: getPasswordValidation(state),
+    isLoginSuccessful: isLoginSuccessfulSelector(state)
+});
+
 const enhance = compose(
-    connect(null,
+    connect(mapStateToProps,
         mapDispatchToProps),
     withHandlers(() => ({
         setPassword: ({ setPassword }) => (e) => setPassword(e.target.value),
-        setUsername: ({ setUsername }) => (e) => setUsername(e.target.value),
+        setEmail: ({ setEmail }) => (e) => setEmail(e.target.value),
     })),
     withStyles(styles)
 );
 
 const LoginPage = ({
-    setPassword, setUsername, classes
+    setPassword, setEmail, classes, emailEmpty, passwordEmpty, loginUser, isLoginSuccessful
 }) => {
     const [showPassword, setShowPassword] = useState(false);
     const history = useHistory();
+
+    const isButtonEnabled = emailEmpty || passwordEmpty;
 
     const navigateToRegisterPage = () => {
         history.push("/register");
     };
     return (
+
         <div>
             <MainHeader />
             <div className="content">
                 <div className="row g-0">
-                    <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image carousel" />
+                    <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
                     <div className="col-md-8 col-lg-6">
                         <div className="login d-flex align-items-center py-5">
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-9 col-lg-8">
+                                        {isLoginSuccessful === false && (
+                                            <div className={classes.loginFail}>
+                                                <span>
+                                                    Wrong email or password.
+                                                </span>
+                                            </div>
+                                        )}
                                         <h3 className="login-heading mb-3">Welcome back!</h3>
                                         <div className="form">
                                             <div className="form-floating mb-3">
@@ -100,8 +140,9 @@ const LoginPage = ({
                                                     id="login-input"
                                                     label="Login"
                                                     className={classes.textField}
-                                                    onChange={setUsername}
+                                                    onChange={setEmail}
                                                     margin="normal"
+                                                    required
                                                     variant="outlined"
                                                     InputLabelProps={{
                                                         classes: {
@@ -119,7 +160,7 @@ const LoginPage = ({
                                                 />
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <FormControl variant="outlined" className={classes.textField}>
+                                                <FormControl variant="outlined" className={classes.textField} required>
                                                     <InputLabel
                                                         htmlFor="outlined-adornment-password"
                                                         classes={{
@@ -162,7 +203,7 @@ const LoginPage = ({
                                         </div>
 
                                         <div className="d-grid">
-                                            <BasicButton onButtonClick={() => {}} label="Sign in">
+                                            <BasicButton onButtonClick={loginUser} label="Sign in" disabled={isButtonEnabled}>
                                                 <span> Sign in </span>
                                             </BasicButton>
                                             <hr />

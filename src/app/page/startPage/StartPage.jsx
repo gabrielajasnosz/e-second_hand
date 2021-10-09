@@ -5,10 +5,13 @@ import Footer from "../../component/footer/Footer";
 import Carousel from "../../component/carousel/Carousel";
 
 const StartPage = () => (
-    <div>
+    <div className="page-container">
         <MainHeader />
-        <Carousel />
+        <div className="page-content">
+            <Carousel />
+        </div>
         <Footer />
+
     </div>
 );
 

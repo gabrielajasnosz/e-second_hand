@@ -11,6 +11,7 @@ import {
     InputLabel,
     OutlinedInput,
     TextField,
+    MenuItem,
     withStyles
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -27,7 +28,7 @@ import {
 } from "./action/registerPageData";
 import "../loginPage/LoginPage.scss";
 import {
-    getEmailValidation, getDisplayNameValidation, getPasswordValidation, getEmailConflictStatus, getRegistrationStatus, getRegistrationMessage
+    getEmailValidation, getDisplayNameValidation, getPasswordValidation, getEmailConflictStatus, getRegistrationStatus, getRegistrationMessage,
 } from "./selectors";
 
 const propTypes = {
@@ -49,16 +50,16 @@ const propTypes = {
     emailError: PropTypes.bool.isRequired,
     displayNameError: PropTypes.bool.isRequired,
     passwordError: PropTypes.bool.isRequired,
-    emailConflictStatus: PropTypes.bool.isRequired,
+    isEmailIncorrect: PropTypes.string,
     registrationStatus: PropTypes.bool,
     registrationMessage: PropTypes.string,
-    resetData: PropTypes.func.isRequired
+    resetData: PropTypes.func.isRequired,
 };
 
 const styles = {
     textField: {
         width: "20rem",
-        marginTop: "0"
+        margin: "0"
     },
 
     cssLabel: {
@@ -126,9 +127,9 @@ const mapStateToProps = (state) => ({
     emailError: getEmailValidation(state),
     passwordError: getPasswordValidation(state),
     displayNameError: getDisplayNameValidation(state),
-    emailConflictStatus: getEmailConflictStatus(state),
+    isEmailIncorrect: getEmailConflictStatus(state),
     registrationStatus: getRegistrationStatus(state),
-    registrationMessage: getRegistrationMessage(state)
+    registrationMessage: getRegistrationMessage(state),
 });
 
 const enhance = compose(
@@ -145,7 +146,7 @@ const enhance = compose(
 const RegisterPage = ({
     setDisplayName, setEmail, setPassword,
     classes, registerUser, emailError, passwordError, displayNameError,
-    emailConflictStatus, registrationStatus, registrationMessage, resetData
+    isEmailIncorrect, registrationStatus, registrationMessage, resetData,
 }) => {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -166,7 +167,7 @@ const RegisterPage = ({
             <MainHeader />
             <div className="content">
                 <div className="row">
-                    <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image carousel" />
+                    <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
                     <div className="col-md-8 col-lg-6">
                         <div className="login d-flex align-items-center py-5">
                             <div className="container">
@@ -211,8 +212,8 @@ const RegisterPage = ({
                                                     id="email-input"
                                                     required
                                                     label="Email"
-                                                    error={emailConflictStatus}
-                                                    helperText={emailConflictStatus ? "Email already in use." : null}
+                                                    error={isEmailIncorrect !== null}
+                                                    helperText={isEmailIncorrect !== null ? isEmailIncorrect : null}
                                                     FormHelperTextProps={{
                                                         className: classes.helperText
                                                     }}
@@ -235,6 +236,40 @@ const RegisterPage = ({
                                                         }
                                                     }}
                                                 />
+                                            </div>
+                                            <div className="form-floating mb-3">
+                                                <TextField
+                                                    id="outlined-select-currency"
+                                                    select
+                                                    required
+                                                    variant="outlined"
+                                                    className={classes.textField}
+                                                    label="Sex"
+                                                    InputProps={{
+                                                        classes: {
+                                                            root: classes.cssOutlinedInput,
+                                                            focused: classes.cssFocused,
+                                                            notchedOutline: classes.notchedOutline,
+                                                        }
+                                                    }}
+                                                    InputLabelProps={{
+                                                        classes: {
+                                                            root: classes.cssLabel,
+                                                            focused: classes.cssFocused,
+                                                        },
+                                                    }}
+                                                >
+                                                    <MenuItem value="WOMEN" className={classes.cssLabel}>
+                                                        Women
+                                                    </MenuItem>
+                                                    <MenuItem value="MEN" className={classes.cssLabel}>
+                                                        Men
+                                                    </MenuItem>
+                                                    <MenuItem value="OTHER" className={classes.cssLabel}>
+                                                        Other
+                                                    </MenuItem>
+
+                                                </TextField>
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <FormControl
@@ -313,7 +348,8 @@ RegisterPage.propTypes = propTypes;
 
 RegisterPage.defaultProps = {
     registrationStatus: null,
-    registrationMessage: null
+    registrationMessage: null,
+    isEmailIncorrect: null
 };
 
 export default enhance(RegisterPage);

@@ -1,8 +1,9 @@
 const prefix = "USER";
 
 const userActions = {
-    setUsername: `${prefix}_SET_USER`,
-    setPassword: `${prefix}_SET_PASSWORD`
+    setEmail: `${prefix}_SET_EMAIL`,
+    setPassword: `${prefix}_SET_PASSWORD`,
+    setLoginStatus: `${prefix}_SET_LOGIN_STATUS`
 };
 
 export default userActions;

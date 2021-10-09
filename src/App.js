@@ -21,6 +21,9 @@ function App() {
                       <Route path="/register">
                           <RegisterPage />
                       </Route>
+                      <Route path="/explore">
+                          <RegisterPage />
+                      </Route>
                   </Switch>
               </AnimatePresence>
           </BrowserRouter>

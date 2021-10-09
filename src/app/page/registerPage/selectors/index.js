@@ -27,5 +27,5 @@ export const getDisplayNameValidation = createSelector(getRegisterCredentials, (
 });
 
 export const getRegistrationStatus = createSelector(getRegisterPageData, (registerPageData) => registerPageData.isRegistrationSuccessful);
-export const getEmailConflictStatus = createSelector(getRegisterPageData, (registerPageData) => registerPageData.isEmailConflicted);
+export const getEmailConflictStatus = createSelector(getRegisterPageData, (registerPageData) => registerPageData.isEmailIncorrect);
 export const getRegistrationMessage = createSelector(getRegisterPageData, (registerPageData) => registerPageData.registrationMessage);

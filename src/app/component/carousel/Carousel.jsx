@@ -1,9 +1,17 @@
 import React from "react";
 import "./Carousel.scss";
+import BasicButton from "../button/BasicButton";
 
 const Carousel = () => (
     <div id="carouselExampleIndicators" className="carousel slide carousel-fade" data-ride="carousel">
         <div className="carousel-inner">
+            <div className="navigation-field">
+                <div className="navigation-button">
+                    <BasicButton onButtonClick={() => {}} label="Discover items">
+                        <span> Sell  </span>
+                    </BasicButton>
+                </div>
+            </div>
             <div className="carousel-item carousel-first active">
                 <div className="carousel-caption">
                     <p>My Caption Title (1st Image)</p>

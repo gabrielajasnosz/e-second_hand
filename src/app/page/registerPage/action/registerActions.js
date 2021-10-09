@@ -5,7 +5,7 @@ const registerActions = {
     setEmail: `${prefix}_SET_EMAIL`,
     setDisplayName: `${prefix}_SET_DISPLAY_NAME`,
     setRegistrationStatus: `${prefix}_SET_REGISTRATION_STATUS`,
-    setEmailConflictStatus: `${prefix}_SET_EMAIL_CONFLICT_STATUS`,
+    setEmailIncorrect: `${prefix}_SET_EMAIL_INCORRECT`,
     setRegistrationMessage: `${prefix}_SET_REGISTRATION_MESSAGE`,
     registerUser: `${prefix}_REGISTER_USER`,
     resetData: `${prefix}_RESET_DATA`,

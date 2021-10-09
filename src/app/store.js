@@ -4,6 +4,7 @@ import {
 import thunk from "redux-thunk";
 import user from "./page/loginPage/reducer";
 import registerPageData from "./page/registerPage/reducer";
+import page from "./page/explorePage/reducer";
 
 const areReduxDevtoolsAvailable = !["production", "test"].includes(process.env.NODE_ENV)
     && window.__REDUX_DEVTOOLS_EXTENSION__;
@@ -17,6 +18,7 @@ const storeEnhancer = areReduxDevtoolsAvailable
 const store = createStore(combineReducers({
     user,
     registerPageData,
+    page
 }), storeEnhancer);
 
 export default store;

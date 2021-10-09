@@ -8,7 +8,7 @@ const initialState = {
     },
     isRegistrationSuccessful: null,
     registrationMessage: null,
-    isEmailConflicted: false
+    isEmailIncorrect: null,
 };
 
 const registerPageData = (state = initialState, action) => {
@@ -52,10 +52,10 @@ const registerPageData = (state = initialState, action) => {
                 registrationMessage: action.message
             };
         }
-        case registerActions.setEmailConflictStatus: {
+        case registerActions.setEmailIncorrect: {
             return {
                 ...state,
-                isEmailConflicted: action.conflictStatus
+                isEmailIncorrect: action.conflictStatus
             };
         }
 
@@ -72,6 +72,7 @@ const registerPageData = (state = initialState, action) => {
                 }
             };
         }
+
         default:
             return state;
     }
