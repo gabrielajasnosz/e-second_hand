@@ -5,6 +5,7 @@ const initialState = {
         displayName: "",
         password: "",
         email: "",
+        sex: "WOMAN"
     },
     isRegistrationSuccessful: null,
     registrationMessage: null,
@@ -40,6 +41,15 @@ const registerPageData = (state = initialState, action) => {
                 }
             };
         }
+        case registerActions.setSex: {
+            return {
+                ...state,
+                registerCredentials: {
+                    ...state.registerCredentials,
+                    sex: action.sex
+                }
+            };
+        }
         case registerActions.setRegistrationStatus: {
             return {
                 ...state,
@@ -65,10 +75,12 @@ const registerPageData = (state = initialState, action) => {
                 isEmailConflicted: false,
                 registrationMessage: null,
                 isRegistrationSuccessful: null,
+                isEmailIncorrect: null,
                 registerCredentials: {
                     displayName: "",
                     password: "",
-                    email: ""
+                    email: "",
+                    sex: "WOMAN"
                 }
             };
         }

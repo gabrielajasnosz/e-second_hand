@@ -4,7 +4,7 @@ const initialState = {
     isLoggedIn: false
 };
 
-const page = (state = initialState, action) => {
+const pageState = (state = initialState, action) => {
     switch (action.type) {
         case pageActions.setLoggedInStatus: {
             return {
@@ -18,4 +18,4 @@ const page = (state = initialState, action) => {
     }
 };
 
-export default page;
+export default pageState;

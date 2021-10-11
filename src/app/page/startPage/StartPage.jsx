@@ -1,12 +1,12 @@
 import React from "react";
 import "./StartPage.scss";
-import MainHeader from "../../component/mainHeader/MainHeader";
+import Header from "../../component/header/Header";
 import Footer from "../../component/footer/Footer";
 import Carousel from "../../component/carousel/Carousel";
 
 const StartPage = () => (
     <div className="page-container">
-        <MainHeader />
+        <Header />
         <div className="page-content">
             <Carousel />
         </div>

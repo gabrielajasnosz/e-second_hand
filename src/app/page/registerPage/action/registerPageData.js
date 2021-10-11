@@ -26,6 +26,13 @@ export const setDisplayName = (displayName) => (dispatch) => {
     });
 };
 
+export const setSex = (sex) => (dispatch) => {
+    dispatch({
+        type: registerActions.setSex,
+        sex
+    });
+};
+
 export const setRegistrationStatus = (registrationStatus) => (dispatch) => {
     dispatch({
         type: registerActions.setRegistrationStatus,

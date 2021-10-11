@@ -3,7 +3,7 @@ import compose from "recompose/compose";
 import withHandlers from "recompose/withHandlers";
 import { withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import MainHeader from "../../component/mainHeader/MainHeader";
+import Header from "../../component/header/Header";
 import Footer from "../../component/footer/Footer";
 
 import "./ExplorePage.scss";
@@ -70,7 +70,7 @@ const enhance = compose(
 const ExplorePage = ({
 }) => (
     <div>
-        <MainHeader />
+        <Header />
         <Footer />
     </div>
 );

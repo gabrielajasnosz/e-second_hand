@@ -18,13 +18,14 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import BasicButton from "../../component/button/BasicButton";
 import Footer from "../../component/footer/Footer";
-import MainHeader from "../../component/mainHeader/MainHeader";
+import Header from "../../component/header/Header";
 import {
     setPassword as setPasswordActionCreator,
     setDisplayName as setDisplayNameActionCreator,
     setEmail as setEmailActionCreator,
     registerUser as registerUserActionCreator,
-    resetData as resetDataActionCreator
+    resetData as resetDataActionCreator,
+    setSex as setSexActionCreator
 } from "./action/registerPageData";
 import "../loginPage/LoginPage.scss";
 import {
@@ -54,12 +55,13 @@ const propTypes = {
     registrationStatus: PropTypes.bool,
     registrationMessage: PropTypes.string,
     resetData: PropTypes.func.isRequired,
+    setSex: PropTypes.func.isRequired
 };
 
 const styles = {
     textField: {
         width: "20rem",
-        margin: "0"
+        margin: "0",
     },
 
     cssLabel: {
@@ -68,12 +70,11 @@ const styles = {
         fontSize: "14px"
     },
     cssOutlinedInput: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif !important",
         "&$cssFocused $notchedOutline": {
             borderColor: "#a5a58d !important",
         },
-        "&$cssError": {
-            borderColor: "green",
-        }
     },
     cssFocused: {
         fontFamily: "Open Sans, sans-serif"
@@ -120,7 +121,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setEmail: setEmailActionCreator,
     setDisplayName: setDisplayNameActionCreator,
     registerUser: registerUserActionCreator,
-    resetData: resetDataActionCreator
+    resetData: resetDataActionCreator,
+    setSex: setSexActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -136,6 +138,7 @@ const enhance = compose(
     connect(mapStateToProps,
         mapDispatchToProps),
     withHandlers(() => ({
+        setSex: ({ setSex }) => (e) => setSex(e.target.value),
         setPassword: ({ setPassword }) => (e) => setPassword(e.target.value),
         setEmail: ({ setEmail }) => (e) => setEmail(e.target.value),
         setDisplayName: ({ setDisplayName }) => (e) => setDisplayName(e.target.value),
@@ -146,7 +149,7 @@ const enhance = compose(
 const RegisterPage = ({
     setDisplayName, setEmail, setPassword,
     classes, registerUser, emailError, passwordError, displayNameError,
-    isEmailIncorrect, registrationStatus, registrationMessage, resetData,
+    isEmailIncorrect, registrationStatus, registrationMessage, resetData, setSex
 }) => {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -164,7 +167,7 @@ const RegisterPage = ({
 
     return (
         <div>
-            <MainHeader />
+            <Header />
             <div className="content">
                 <div className="row">
                     <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
@@ -173,7 +176,7 @@ const RegisterPage = ({
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-9 col-lg-8">
-                                        {registrationStatus && (
+                                        {registrationStatus !== null && (
                                             <div className={registrationStatus ? classes.registrationSuccessful : classes.registrationFail}>
                                                 <span>
                                                     {registrationMessage}
@@ -244,7 +247,25 @@ const RegisterPage = ({
                                                     required
                                                     variant="outlined"
                                                     className={classes.textField}
+                                                    onChange={setSex}
                                                     label="Sex"
+                                                    SelectProps={{
+                                                        MenuProps: {
+                                                            anchorOrigin: {
+                                                                vertical: "bottom",
+                                                                horizontal: "left"
+                                                            },
+                                                            transformOrigin: {
+                                                                vertical: "top",
+                                                                horizontal: "left"
+                                                            },
+                                                            getContentAnchorEl: null
+                                                        },
+
+                                                        classes: {
+                                                            root: classes.cssLabel
+                                                        },
+                                                    }}
                                                     InputProps={{
                                                         classes: {
                                                             root: classes.cssOutlinedInput,
@@ -259,11 +280,11 @@ const RegisterPage = ({
                                                         },
                                                     }}
                                                 >
-                                                    <MenuItem value="WOMEN" className={classes.cssLabel}>
-                                                        Women
+                                                    <MenuItem value="WOMAN" className={classes.cssLabel}>
+                                                        Woman
                                                     </MenuItem>
-                                                    <MenuItem value="MEN" className={classes.cssLabel}>
-                                                        Men
+                                                    <MenuItem value="MAN" className={classes.cssLabel}>
+                                                        Man
                                                     </MenuItem>
                                                     <MenuItem value="OTHER" className={classes.cssLabel}>
                                                         Other

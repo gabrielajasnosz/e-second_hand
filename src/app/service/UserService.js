@@ -19,7 +19,7 @@ function login(loginCredentials) {
             throw "error";
         })
         .then((user) => {
-            localStorage.setItem("currentUser", JSON.stringify(user));
+            localStorage.setItem("currentUser", user.token);
             currentUserSubject.next(user);
             return user;
         });

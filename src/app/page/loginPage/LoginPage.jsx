@@ -9,7 +9,7 @@ import {
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import MainHeader from "../../component/mainHeader/MainHeader";
+import Header from "../../component/header/Header";
 import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
 
@@ -117,7 +117,7 @@ const LoginPage = ({
     return (
 
         <div>
-            <MainHeader />
+            <Header />
             <div className="content">
                 <div className="row g-0">
                     <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
