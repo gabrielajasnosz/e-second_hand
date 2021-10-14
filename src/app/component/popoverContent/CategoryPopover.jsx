@@ -57,7 +57,7 @@ const enhance = compose(
     withStyles(styles)
 );
 
-const PopoverContent = ({
+const CategoryPopover = ({
     classes, categories, sex
 }) => {
     const [content, setContent] = useState(null);
@@ -147,6 +147,6 @@ const PopoverContent = ({
     );
 };
 
-PopoverContent.propTypes = propTypes;
+CategoryPopover.propTypes = propTypes;
 
-export default enhance(PopoverContent);
+export default enhance(CategoryPopover);

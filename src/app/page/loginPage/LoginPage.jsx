@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
 import { bindActionCreators } from "redux";
@@ -22,8 +22,10 @@ import "./LoginPage.scss";
 import {
     setPassword as setPasswordActionCreator,
     setEmail as setEmailActionCreator,
-    login as loginUserActionCreator
+    login as loginUserActionCreator,
+    resetData as resetDataActionCreator
 } from "./action/user";
+import { UserService } from "../../service/UserService";
 
 const propTypes = {
     classes: PropTypes.shape({
@@ -40,7 +42,8 @@ const propTypes = {
     passwordEmpty: PropTypes.bool.isRequired,
     emailEmpty: PropTypes.bool.isRequired,
     loginUser: PropTypes.func.isRequired,
-    isLoginSuccessful: PropTypes.bool.isRequired
+    isLoginSuccessful: PropTypes.bool.isRequired,
+    resetData: PropTypes.func.isRequired
 };
 
 const styles = {
@@ -84,7 +87,8 @@ const styles = {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setEmail: setEmailActionCreator,
     setPassword: setPasswordActionCreator,
-    loginUser: loginUserActionCreator
+    loginUser: loginUserActionCreator,
+    resetData: resetDataActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -104,16 +108,25 @@ const enhance = compose(
 );
 
 const LoginPage = ({
-    setPassword, setEmail, classes, emailEmpty, passwordEmpty, loginUser, isLoginSuccessful
+    setPassword, setEmail, classes, emailEmpty, passwordEmpty, loginUser, isLoginSuccessful, resetData
 }) => {
     const [showPassword, setShowPassword] = useState(false);
     const history = useHistory();
+
+    if (UserService.validateToken(UserService.currentUserValue) || isLoginSuccessful) {
+        history.push("/");
+    }
 
     const isButtonEnabled = emailEmpty || passwordEmpty;
 
     const navigateToRegisterPage = () => {
         history.push("/register");
     };
+
+    useEffect(() => () => {
+        resetData();
+    }, [resetData]);
+
     return (
 
         <div>

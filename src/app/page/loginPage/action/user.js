@@ -17,11 +17,14 @@ export const setLoginStatus = (loginStatus) => ({
     type: userActions.setLoginStatus,
     loginStatus
 });
+export const resetData = () => ({
+    type: userActions.resetData,
+});
 
 export const login = () => (dispatch) => {
     UserService.login(getLoginCredentials(store.getState()))
         .then(() => {
-            console.log("XD");
+            dispatch(setLoginStatus(true));
         })
         .catch((error) => {
             console.log(`POST error: ${error}`);

@@ -1,4 +1,5 @@
 import userActions from "../action/userActions";
+import registerActions from "../../registerPage/action/registerActions";
 
 const initialState = {
     loginCredentials: {
@@ -32,6 +33,16 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 isLoginSuccessful: action.loginStatus
+            };
+        }
+        case registerActions.resetData: {
+            return {
+                ...state,
+                loginCredentials: {
+                    email: "",
+                    password: ""
+                },
+                isLoginSuccessful: null,
             };
         }
 

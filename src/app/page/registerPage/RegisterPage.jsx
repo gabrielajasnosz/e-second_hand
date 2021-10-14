@@ -31,6 +31,7 @@ import "../loginPage/LoginPage.scss";
 import {
     getEmailValidation, getDisplayNameValidation, getPasswordValidation, getEmailConflictStatus, getRegistrationStatus, getRegistrationMessage,
 } from "./selectors";
+import { UserService } from "../../service/UserService";
 
 const propTypes = {
     classes: PropTypes.shape({
@@ -156,6 +157,10 @@ const RegisterPage = ({
     const isButtonEnabled = emailError || passwordError || displayNameError;
 
     const history = useHistory();
+
+    if (UserService.validateToken(UserService.currentUserValue)) {
+        history.push("/");
+    }
 
     const navigateToLoginPage = () => {
         history.push("/login");

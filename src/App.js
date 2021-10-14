@@ -10,7 +10,6 @@ function App() {
     return (
       <div className="App">
           <BrowserRouter>
-              <AnimatePresence initial={false} exitBeforeEnter>
                   <Switch>
                       <Route path="/" exact>
                           <StartPage />
@@ -21,11 +20,7 @@ function App() {
                       <Route path="/register">
                           <RegisterPage />
                       </Route>
-                      <Route path="/explore">
-                          <RegisterPage />
-                      </Route>
                   </Switch>
-              </AnimatePresence>
           </BrowserRouter>
       </div>
   );

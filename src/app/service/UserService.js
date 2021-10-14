@@ -1,6 +1,7 @@
 import { BehaviorSubject } from "rxjs";
+import { decodeToken, isExpired } from "react-jwt";
 
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem("currentUser")));
+const currentUserSubject = new BehaviorSubject(localStorage.getItem("currentUser"));
 
 function login(loginCredentials) {
     return fetch("http://localhost:8080/login", {
@@ -41,12 +42,23 @@ function logout() {
     currentUserSubject.next(null);
 }
 
+function validateToken(token) {
+    return token && !isExpired(token);
+}
+
 export const UserService = {
     login,
     logout,
     register,
+    validateToken,
     currentUser: currentUserSubject.asObservable(),
-    get currentUserValue() { return currentUserSubject.token; }
+    get currentUserValue() { return currentUserSubject.value; },
+    get decodedTokenValue() {
+        if (currentUserSubject.value) {
+            return decodeToken(currentUserSubject.value);
+        }
+        return null;
+    },
 };
 
 export function handleResponse(response) {
