@@ -6,7 +6,6 @@ import classnames from "classnames";
 const propTypes = {
     onButtonClick: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
-    label: PropTypes.string.isRequired,
     buttonClassName: PropTypes.string,
     disabled: PropTypes.bool,
 };
@@ -17,14 +16,13 @@ const defaultProps = {
 };
 
 const BasicButton = ({
-    onButtonClick, label, buttonClassName, disabled, children
+    onButtonClick, buttonClassName, disabled, children
 }) => (
     <button
         type="submit"
         onClick={onButtonClick}
         className={classnames("app-button", buttonClassName)}
         disabled={disabled}
-        title={label}
     >
         {children}
     </button>

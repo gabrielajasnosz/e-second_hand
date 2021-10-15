@@ -12,21 +12,13 @@ import { useHistory } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemButton from "@mui/material/ListItemButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ListItemText from "@mui/material/ListItemText";
-import { Typography } from "@mui/material";
-import List from "@mui/material/List";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { UserService } from "../../service/UserService";
 import PopoverContent from "../popoverContent/CategoryPopover";
 import {
     fetchCategories as fetchCategoriesActionCreator
 } from "./action/header";
 import MenuIconButton from "../button/MenuIconButton";
+import UserPopover from "../popoverContent/UserPopover";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -70,7 +62,10 @@ const styles = {
         color: "#393938",
         fontSize: "20px",
         marginRight: "1rem"
-    }
+    },
+    divider: {
+        width: "100%",
+    },
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -90,6 +85,7 @@ const enhance = compose(
 const Header = ({ fetchCategories, classes }) => {
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
+    const [isLoggedIn, setLoggedIn] = React.useState(false);
 
     const handleClickFemale = (event) => {
         setAnchorFemale(event.currentTarget);
@@ -116,9 +112,6 @@ const Header = ({ fetchCategories, classes }) => {
         setAnchorMale(null);
     };
 
-    const isLoggedIn = !!UserService.currentUserValue;
-    console.log(isLoggedIn);
-
     const openFemale = Boolean(anchorFemale);
     const openMale = Boolean(anchorMale);
     const femaleId = openFemale ? "simple-popover" : undefined;
@@ -135,6 +128,7 @@ const Header = ({ fetchCategories, classes }) => {
 
     useEffect(() => {
         fetchCategories();
+        setLoggedIn(UserService.validateToken(UserService.currentUserValue));
     }, [fetchCategories]);
 
     return (
@@ -231,50 +225,7 @@ const Header = ({ fetchCategories, classes }) => {
                                     paper: classes.paper
                                 }}
                             >
-                                <Box sx={{ backgroundColor: "#F0EFEB", height: "auto" }}>
-                                    <List>
-                                        <ListItem disablePadding>
-                                            <ListItemButton
-                                                disableRipple
-                                                onClick={() => {}}
-                                            >
-                                                <AccountCircleIcon className={classes.icon} />
-                                                <ListItemText
-                                                    disableTypography
-                                                    primary={<Typography variant="body2" className={classes.field}>My profile</Typography>}
-                                                />
-                                            </ListItemButton>
-                                        </ListItem>
-                                        <ListItem disablePadding>
-                                            <ListItemButton
-                                                disableRipple
-                                                onClick={() => {}}
-                                            >
-                                                <SettingsIcon className={classes.icon} />
-                                                <ListItemText
-                                                    disableTypography
-                                                    primary={<Typography variant="body2" className={classes.field}>Manage your data</Typography>}
-                                                />
-                                            </ListItemButton>
-                                        </ListItem>
-                                        <Divider />
-                                        <ListItem disablePadding>
-                                            <ListItemButton
-                                                disableRipple
-                                                onClick={() => {
-                                                    UserService.logout();
-                                                    window.location.href = "/";
-                                                }}
-                                            >
-                                                <LogoutIcon className={classes.icon} />
-                                                <ListItemText
-                                                    disableTypography
-                                                    primary={<Typography variant="body2" className={classes.field}>Logout</Typography>}
-                                                />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    </List>
-                                </Box>
+                                <UserPopover classes={classes} />
                             </Popover>
 
                         </div>

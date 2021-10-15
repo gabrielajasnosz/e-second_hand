@@ -25,6 +25,7 @@ export const login = () => (dispatch) => {
     UserService.login(getLoginCredentials(store.getState()))
         .then(() => {
             dispatch(setLoginStatus(true));
+            window.location.href = "/";
         })
         .catch((error) => {
             console.log(`POST error: ${error}`);

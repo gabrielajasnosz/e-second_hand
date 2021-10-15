@@ -70,10 +70,11 @@ const styles = {
         borderWidth: "1px",
     },
     loginFail: {
-        backgroundColor: "#eb0000cf",
+        backgroundColor: "transparent",
+        border: "1px #dd0101 solid",
         fontFamily: "Open Sans, sans-serif",
         fontSize: "16px",
-        color: "black",
+        color: "#dd0101",
         borderRadius: ".3rem",
         marginBottom: "1rem",
         backgroundOpacity: 0.7,
@@ -216,7 +217,11 @@ const LoginPage = ({
                                         </div>
 
                                         <div className="d-grid">
-                                            <BasicButton onButtonClick={loginUser} label="Sign in" disabled={isButtonEnabled}>
+                                            <BasicButton
+                                                onButtonClick={loginUser}
+                                                label="Sign in"
+                                                disabled={isButtonEnabled}
+                                            >
                                                 <span> Sign in </span>
                                             </BasicButton>
                                             <hr />

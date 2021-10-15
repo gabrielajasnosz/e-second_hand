@@ -1,0 +1,13 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+.add-item-container{
+  margin:2rem;
+  font-family: $logo-font;
+  font-size: 20px;
+  color: black;
+
+  .step-content{
+    padding: 0 8px 0.5rem 8px
+  }
+}

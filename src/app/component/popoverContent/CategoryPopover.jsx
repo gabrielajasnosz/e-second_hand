@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import { Typography } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import PropTypes from "prop-types";
@@ -19,7 +18,8 @@ const propTypes = {
     classes: PropTypes.shape({
         field: PropTypes.string.isRequired,
         subcategory: PropTypes.string.isRequired,
-        img: PropTypes.string.isRequired
+        img: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired
     }).isRequired,
     categories: PropTypes.shape({}).isRequired,
     sex: PropTypes.string.isRequired
@@ -44,6 +44,10 @@ const styles = {
     img: {
         height: "20px",
         marginRight: "1rem"
+    },
+    icon: {
+        color: "#393938",
+        fontSize: "20px",
     }
 };
 
@@ -91,9 +95,8 @@ const CategoryPopover = ({
                                             disableTypography
                                             primary={<Typography variant="body2" className={classes.field}>{element}</Typography>}
                                         />
-                                        <ListItemIcon>
-                                            <KeyboardArrowRightIcon />
-                                        </ListItemIcon>
+
+                                        <KeyboardArrowRightIcon className={classes.icon} />
                                     </ListItemButton>
                                 </ListItem>
                             </>
@@ -114,11 +117,10 @@ const CategoryPopover = ({
                                             disableTypography
                                             primary={<Typography variant="body2" className={classes.field}>{element.name}</Typography>}
                                         />
-                                        <ListItemIcon>
-                                            {!(element.subcategories
+                                        {!(element.subcategories
                                                 && showSubcategories.show
-                                                && showSubcategories.categoryId === element.id) ? (<KeyboardArrowDownIcon />) : (<ArrowDropUpIcon />)}
-                                        </ListItemIcon>
+                                                && showSubcategories.categoryId === element.id)
+                                            ? (<KeyboardArrowDownIcon className={classes.icon} />) : (<ArrowDropUpIcon className={classes.icon} />)}
                                     </ListItemButton>
                                 </ListItem>
                                 {element.subcategories && showSubcategories.show && showSubcategories.categoryId === element.id && (
