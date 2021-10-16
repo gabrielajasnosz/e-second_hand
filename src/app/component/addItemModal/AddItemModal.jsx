@@ -23,7 +23,7 @@ const AddItemModal = ({
             onClose={handleClose}
         >
             <Box classes={{ root: classes.modal }}>
-                <AddItem classes={classes} />
+                <AddItem classes={classes} handleClose={handleClose} />
             </Box>
         </Modal>
     );

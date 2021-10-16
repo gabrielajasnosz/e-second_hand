@@ -27,7 +27,8 @@ const propTypes = {
         paper: PropTypes.string.isRequired,
         line: PropTypes.string.isRequired,
         field: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired
+        icon: PropTypes.string.isRequired,
+        userIcon: PropTypes.string.isRequired
     }).isRequired,
 };
 
@@ -66,6 +67,12 @@ const styles = {
     divider: {
         width: "100%",
     },
+
+    userIcon: {
+        "&:hover, &:focus": {
+            outline: "none",
+        }
+    }
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -209,7 +216,7 @@ const Header = ({ fetchCategories, classes }) => {
                                 display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center"
                             }}
                             >
-                                <IconButton onClick={handleClick} size="small">
+                                <IconButton onClick={handleClick} size="small" classes={{ root: classes.userIcon }}>
                                     <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
                                 </IconButton>
                             </Box>

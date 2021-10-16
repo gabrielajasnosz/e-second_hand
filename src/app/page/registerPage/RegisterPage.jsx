@@ -5,16 +5,9 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import withHandlers from "recompose/withHandlers";
 import {
-    FormControl,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    TextField,
     MenuItem,
     withStyles
 } from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import BasicButton from "../../component/button/BasicButton";
 import Footer from "../../component/footer/Footer";
@@ -32,18 +25,15 @@ import {
     getEmailValidation, getDisplayNameValidation, getPasswordValidation, getEmailConflictStatus, getRegistrationStatus, getRegistrationMessage,
 } from "./selectors";
 import { UserService } from "../../service/UserService";
+import TextInput from "../../component/input/TextInput";
+import PasswordInput from "../../component/input/PasswordInput";
+import SelectInput from "../../component/input/SelectInput";
 
 const propTypes = {
     classes: PropTypes.shape({
-        input: PropTypes.string,
-        textField: PropTypes.string,
-        cssLabel: PropTypes.string,
-        cssOutlinedInput: PropTypes.string,
-        cssFocused: PropTypes.string,
-        notchedOutline: PropTypes.string,
         registrationSuccessful: PropTypes.string,
         registrationFail: PropTypes.string,
-        helperText: PropTypes.string
+        cssLabel: PropTypes.string
     }).isRequired,
     setEmail: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
@@ -60,29 +50,10 @@ const propTypes = {
 };
 
 const styles = {
-    textField: {
-        width: "20rem",
-        margin: "0",
-    },
-
     cssLabel: {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
         fontSize: "14px"
-    },
-    cssOutlinedInput: {
-        color: "black !important",
-        fontFamily: "Open Sans, sans-serif !important",
-        "&$cssFocused $notchedOutline": {
-            borderColor: "#a5a58d !important",
-        },
-    },
-    cssFocused: {
-        fontFamily: "Open Sans, sans-serif"
-    },
-
-    notchedOutline: {
-        borderWidth: "1px",
     },
     registrationSuccessful: {
         backgroundColor: "transparent",
@@ -112,11 +83,6 @@ const styles = {
         justifyContent: "center",
         width: "20rem",
     },
-    helperText: {
-        margin: 0,
-        fontFamily: "Open Sans, sans-serif",
-        fontSize: "12px",
-    }
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -193,100 +159,13 @@ const RegisterPage = ({
                                         <h3 className="login-heading mb-3">Create new account</h3>
                                         <form className="form">
                                             <div className="form-floating mb-3">
-                                                <TextField
-                                                    id="display-name-input"
-                                                    required
-                                                    autoComplete="on"
-                                                    label="Your first and last name"
-                                                    className={classes.textField}
-                                                    onChange={setDisplayName}
-                                                    margin="normal"
-                                                    variant="outlined"
-                                                    InputLabelProps={{
-                                                        classes: {
-                                                            root: classes.cssLabel,
-                                                            focused: classes.cssFocused,
-                                                        },
-                                                    }}
-                                                    InputProps={{
-                                                        classes: {
-                                                            root: classes.cssOutlinedInput,
-                                                            focused: classes.cssFocused,
-                                                            notchedOutline: classes.notchedOutline,
-                                                        }
-                                                    }}
-                                                />
+                                                <TextInput label="Your first and last name" onChange={setDisplayName} />
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <TextField
-                                                    id="email-input"
-                                                    required
-                                                    label="Email"
-                                                    error={isEmailIncorrect !== null}
-                                                    helperText={isEmailIncorrect !== null ? isEmailIncorrect : null}
-                                                    FormHelperTextProps={{
-                                                        className: classes.helperText
-                                                    }}
-                                                    autoComplete="on"
-                                                    className={classes.textField}
-                                                    onChange={setEmail}
-                                                    margin="normal"
-                                                    variant="outlined"
-                                                    InputLabelProps={{
-                                                        classes: {
-                                                            root: classes.cssLabel,
-                                                            focused: classes.cssFocused,
-                                                        },
-                                                    }}
-                                                    InputProps={{
-                                                        classes: {
-                                                            root: classes.cssOutlinedInput,
-                                                            focused: classes.cssFocused,
-                                                            notchedOutline: classes.notchedOutline,
-                                                        }
-                                                    }}
-                                                />
+                                                <TextInput label="E-mail" onChange={setEmail} isEmailIncorrect={isEmailIncorrect} />
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <TextField
-                                                    id="outlined-select-currency"
-                                                    select
-                                                    required
-                                                    variant="outlined"
-                                                    className={classes.textField}
-                                                    onChange={setSex}
-                                                    label="Sex"
-                                                    SelectProps={{
-                                                        MenuProps: {
-                                                            anchorOrigin: {
-                                                                vertical: "bottom",
-                                                                horizontal: "left"
-                                                            },
-                                                            transformOrigin: {
-                                                                vertical: "top",
-                                                                horizontal: "left"
-                                                            },
-                                                            getContentAnchorEl: null
-                                                        },
-
-                                                        classes: {
-                                                            root: classes.cssLabel
-                                                        },
-                                                    }}
-                                                    InputProps={{
-                                                        classes: {
-                                                            root: classes.cssOutlinedInput,
-                                                            focused: classes.cssFocused,
-                                                            notchedOutline: classes.notchedOutline,
-                                                        }
-                                                    }}
-                                                    InputLabelProps={{
-                                                        classes: {
-                                                            root: classes.cssLabel,
-                                                            focused: classes.cssFocused,
-                                                        },
-                                                    }}
-                                                >
+                                                <SelectInput label="Sex" onChange={setSex}>
                                                     <MenuItem value="WOMAN" className={classes.cssLabel}>
                                                         Woman
                                                     </MenuItem>
@@ -296,55 +175,15 @@ const RegisterPage = ({
                                                     <MenuItem value="OTHER" className={classes.cssLabel}>
                                                         Other
                                                     </MenuItem>
-
-                                                </TextField>
+                                                </SelectInput>
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <FormControl
-                                                    variant="outlined"
-                                                    required
-                                                    autoComplete="on"
-                                                    className={classes.textField}
-                                                >
-                                                    <InputLabel
-                                                        htmlFor="outlined-adornment-password"
-                                                        classes={{
-                                                            root: classes.cssLabel,
-                                                            focused: classes.cssFocused
-                                                        }}
-                                                    >
-                                                        Password
-                                                    </InputLabel>
-                                                    <OutlinedInput
-                                                        id="outlined-adornment-password"
-                                                        classes={{
-                                                            root: classes.cssOutlinedInput,
-                                                            focused: classes.cssFocused,
-                                                            notchedOutline: classes.notchedOutline
-                                                        }}
-                                                        type={showPassword ? "text" : "password"}
-                                                        onChange={setPassword}
-                                                        autoComplete="on"
-                                                        endAdornment={(
-                                                            <InputAdornment position="end">
-                                                                <IconButton
-                                                                    aria-label="toggle password visibility"
-                                                                    edge="end"
-                                                                    onClick={() => setShowPassword(!showPassword)}
-                                                                    className="show-password-button"
-                                                                >
-                                                                    {showPassword && (
-                                                                    <VisibilityOff />
-                                                                    )}
-                                                                    {!showPassword && (
-                                                                    <Visibility />
-                                                                    )}
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                    )}
-                                                        label="Password"
-                                                    />
-                                                </FormControl>
+                                                <PasswordInput
+                                                    label="Password"
+                                                    onChange={setPassword}
+                                                    showPassword={showPassword}
+                                                    setShowPassword={setShowPassword}
+                                                />
                                             </div>
                                         </form>
                                         <div className="d-grid">
@@ -355,9 +194,15 @@ const RegisterPage = ({
                                             <div className="createNewAccount">
                                                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                                                 <span className="helper-text">Already have an account?</span>
-                                                <BasicButton onButtonClick={navigateToLoginPage} label="Sign in" buttonClassName="reverse-button">
-                                                    <span> Sign in </span>
-                                                </BasicButton>
+                                                <div style={{ marginTop: "1rem" }}>
+                                                    <BasicButton
+                                                        onButtonClick={navigateToLoginPage}
+                                                        label="Sign in"
+                                                        buttonClassName="reverse-button"
+                                                    >
+                                                        <span> Sign in </span>
+                                                    </BasicButton>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

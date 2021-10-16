@@ -7,78 +7,6 @@ import BasicButton from "../button/BasicButton";
 import { UserService } from "../../service/UserService";
 import AddItemModal from "../addItemModal/AddItemModal";
 
-const styles = {
-    tooltip: {
-        backgroundColor: "#f5f5f9",
-        color: "rgba(0, 0, 0, 0.87)",
-        maxWidth: "220px",
-        fontSize: "12px",
-        border: "1px solid #dadde9"
-    },
-    modal: {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: "50rem",
-        height: "35rem",
-        backgroundColor: "#F0EFEB !important",
-        borderRadius: ".3rem",
-        boxShadow: 24,
-        p: 4,
-    },
-    stepper: {
-        width: "100%",
-        backgroundColor: "transparent",
-        padding: "2rem 0"
-    },
-    icon: {
-        color: "#bababa"
-    },
-    iconActive: {
-        color: "#cb997e !important",
-    },
-    iconCompleted: {
-        color: "#ddbea9 !important",
-    },
-    label: {
-        fontFamily: "Open Sans, sans serif !important",
-        fontSize: "16px"
-    },
-    textField: {
-        width: "20rem",
-        marginTop: "0"
-    },
-
-    cssLabel: {
-        color: "black !important",
-        fontFamily: "Open Sans, sans-serif",
-        fontSize: "16px",
-        paddingBottom: "1rem"
-    },
-    cssOutlinedInput: {
-        "&$cssFocused $notchedOutline": {
-            borderColor: "#a5a58d !important",
-        }
-    },
-    cssFocused: {
-        fontFamily: "Open Sans, sans-serif"
-    },
-
-    notchedOutline: {
-        borderWidth: "1px",
-    },
-    descriptionInput: {
-        width: "25rem",
-        height: "3rem !important",
-        marginTop: "0"
-    },
-    description: {
-        width: "25rem",
-        marginTop: "0"
-    }
-};
-
 const propTypes = {
     classes: PropTypes.shape({
         tooltip: PropTypes.string.isRequired,
@@ -92,7 +20,6 @@ const Carousel = ({ classes }) => {
     const tooltip = isLoggedIn ? "Sell" : "Create an account to add your item.";
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
-        console.log("dziala");
         setOpen(true);
     };
     const handleClose = () => setOpen(false);
@@ -145,6 +72,58 @@ const Carousel = ({ classes }) => {
             </ol>
         </div>
     );
+};
+
+const styles = {
+    tooltip: {
+        backgroundColor: "#f5f5f9",
+        color: "rgba(0, 0, 0, 0.87)",
+        maxWidth: "220px",
+        fontSize: "12px",
+        border: "1px solid #dadde9"
+    },
+    modal: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "50rem",
+        minHeight: "32rem",
+        height: "auto",
+        backgroundColor: "#F0EFEB !important",
+        borderRadius: ".3rem",
+        boxShadow: 24,
+        p: 4,
+    },
+    stepper: {
+        width: "100%",
+        backgroundColor: "transparent",
+        padding: "2rem 0"
+    },
+    icon: {
+        color: "#bababa"
+    },
+    iconActive: {
+        color: "#cb997e !important",
+    },
+    iconCompleted: {
+        color: "#ddbea9 !important",
+    },
+    label: {
+        fontFamily: "Open Sans, sans serif !important",
+        fontSize: "16px"
+    },
+    cssLabel: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "16px",
+        paddingBottom: "1rem"
+    },
+    userIcon: {
+        "&:hover, &:focus": {
+            outline: "none",
+        }
+    }
 };
 
 Carousel.propTypes = propTypes;

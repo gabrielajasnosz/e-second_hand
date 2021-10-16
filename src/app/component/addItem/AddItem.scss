@@ -7,7 +7,24 @@
   font-size: 20px;
   color: black;
 
-  .step-content{
-    padding: 0 8px 0.5rem 8px
+  .add-item-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+
+    &.buttons{
+      margin-top: 2rem;
+    }
+
   }
+
+  .step-content{
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+
 }
