@@ -116,6 +116,11 @@ const styles = {
     cssLabel: {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
+    },
+    cssLabelName: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif",
         fontSize: "16px",
         paddingBottom: "1rem"
     },

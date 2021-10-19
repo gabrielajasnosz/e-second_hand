@@ -15,13 +15,18 @@ import Box from "@mui/material/Box";
 import { UserService } from "../../service/UserService";
 import PopoverContent from "../popoverContent/CategoryPopover";
 import {
-    fetchCategories as fetchCategoriesActionCreator
-} from "./action/header";
+    fetchCategories as fetchCategoriesActionCreator,
+    fetchBrands as fetchBrandsActionCreator,
+    fetchSizes as fetchSizesActionCreator
+} from "./action/categories";
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
+import { getBrands, getSizes, getSubcategories } from "./selectors";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
+    fetchBrands: PropTypes.func.isRequired,
+    fetchSizes: PropTypes.func.isRequired,
     classes: PropTypes.shape({
         button: PropTypes.string.isRequired,
         paper: PropTypes.string.isRequired,
@@ -30,6 +35,10 @@ const propTypes = {
         icon: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
+    categories: PropTypes.arrayOf(undefined),
+    brands: PropTypes.arrayOf(undefined),
+    sizes: PropTypes.arrayOf(undefined),
+
 };
 
 const styles = {
@@ -75,12 +84,20 @@ const styles = {
     }
 };
 
+const mapStateToProps = (state) => ({
+    categories: getSubcategories(state),
+    brands: getBrands(state),
+    sizes: getSizes(state),
+});
+
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchCategories: fetchCategoriesActionCreator,
+    fetchBrands: fetchBrandsActionCreator,
+    fetchSizes: fetchSizesActionCreator
 }, dispatch);
 
 const enhance = compose(
-    connect(null,
+    connect(mapStateToProps,
         mapDispatchToProps),
     withHandlers(() => ({
         setPassword: ({ setPassword }) => (e) => setPassword(e.target.value),
@@ -89,7 +106,9 @@ const enhance = compose(
     withStyles(styles)
 );
 
-const Header = ({ fetchCategories, classes }) => {
+const Header = ({
+    fetchCategories, classes, fetchSizes, fetchBrands, categories, brands, sizes
+}) => {
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
     const [isLoggedIn, setLoggedIn] = React.useState(false);
@@ -134,9 +153,17 @@ const Header = ({ fetchCategories, classes }) => {
     };
 
     useEffect(() => {
-        fetchCategories();
+        if (categories === null) {
+            fetchCategories();
+        }
+        if (brands === null) {
+            fetchBrands();
+        }
+        if (sizes === null) {
+            fetchSizes();
+        }
         setLoggedIn(UserService.validateToken(UserService.currentUserValue));
-    }, [fetchCategories]);
+    }, [fetchCategories, fetchSizes, fetchBrands, categories, brands, sizes]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -242,7 +269,13 @@ const Header = ({ fetchCategories, classes }) => {
         </div>
     );
 };
+const defaultProps = {
+    categories: null,
+    brands: null,
+    sizes: null
+};
 
 Header.propTypes = propTypes;
+Header.defaultProps = defaultProps;
 
 export default enhance(Header);

@@ -17,6 +17,7 @@ const propTypes = {
         helperText: PropTypes.string
     }).isRequired,
     children: PropTypes.node.isRequired,
+    defaultValue: PropTypes.string.isRequired
 };
 
 const styles = {
@@ -37,7 +38,8 @@ const styles = {
     cssLabel: {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
-        fontSize: "14px"
+        fontSize: "14px",
+        textTransform: "capitalize"
     },
     cssOutlinedInput: {
         "&$cssFocused $notchedOutline": {
@@ -59,13 +61,14 @@ const styles = {
 };
 
 const SelectInput = ({
-    classes, onChange, label, children
+    classes, onChange, label, children, defaultValue
 }) => (
     <TextField
         id="outlined-select-currency"
         select
         required
         variant="outlined"
+        defaultValue={defaultValue}
         className={classes.textField}
         onChange={onChange}
         label={label}

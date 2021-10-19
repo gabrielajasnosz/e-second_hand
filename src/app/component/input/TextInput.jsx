@@ -6,7 +6,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 const propTypes = {
     onChange: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     classes: PropTypes.shape({
         input: PropTypes.string,
         textField: PropTypes.string,
@@ -22,13 +22,16 @@ const propTypes = {
     }).isRequired,
     isEmailIncorrect: PropTypes.bool,
     multiline: PropTypes.bool,
-    endAdornment: PropTypes.node
+    endAdornment: PropTypes.node,
+    defaultValue: PropTypes.string
 };
 
 const defaultProps = {
     isEmailIncorrect: null,
     multiline: null,
-    endAdornment: null
+    endAdornment: null,
+    defaultValue: null,
+    label: null
 };
 
 const styles = {
@@ -84,8 +87,8 @@ const styles = {
 };
 
 const TextInput = ({
-    classes, onChange, label, isEmailIncorrect, multiline, endAdornment
-}) => (
+    classes, onChange, label, isEmailIncorrect, multiline, endAdornment, defaultValue
+}, { ...props }) => (
     <TextField
         id="login-input"
         label={label}
@@ -93,6 +96,7 @@ const TextInput = ({
         onChange={onChange}
         margin="normal"
         multiline={multiline}
+        autoComplete="on"
         required
         error={isEmailIncorrect !== null}
         helperText={isEmailIncorrect !== null ? isEmailIncorrect : null}
@@ -107,7 +111,7 @@ const TextInput = ({
             },
         }}
         InputProps={{
-            endAdornment: endAdornment ? <InputAdornment position="end"><span className={classes.cssLabel}>zł</span></InputAdornment> : null,
+            endAdornment: endAdornment ? <InputAdornment position="end"><span className={classes.cssLabel}>PLN</span></InputAdornment> : null,
             classes: {
                 root: classes.cssOutlinedInput,
                 focused: classes.cssFocused,
@@ -115,6 +119,9 @@ const TextInput = ({
                 input: multiline ? classes.descriptionInput : null
             }
         }}
+        defaultValue={defaultValue}
+        /* eslint-disable-next-line react/jsx-props-no-spreading */
+        {...props}
     />
 
 );

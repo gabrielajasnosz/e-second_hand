@@ -7,15 +7,43 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
 import AddItemInputs from "./AddItemInputs";
 import TextButton from "../button/TextButton";
 import AddItemSelects from "./AddItemSelects";
 import AddItemImage from "./AddItemImage";
 import BasicButton from "../button/BasicButton";
+import {
+    isNameEmpty, isColorEmpty, isBrandEmpty, isCategoryEmpty, isSizeEmpty, isPriceEmpty, isTypeEmpty, isSexEmpty
+} from "./selectors/index";
 
-const steps = ["Add name and description", "Select category, brand and color", "Add picture"];
+const steps = ["Add name and description", "Select product type and category", "Add picture"];
 
-const AddItem = ({ classes, handleClose }) => {
+const mapStateToProps = (state) => ({
+    isNameEmptySelector: isNameEmpty(state),
+    isCategoryEmptySelector: isCategoryEmpty(state),
+    isColorEmptySelector: isColorEmpty(state),
+    isBrandEmptySelector: isBrandEmpty(state),
+    isSizeEmptySelector: isSizeEmpty(state),
+    isPriceEmptySelector: isPriceEmpty(state),
+    isTypeEmptySelector: isTypeEmpty(state),
+    isSexEmptySelector: isSexEmpty(state)
+});
+
+const enhance = compose(
+    connect(mapStateToProps,
+        null),
+);
+
+const AddItem = ({
+    classes,
+    handleClose,
+    isNameEmptySelector,
+    isColorEmptySelector,
+    isBrandEmptySelector,
+    isCategoryEmptySelector, isSizeEmptySelector, isPriceEmptySelector, isTypeEmptySelector, isSexEmptySelector
+}) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
@@ -35,13 +63,26 @@ const AddItem = ({ classes, handleClose }) => {
             >
                 <span>Back</span>
             </TextButton>
-            {activeStep !== steps.length - 1 ? (
-                <TextButton onClick={handleNext} disabled={false}>
+            {activeStep === 0 && (
+            <TextButton onClick={handleNext} disabled={isNameEmptySelector || isTypeEmptySelector || isSexEmptySelector}>
+                <span>Next</span>
+            </TextButton>
+            )}
+            {activeStep === 1 && (
+                <TextButton onClick={handleNext} disabled={isColorEmptySelector || isCategoryEmptySelector || isBrandEmptySelector}>
                     <span>Next</span>
                 </TextButton>
-            ) : (
-                <BasicButton onButtonClick={() => {}} buttonClassName="reverse-button">Add Item</BasicButton>
             )}
+            {activeStep === 2 && (
+                <BasicButton
+                    onButtonClick={() => {}}
+                    buttonClassName="reverse-button"
+                    disabled={isSizeEmptySelector || isPriceEmptySelector}
+                >
+                    Add Item
+                </BasicButton>
+            )}
+
         </div>
     );
 
@@ -112,9 +153,17 @@ const propTypes = {
         label: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
-    handleClose: PropTypes.func.isRequired
+    handleClose: PropTypes.func.isRequired,
+    isNameEmptySelector: PropTypes.bool.isRequired,
+    isColorEmptySelector: PropTypes.bool.isRequired,
+    isCategoryEmptySelector: PropTypes.bool.isRequired,
+    isBrandEmptySelector: PropTypes.bool.isRequired,
+    isSizeEmptySelector: PropTypes.bool.isRequired,
+    isPriceEmptySelector: PropTypes.bool.isRequired,
+    isTypeEmptySelector: PropTypes.bool.isRequired,
+    isSexEmptySelector: PropTypes.bool.isRequired
 };
 
 AddItem.propTypes = propTypes;
 
-export default AddItem;
+export default enhance(AddItem);

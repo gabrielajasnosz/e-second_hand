@@ -87,7 +87,7 @@ const LoginPage = ({
     const [showPassword, setShowPassword] = useState(false);
     const history = useHistory();
 
-    if (UserService.validateToken(UserService.currentUserValue) || isLoginSuccessful) {
+    if (UserService.validateToken(UserService.currentUserValue)) {
         history.push("/");
     }
 

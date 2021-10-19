@@ -1,4 +1,6 @@
 import { createSelector } from "reselect";
 
-export const getHeader = (state) => state.header;
-export const getCategories = createSelector(getHeader, (header) => header.categories);
+export const getCategories = (state) => state.categories;
+export const getSubcategories = createSelector(getCategories, (categories) => categories.categories);
+export const getSizes = createSelector(getCategories, (categories) => categories.sizes);
+export const getBrands = createSelector(getCategories, (categories) => categories.brands);
