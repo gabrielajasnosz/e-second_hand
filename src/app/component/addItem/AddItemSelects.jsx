@@ -45,10 +45,6 @@ const AddItemSelects = ({
     classes, setBrand, setColor, setCategory, newItemBrand, newItemColor, newItemCategory, brands, categories, type, sex
 }) => (
     <>
-        {console.log(sex)}
-        {console.log(type)}
-        {console.log(categories)}
-        {console.log(categories[type][sex])}
         <div className="form-floating mb-3 step-content">
             <span className={classes.cssLabelName}>Brand *</span>
             <AutocompleteInput onChange={setBrand} defaultValue={newItemBrand} passedOptions={brands} />
@@ -85,7 +81,6 @@ const AddItemSelects = ({
 
 const propTypes = {
     classes: PropTypes.shape({
-        textField: PropTypes.string.isRequired,
         cssLabel: PropTypes.string.isRequired,
         cssLabelName: PropTypes.string.isRequired,
         cssOutlinedInput: PropTypes.string.isRequired,
@@ -101,8 +96,10 @@ const propTypes = {
     newItemBrand: PropTypes.string.isRequired,
     newItemColor: PropTypes.string.isRequired,
     newItemCategory: PropTypes.string.isRequired,
-    brands: PropTypes.arrayOf(undefined).isRequired,
-    categories: PropTypes.arrayOf(undefined).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    brands: PropTypes.any.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    categories: PropTypes.any.isRequired,
     type: PropTypes.string.isRequired,
     sex: PropTypes.string.isRequired
 };

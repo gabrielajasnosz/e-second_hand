@@ -21,7 +21,7 @@ import {
 } from "./action/categories";
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
-import { getBrands, getSizes, getSubcategories } from "./selectors";
+import { getSubcategories } from "./selectors";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -35,9 +35,8 @@ const propTypes = {
         icon: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
-    categories: PropTypes.arrayOf(undefined),
-    brands: PropTypes.arrayOf(undefined),
-    sizes: PropTypes.arrayOf(undefined),
+    // eslint-disable-next-line react/forbid-prop-types
+    categories: PropTypes.any
 
 };
 
@@ -86,8 +85,6 @@ const styles = {
 
 const mapStateToProps = (state) => ({
     categories: getSubcategories(state),
-    brands: getBrands(state),
-    sizes: getSizes(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -107,7 +104,7 @@ const enhance = compose(
 );
 
 const Header = ({
-    fetchCategories, classes, fetchSizes, fetchBrands, categories, brands, sizes
+    fetchCategories, classes, fetchSizes, fetchBrands,
 }) => {
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
@@ -153,17 +150,11 @@ const Header = ({
     };
 
     useEffect(() => {
-        if (categories === null) {
-            fetchCategories();
-        }
-        if (brands === null) {
-            fetchBrands();
-        }
-        if (sizes === null) {
-            fetchSizes();
-        }
+        fetchCategories();
+        fetchBrands();
+        fetchSizes();
         setLoggedIn(UserService.validateToken(UserService.currentUserValue));
-    }, [fetchCategories, fetchSizes, fetchBrands, categories, brands, sizes]);
+    }, [fetchCategories, fetchSizes, fetchBrands]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -269,13 +260,10 @@ const Header = ({
         </div>
     );
 };
+
 const defaultProps = {
     categories: null,
-    brands: null,
-    sizes: null
 };
-
 Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
-
 export default enhance(Header);

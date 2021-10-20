@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 
 const propTypes = {
     onChange: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     classes: PropTypes.shape({
         input: PropTypes.string,
         textField: PropTypes.string,
@@ -17,10 +17,15 @@ const propTypes = {
         loginFail: PropTypes.string,
         helperText: PropTypes.string
     }).isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     defaultValue: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     passedOptions: PropTypes.array.isRequired
+};
+
+const defaultProps = {
+    children: null,
+    label: null,
 };
 
 const styles = {
@@ -137,5 +142,6 @@ const AutocompleteInput = ({
 );
 
 AutocompleteInput.propTypes = propTypes;
+AutocompleteInput.defaultProps = defaultProps;
 
 export default withStyles(styles)(AutocompleteInput);

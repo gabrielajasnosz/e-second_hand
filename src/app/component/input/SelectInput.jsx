@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 
 const propTypes = {
     onChange: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     classes: PropTypes.shape({
         input: PropTypes.string,
         textField: PropTypes.string,
@@ -18,6 +18,10 @@ const propTypes = {
     }).isRequired,
     children: PropTypes.node.isRequired,
     defaultValue: PropTypes.string.isRequired
+};
+
+const defaultProps = {
+    label: null,
 };
 
 const styles = {
@@ -68,7 +72,7 @@ const SelectInput = ({
         select
         required
         variant="outlined"
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ""}
         className={classes.textField}
         onChange={onChange}
         label={label}
@@ -109,5 +113,5 @@ const SelectInput = ({
 );
 
 SelectInput.propTypes = propTypes;
-
+SelectInput.defaultProps = defaultProps;
 export default withStyles(styles)(SelectInput);

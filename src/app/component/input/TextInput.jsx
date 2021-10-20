@@ -22,7 +22,7 @@ const propTypes = {
     }).isRequired,
     isEmailIncorrect: PropTypes.bool,
     multiline: PropTypes.bool,
-    endAdornment: PropTypes.node,
+    endAdornment: PropTypes.bool,
     defaultValue: PropTypes.string
 };
 

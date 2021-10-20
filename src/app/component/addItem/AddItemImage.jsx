@@ -13,7 +13,8 @@ import {
     setSize as setSizeActionCreator,
     setPrice as setPriceActionCreator
 } from "./action/newItem";
-import { getNewItemSize, getNewItemPrice } from "./selectors";
+import { getNewItemSize, getNewItemPrice, getType } from "./selectors";
+import { getSizes } from "../header/selectors";
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setSize: setSizeActionCreator,
@@ -23,6 +24,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 const mapStateToProps = (state) => ({
     newItemSize: getNewItemSize(state),
     newItemPrice: getNewItemPrice(state),
+    type: getType(state),
+    sizes: getSizes(state)
 });
 
 const enhance = compose(
@@ -35,21 +38,17 @@ const enhance = compose(
 );
 
 const AddItemImage = ({
-    classes, setSize, setPrice, newItemSize, newItemPrice
+    classes, setSize, setPrice, newItemSize, newItemPrice, type, sizes
 }) => (
     <>
         <div className="form-floating mb-3  step-content">
             <span className={classes.cssLabelName}>Size *</span>
             <SelectInput label={null} onChange={setSize} defaultValue={newItemSize}>
-                <MenuItem value="WOMAN" className={classes.cssLabel}>
-                    Woman
-                </MenuItem>
-                <MenuItem value="MAN" className={classes.cssLabel}>
-                    Man
-                </MenuItem>
-                <MenuItem value="OTHER" className={classes.cssLabel}>
-                    Other
-                </MenuItem>
+                {sizes[type].map((item) => [
+                    <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                    </MenuItem>
+                ])}
             </SelectInput>
         </div>
         <div className="form-floating mb-3 step-content">
@@ -82,7 +81,10 @@ const propTypes = {
     setSize: PropTypes.func.isRequired,
     setPrice: PropTypes.func.isRequired,
     newItemSize: PropTypes.string.isRequired,
-    newItemPrice: PropTypes.string.isRequired
+    newItemPrice: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    sizes: PropTypes.any.isRequired
 };
 
 AddItemImage.propTypes = propTypes;

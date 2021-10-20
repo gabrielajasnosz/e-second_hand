@@ -12,7 +12,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
-import { getCategories } from "../header/selectors";
+import { getSubcategories } from "../header/selectors";
 
 const propTypes = {
     classes: PropTypes.shape({
@@ -52,7 +52,7 @@ const styles = {
 };
 
 const mapStateToProps = (state) => ({
-    categories: getCategories(state),
+    categories: getSubcategories(state),
 });
 
 const enhance = compose(
@@ -84,6 +84,7 @@ const CategoryPopover = ({
                                     <ListItemButton
                                         disableRipple
                                         onClick={() => {
+                                            // eslint-disable-next-line react/prop-types
                                             const categoriesByType = categories[element];
                                             if (categoriesByType[sex]) {
                                                 setContent(categoriesByType[sex]);
