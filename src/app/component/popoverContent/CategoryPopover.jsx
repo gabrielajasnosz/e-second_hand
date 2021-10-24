@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -8,23 +8,33 @@ import ListItemText from "@mui/material/ListItemText";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+    setCategory as setCategoryActionCreator,
+    setType as setTypeActionCreator
+} from "../addItem/action/newItem";
 import { getSubcategories } from "../header/selectors";
 
 const propTypes = {
     classes: PropTypes.shape({
         field: PropTypes.string.isRequired,
+        fieldBack: PropTypes.string.isRequired,
         subcategory: PropTypes.string.isRequired,
         img: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired
+        icon: PropTypes.string.isRequired,
+        goBackButton: PropTypes.string.isRequired
     }).isRequired,
-    categories: PropTypes.shape({}).isRequired,
-    sex: PropTypes.string.isRequired
+    // eslint-disable-next-line react/forbid-prop-types
+    categories: PropTypes.any.isRequired,
+    sex: PropTypes.string.isRequired,
+    openContext: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    setCategory: PropTypes.func.isRequired,
+    setType: PropTypes.func.isRequired
 };
-
 const styles = {
     field: {
         textTransform: "capitalize",
@@ -32,6 +42,13 @@ const styles = {
         fontFamily: "Open Sans, sans-serif !important",
         fontSize: "14px !important",
         width: "9rem"
+    },
+    fieldBack: {
+        textTransform: "capitalize",
+        color: "#393938",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
+        paddingLeft: "1rem"
     },
     subcategory: {
         textTransform: "capitalize",
@@ -48,8 +65,16 @@ const styles = {
     icon: {
         color: "#393938",
         fontSize: "20px",
+    },
+    goBackButton: {
+        paddingTop: "0.5rem"
     }
 };
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    setCategory: setCategoryActionCreator,
+    setType: setTypeActionCreator
+}, dispatch);
 
 const mapStateToProps = (state) => ({
     categories: getSubcategories(state),
@@ -57,94 +82,132 @@ const mapStateToProps = (state) => ({
 
 const enhance = compose(
     connect(mapStateToProps,
-        null),
+        mapDispatchToProps),
     withStyles(styles)
 );
 
 const CategoryPopover = ({
-    classes, categories, sex
+    classes, categories, sex, openContext, setCategory, onClose, setType
 }) => {
-    const [content, setContent] = useState(null);
-    const categoriesArray = ["clothes", "shoes", "accessories"];
-    const [showSubcategories, setShowSubcategories] = useState({
-        show: false,
-        categoryId: null,
-    });
-    useEffect(() => () => {
-        setContent(null);
-    }, [sex]);
+    const [content, setContent] = useState([]);
+    const [previousContent, setPreviousContent] = useState([]);
+    const [currentContentId, setCurrentContentId] = useState(0);
+    const [gender, setGender] = useState(sex);
+
+    const genderArray = useMemo(() => [{
+        gender: "UNDEFINED",
+        id: 1001,
+        name: "Woman",
+        parentId: null,
+        subCategories: categories
+    }, {
+        gender: "UNDEFINED",
+        id: 1002,
+        name: "Man",
+        parentId: null,
+        subCategories: categories
+    }], [categories]);
+
+    useEffect(() => {
+        if (gender === "UNDEFINED") {
+            setContent(genderArray);
+        } else {
+            setContent(categories);
+        }
+    }, [categories, gender, genderArray, setContent]);
+
+    const filteredContent = useMemo(() => content.filter((e) => gender && (e.gender === gender.toUpperCase() || e.gender === "UNDEFINED")),
+        [content, gender]);
+    filteredContent.sort((a, b) => ((a.name > b.name) ? 1 : -1));
     return (
         <Box sx={{ bgcolor: "#F0EFEB", height: "auto" }}>
             <nav aria-label="main mailbox folders">
-                {content === null ? (
-                    <List>
-                        {categoriesArray.map((element) => (
-                            <>
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        disableRipple
-                                        onClick={() => {
-                                            // eslint-disable-next-line react/prop-types
-                                            const categoriesByType = categories[element];
-                                            if (categoriesByType[sex]) {
-                                                setContent(categoriesByType[sex]);
+                { currentContentId > 0 && (
+                <ListItem disablePadding className={classes.goBackButton}>
+                    <ListItemButton
+                        disableRipple
+                        onClick={() => {
+                            setContent(previousContent.filter((e) => e.contentId === currentContentId - 1)[0].content);
+                            setCurrentContentId(currentContentId - 1);
+                        }}
+                    >
+                        <KeyboardArrowLeftIcon />
+                        <ListItemText
+                            disableTypography
+                            primary={(
+                                <Typography
+                                    variant="body2"
+                                    className={classes.fieldBack}
+                                >
+                                    {previousContent.filter((e) => e.contentId === currentContentId - 1)[0].contentName}
+                                </Typography>
+)}
+                        />
+                    </ListItemButton>
+                </ListItem>
+                )}
+                <List>
+                    { filteredContent && filteredContent.map((element) => (
+                        <div key={element.id}>
+                            <ListItem disablePadding>
+                                <ListItemButton
+                                    disableRipple
+                                    onClick={() => {
+                                        if (element.subCategories.length !== 0 && openContext === "HEADER") {
+                                            const subcategories = Array.from(element.subCategories);
+                                            subcategories.push({
+                                                gender: gender.toUpperCase(),
+                                                id: 1000,
+                                                name: "All",
+                                                parentId: element.id,
+                                                subCategories: []
+                                            });
+                                            setPreviousContent(
+                                                [...previousContent, {
+                                                    contentId: currentContentId,
+                                                    contentName: element.name,
+                                                    content: filteredContent
+                                                }]
+                                            );
+                                            setContent(subcategories);
+                                            setCurrentContentId(currentContentId + 1);
+                                            if (currentContentId === 0) {
+                                                setType(element.name);
                                             }
-                                        }}
-                                    >
-                                        <img className={classes.img} src={`${process.env.PUBLIC_URL}/categoryIcons/${element}.png`} alt="lol" />
-                                        <ListItemText
-                                            disableTypography
-                                            primary={<Typography variant="body2" className={classes.field}>{element}</Typography>}
-                                        />
-
-                                        <KeyboardArrowRightIcon className={classes.icon} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </>
-                        ))}
-
-                    </List>
-                ) : (
-                    <List>
-                        { content.map((element) => (
-                            <>
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        disableRipple
-                                        onClick={() => setShowSubcategories({ show: !showSubcategories.show, categoryId: element.id })}
-                                    >
-                                        <img className={classes.img} src={`${process.env.PUBLIC_URL}/categoryIcons/${element.name}.png`} alt="lol" />
-                                        <ListItemText
-                                            disableTypography
-                                            primary={<Typography variant="body2" className={classes.field}>{element.name}</Typography>}
-                                        />
-                                        {!(element.subcategories
-                                                && showSubcategories.show
-                                                && showSubcategories.categoryId === element.id)
-                                            ? (<KeyboardArrowDownIcon className={classes.icon} />) : (<ArrowDropUpIcon className={classes.icon} />)}
-                                    </ListItemButton>
-                                </ListItem>
-                                {element.subcategories && showSubcategories.show && showSubcategories.categoryId === element.id && (
-                                    <>
-                                        { element.subcategories.map((e) => (
-                                            <ListItem disablePadding>
-                                                <ListItemButton
-                                                    disableRipple
-                                                    onClick={() => {}}
-                                                >
-                                                    <ListItemText
-                                                        disableTypography
-                                                        primary={<Typography variant="body2" className={classes.subcategory}>{e.name}</Typography>}
-                                                    />
-                                                </ListItemButton>
-                                            </ListItem>
-                                        ))}
-                                    </>
-                                )}
-                            </>
-                        ))}
-                    </List>
-                ) }
+                                        } else if (element.subCategories.length !== 0 && openContext === "ITEM") {
+                                            setPreviousContent(
+                                                [...previousContent, {
+                                                    contentId: currentContentId,
+                                                    contentName: element.name,
+                                                    content: filteredContent
+                                                }]
+                                            );
+                                            setContent(element.subCategories);
+                                            setCurrentContentId(currentContentId + 1);
+                                            if (gender === "UNDEFINED") {
+                                                setGender(element.name.toUpperCase());
+                                            }
+                                            if (currentContentId === 1) {
+                                                setType(element.name);
+                                            }
+                                        } else if (element.subCategories.length === 0 && openContext === "ITEM") {
+                                            setCategory(element);
+                                            onClose();
+                                        }
+                                    }}
+                                >
+                                    <ListItemText
+                                        disableTypography
+                                        primary={<Typography variant="body2" className={classes.field}>{element.name}</Typography>}
+                                    />
+                                    {element.subCategories.length !== 0 && (
+                                        <KeyboardArrowRightIcon />
+                                    )}
+                                </ListItemButton>
+                            </ListItem>
+                        </div>
+                    ))}
+                </List>
             </nav>
         </Box>
     );

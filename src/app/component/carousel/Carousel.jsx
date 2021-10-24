@@ -17,7 +17,7 @@ const propTypes = {
 // eslint-disable-next-line no-unused-vars
 const Carousel = ({ classes }) => {
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
-    const tooltip = isLoggedIn ? "Sell" : "Create an account to add your item.";
+    const tooltip = isLoggedIn ? "Sell" : "Create an account to add new item.";
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -87,7 +87,7 @@ const styles = {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: "50rem",
+        width: "auto",
         minHeight: "32rem",
         height: "auto",
         backgroundColor: "#F0EFEB !important",
@@ -103,6 +103,10 @@ const styles = {
     icon: {
         color: "#bababa"
     },
+    editIcon: {
+        color: "#393938",
+        fontSize: "20px"
+    },
     iconActive: {
         color: "#cb997e !important",
     },
@@ -117,6 +121,9 @@ const styles = {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
         fontSize: "14px",
+        textTransform: "capitalize",
+        width: "100%",
+        backgroundColor: "#F0EFEB"
     },
     cssLabelName: {
         color: "black !important",
@@ -124,10 +131,45 @@ const styles = {
         fontSize: "16px",
         paddingBottom: "1rem"
     },
+    cssLabelCategory: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
+    },
     userIcon: {
         "&:hover, &:focus": {
             outline: "none",
         }
+    },
+    paper: {
+        width: "20rem",
+        maxHeight: "20rem",
+        overflow: "auto",
+        textTransform: "capitalize",
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
+    },
+    chosenCategory: {
+        display: "flex",
+        flexDirection: "row",
+        width: "20rem",
+        border: "1px #bababa solid",
+        alignItems: "center",
+        borderRadius: "4px",
+        textTransform: "capitalize",
+        justifyContent: "space-between",
+        height: "56px",
+        padding: "13px",
+        "&:hover": {
+            borderColor: "black",
+            cursor: "pointer"
+        },
+        "&:focus": {
+            borderColor: "#a5a58d !important",
+            borderWidth: "2px",
+            cursor: "pointer"
+        },
     }
 };
 

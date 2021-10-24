@@ -36,6 +36,16 @@
     }
   }
 
+  &.select-button {
+    background-color: $basic-medium-green;
+    margin-top: 1rem;
+
+    &:hover{
+      background-color: $basic-dark-green;
+    }
+  }
+
+
   &:active, &:focus {
     outline: none;
     border: none;

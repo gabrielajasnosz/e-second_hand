@@ -42,6 +42,7 @@ const AddItem = ({
     isNameEmptySelector,
     isColorEmptySelector,
     isBrandEmptySelector,
+    // eslint-disable-next-line no-unused-vars
     isCategoryEmptySelector, isSizeEmptySelector, isPriceEmptySelector, isTypeEmptySelector, isSexEmptySelector
 }) => {
     const [activeStep, setActiveStep] = React.useState(0);
@@ -64,7 +65,7 @@ const AddItem = ({
                 <span>Back</span>
             </TextButton>
             {activeStep === 0 && (
-            <TextButton onClick={handleNext} disabled={isNameEmptySelector || isTypeEmptySelector || isSexEmptySelector}>
+            <TextButton onClick={handleNext} disabled={isNameEmptySelector}>
                 <span>Next</span>
             </TextButton>
             )}

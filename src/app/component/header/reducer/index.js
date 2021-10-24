@@ -3,7 +3,8 @@ import categoriesActions from "../action/categoriesActions";
 const initialState = {
     categories: null,
     brands: null,
-    sizes: null
+    sizes: null,
+    colors: null
 };
 
 const categories = (state = initialState, action) => {
@@ -24,6 +25,12 @@ const categories = (state = initialState, action) => {
             return {
                 ...state,
                 sizes: action.sizes
+            };
+        }
+        case categoriesActions.setColors: {
+            return {
+                ...state,
+                colors: action.colors
             };
         }
         default:

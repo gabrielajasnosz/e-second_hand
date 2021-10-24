@@ -20,14 +20,14 @@ const propTypes = {
         description: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
-    isEmailIncorrect: PropTypes.bool,
+    error: PropTypes.string,
     multiline: PropTypes.bool,
     endAdornment: PropTypes.bool,
     defaultValue: PropTypes.string
 };
 
 const defaultProps = {
-    isEmailIncorrect: null,
+    error: null,
     multiline: null,
     endAdornment: null,
     defaultValue: null,
@@ -76,7 +76,7 @@ const styles = {
         marginTop: "0"
     },
     description: {
-        width: "25rem",
+        width: "22rem",
         marginTop: "0"
     },
     userIcon: {
@@ -87,7 +87,7 @@ const styles = {
 };
 
 const TextInput = ({
-    classes, onChange, label, isEmailIncorrect, multiline, endAdornment, defaultValue
+    classes, onChange, label, error, multiline, endAdornment, defaultValue
 }, { ...props }) => (
     <TextField
         id="login-input"
@@ -98,8 +98,8 @@ const TextInput = ({
         multiline={multiline}
         autoComplete="on"
         required
-        error={isEmailIncorrect !== null}
-        helperText={isEmailIncorrect !== null ? isEmailIncorrect : null}
+        error={error !== null}
+        helperText={error !== null ? error : null}
         FormHelperTextProps={{
             className: classes.helperText
         }}

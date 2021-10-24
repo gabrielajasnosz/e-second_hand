@@ -8,10 +8,10 @@ const initialState = {
         category: "",
         color: "",
         size: "",
-        price: ""
+        price: "",
+        sex: "",
     },
     type: "",
-    sex: ""
 };
 
 const newItem = (state = initialState, action) => {
@@ -88,7 +88,10 @@ const newItem = (state = initialState, action) => {
         case newItemActions.setSex: {
             return {
                 ...state,
-                sex: action.sex
+                newItemData: {
+                    ...state.newItemData,
+                    sex: action.sex
+                }
             };
         }
         default:

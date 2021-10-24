@@ -46,7 +46,8 @@ const styles = {
     cssLabel: {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
-        fontSize: "14px"
+        fontSize: "14px",
+        backgroundColor: "#F0EFEB !important"
     },
     cssOutlinedInput: {
         height: "56px !important",
@@ -74,12 +75,11 @@ const AutocompleteInput = ({
 }) => (
     <Autocomplete
         onSelect={onChange}
-        defaultValue={defaultValue}
+        value={defaultValue}
         filterOptions={(options, params) => {
             const filtered = filter(options, params);
 
             const { inputValue } = params;
-            // Suggest the creation of a new value
             const isExisting = options.some((option) => inputValue === option.name);
             if (inputValue !== "" && !isExisting) {
                 filtered.push({
@@ -94,15 +94,12 @@ const AutocompleteInput = ({
         handleHomeEndKeys
         options={passedOptions}
         getOptionLabel={(option) => {
-            // Value selected with enter, right from the input
             if (typeof option === "string") {
                 return option;
             }
-            // Add "xxx" option created dynamically
             if (option.inputValue) {
                 return option.inputValue;
             }
-            // Regular option
             return option.name;
         }}
         /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -112,7 +109,8 @@ const AutocompleteInput = ({
             root: classes.cssOutlinedInput,
             option: classes.cssLabel,
             inputRoot: classes.cssLabel,
-            input: classes.cssLabel
+            input: classes.cssLabel,
+            paper: classes.cssLabel
         }}
         freeSolo
         renderInput={(params) => (

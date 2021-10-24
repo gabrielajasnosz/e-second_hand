@@ -15,6 +15,10 @@ export const setSizes = (sizes) => ({
     type: categoriesActions.setSizes,
     sizes
 });
+export const setColors = (colors) => ({
+    type: categoriesActions.setColors,
+    colors
+});
 
 export const fetchCategories = () => (dispatch) => {
     CategoryService.getCategories()
@@ -37,5 +41,13 @@ export const fetchBrands = () => (dispatch) => {
         .then((response) => response.json())
         .then((json) => {
             dispatch(setBrands(json));
+        });
+};
+
+export const fetchColors = () => (dispatch) => {
+    CategoryService.getColors()
+        .then((response) => response.json())
+        .then((json) => {
+            dispatch(setColors(json));
         });
 };

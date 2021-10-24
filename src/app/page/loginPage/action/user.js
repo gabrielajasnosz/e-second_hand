@@ -27,8 +27,7 @@ export const login = () => (dispatch) => {
             dispatch(setLoginStatus(true));
             window.location.href = "/";
         })
-        .catch((error) => {
-            console.log(`POST error: ${error}`);
+        .catch(() => {
             dispatch(setLoginStatus(false));
         });
 };

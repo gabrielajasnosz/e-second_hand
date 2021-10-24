@@ -19,7 +19,7 @@ export const isSizeEmpty = createSelector(getNewItemData, (newItemData) => newIt
 export const isPriceEmpty = createSelector(getNewItemData, (newItemData) => newItemData.price === "");
 
 export const getType = createSelector(getNewItem, (newItem) => newItem.type);
-export const getSex = createSelector(getNewItem, (newItem) => newItem.sex);
+export const getNewItemSex = createSelector(getNewItemData, (newItem) => newItem.sex);
 
 export const isTypeEmpty = createSelector(getNewItem, (newItem) => newItem.type === "");
-export const isSexEmpty = createSelector(getNewItem, (newItem) => newItem.sex === "");
+export const isSexEmpty = createSelector(getNewItemData, (newItem) => newItem.sex === "");

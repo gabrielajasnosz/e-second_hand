@@ -162,7 +162,7 @@ const RegisterPage = ({
                                                 <TextInput label="Your first and last name" onChange={setDisplayName} />
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <TextInput label="E-mail" onChange={setEmail} isEmailIncorrect={isEmailIncorrect} />
+                                                <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect} />
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <SelectInput label="Sex" onChange={setSex}>

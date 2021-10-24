@@ -11,9 +11,11 @@ import BasicButton from "../button/BasicButton";
 import SelectInput from "../input/SelectInput";
 import {
     setSize as setSizeActionCreator,
-    setPrice as setPriceActionCreator
+    setPrice as setPriceActionCreator,
 } from "./action/newItem";
-import { getNewItemSize, getNewItemPrice, getType } from "./selectors";
+import {
+    getNewItemSize, getNewItemPrice, getType
+} from "./selectors";
 import { getSizes } from "../header/selectors";
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -25,7 +27,7 @@ const mapStateToProps = (state) => ({
     newItemSize: getNewItemSize(state),
     newItemPrice: getNewItemPrice(state),
     type: getType(state),
-    sizes: getSizes(state)
+    sizes: getSizes(state),
 });
 
 const enhance = compose(
@@ -38,22 +40,31 @@ const enhance = compose(
 );
 
 const AddItemImage = ({
-    classes, setSize, setPrice, newItemSize, newItemPrice, type, sizes
+    classes, setSize, setPrice, newItemSize, newItemPrice, sizes, type,
 }) => (
     <>
-        <div className="form-floating mb-3  step-content">
-            <span className={classes.cssLabelName}>Size *</span>
-            <SelectInput label={null} onChange={setSize} defaultValue={newItemSize}>
-                {sizes[type].map((item) => [
-                    <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                    </MenuItem>
-                ])}
-            </SelectInput>
-        </div>
+        { type !== "" && type !== "accessories" && (
+            <div className="form-floating mb-3  step-content">
+                <span className={classes.cssLabelName}>Size *</span>
+                <SelectInput label={null} onChange={setSize} defaultValue={newItemSize}>
+                    {sizes[type.toLowerCase()].map((item) => [
+                        <MenuItem key={item.id} value={item.id}>
+                            {item.name}
+                        </MenuItem>
+                    ])}
+                </SelectInput>
+            </div>
+        )}
         <div className="form-floating mb-3 step-content">
             <span className={classes.cssLabelName}>Price *</span>
-            <TextInput label={null} onChange={setPrice} defaultValue={newItemPrice} endAdornment />
+            <TextInput
+                label={null}
+                onChange={setPrice}
+                defaultValue={newItemPrice}
+                /* eslint-disable-next-line no-restricted-globals */
+                error={newItemPrice !== "" && isNaN(newItemPrice) ? "Please provide correct value" : null}
+                endAdornment
+            />
         </div>
         <div className="form-floating mb-3 step-content">
             <span className={classes.cssLabelName}>Add pictures *</span>
@@ -80,11 +91,11 @@ const propTypes = {
     }).isRequired,
     setSize: PropTypes.func.isRequired,
     setPrice: PropTypes.func.isRequired,
-    newItemSize: PropTypes.string.isRequired,
+    newItemSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     newItemPrice: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    sizes: PropTypes.any.isRequired
+    sizes: PropTypes.any.isRequired,
 };
 
 AddItemImage.propTypes = propTypes;

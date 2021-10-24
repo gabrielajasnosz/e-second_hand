@@ -13,11 +13,12 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { UserService } from "../../service/UserService";
-import PopoverContent from "../popoverContent/CategoryPopover";
+import CategoryPopover from "../popoverContent/CategoryPopover";
 import {
     fetchCategories as fetchCategoriesActionCreator,
     fetchBrands as fetchBrandsActionCreator,
-    fetchSizes as fetchSizesActionCreator
+    fetchSizes as fetchSizesActionCreator,
+    fetchColors as fetchColorsActionCreator
 } from "./action/categories";
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
@@ -27,6 +28,7 @@ const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
     fetchBrands: PropTypes.func.isRequired,
     fetchSizes: PropTypes.func.isRequired,
+    fetchColors: PropTypes.func.isRequired,
     classes: PropTypes.shape({
         button: PropTypes.string.isRequired,
         paper: PropTypes.string.isRequired,
@@ -35,9 +37,6 @@ const propTypes = {
         icon: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    categories: PropTypes.any
-
 };
 
 const styles = {
@@ -48,9 +47,9 @@ const styles = {
         },
     },
     paper: {
-        width: "15rem",
-        height: "auto",
-        overflow: "visible",
+        width: "20rem",
+        maxHeight: "20rem",
+        overflow: "auto",
         textTransform: "capitalize",
         color: "black !important",
         fontFamily: "Open Sans, sans-serif !important",
@@ -90,7 +89,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchCategories: fetchCategoriesActionCreator,
     fetchBrands: fetchBrandsActionCreator,
-    fetchSizes: fetchSizesActionCreator
+    fetchSizes: fetchSizesActionCreator,
+    fetchColors: fetchColorsActionCreator
 }, dispatch);
 
 const enhance = compose(
@@ -104,7 +104,7 @@ const enhance = compose(
 );
 
 const Header = ({
-    fetchCategories, classes, fetchSizes, fetchBrands,
+    fetchCategories, classes, fetchSizes, fetchBrands, fetchColors
 }) => {
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
@@ -153,8 +153,9 @@ const Header = ({
         fetchCategories();
         fetchBrands();
         fetchSizes();
+        fetchColors();
         setLoggedIn(UserService.validateToken(UserService.currentUserValue));
-    }, [fetchCategories, fetchSizes, fetchBrands]);
+    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -185,7 +186,7 @@ const Header = ({
                                 paper: classes.paper
                             }}
                         >
-                            <PopoverContent sex="female" />
+                            <CategoryPopover sex="woman" openContext="HEADER" onClose={handleCloseFemale} />
                         </Popover>
                         <Button
                             aria-describedby={maleId}
@@ -208,7 +209,7 @@ const Header = ({
                                 paper: classes.paper
                             }}
                         >
-                            <PopoverContent sex="male" />
+                            <CategoryPopover sex="man" openContext="HEADER" onClose={handleCloseMale} />
                         </Popover>
                     </div>
                     {!isLoggedIn ? (
@@ -261,9 +262,5 @@ const Header = ({
     );
 };
 
-const defaultProps = {
-    categories: null,
-};
 Header.propTypes = propTypes;
-Header.defaultProps = defaultProps;
 export default enhance(Header);

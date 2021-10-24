@@ -54,10 +54,7 @@ export const setRegistrationMessage = (message) => (dispatch) => {
     });
 };
 
-const checkEmailValidation = () => {
-    console.log(getEmail((store.getState())));
-    return /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(getEmail((store.getState())));
-};
+const checkEmailValidation = () => /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(getEmail((store.getState())));
 
 export const registerUser = () => (dispatch) => {
     if (checkEmailValidation()) {
@@ -76,8 +73,7 @@ export const registerUser = () => (dispatch) => {
                     dispatch(setEmailIncorrect(null));
                 }
             }))
-            .catch((error) => {
-                console.log(`POST error: ${error}`);
+            .catch(() => {
                 dispatch(setRegistrationMessage("Server error - please try again later."));
                 dispatch(setRegistrationStatus(false));
                 dispatch(setEmailIncorrect(null));
