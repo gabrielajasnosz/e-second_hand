@@ -2,77 +2,13 @@ import React from "react";
 import "./Carousel.scss";
 import { Tooltip, withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import compose from "recompose/compose";
 import BasicButton from "../button/BasicButton";
-
 import { UserService } from "../../service/UserService";
 import AddItemModal from "../addItemModal/AddItemModal";
-
-const propTypes = {
-    classes: PropTypes.shape({
-        tooltip: PropTypes.string.isRequired,
-        modal: PropTypes.string.isRequired
-    }).isRequired
-};
-
-// eslint-disable-next-line no-unused-vars
-const Carousel = ({ classes }) => {
-    const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
-    const tooltip = isLoggedIn ? "Sell" : "Create an account to add new item.";
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => setOpen(false);
-    return (
-        <div id="carouselExampleIndicators" className="carousel slide carousel-fade" data-ride="carousel">
-            <div className="carousel-inner">
-                <div className="navigation-field">
-                    <Tooltip
-                        title={tooltip}
-                    >
-                        <div className="navigation-button">
-                            <BasicButton disabled={!isLoggedIn} onButtonClick={handleOpen}>
-                                <span> Sell  </span>
-                            </BasicButton>
-                        </div>
-                    </Tooltip>
-                    <AddItemModal classes={classes} handleClose={handleClose} open={open} />
-                </div>
-                <div className="carousel-item carousel-first active">
-                    <div className="carousel-caption">
-                        <p>My Caption Title (1st Image)</p>
-                        <span>The whole caption will only show up if the screen is at least medium size.</span>
-                    </div>
-                </div>
-                <div className="carousel-item carousel-second">
-                    <div className="carousel-caption">
-                        <p>My Caption Title (1st Image)</p>
-                        <span>The whole caption will only show up if the screen is at least medium size.</span>
-                    </div>
-                </div>
-                <div className="carousel-item carousel-third">
-                    <div className="carousel-caption">
-                        <p>My Caption Title (1st Image)</p>
-                        <span>The whole caption will only show up if the screen is at least medium size.</span>
-                    </div>
-                </div>
-            </div>
-            <a className="carousel-control-prev d-flex" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true" />
-                <span className="sr-only">Previous</span>
-            </a>
-            <a className="carousel-control-next d-flex" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true" />
-                <span className="sr-only">Next</span>
-            </a>
-            <ol className="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active" />
-                <li data-target="#carouselExampleIndicators" data-slide-to="1" />
-                <li data-target="#carouselExampleIndicators" data-slide-to="2" />
-            </ol>
-        </div>
-    );
-};
+import { resetData as resetDataActionCreator } from "../addItem/action/newItem";
 
 const styles = {
     tooltip: {
@@ -170,9 +106,98 @@ const styles = {
             borderWidth: "2px",
             cursor: "pointer"
         },
+    },
+    alertStyle: {
+        justifyContent: "center",
+        width: "20rem",
+        margin: "1rem 0"
+    },
+    message: {
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
     }
+};
+
+const propTypes = {
+    classes: PropTypes.shape({
+        tooltip: PropTypes.string.isRequired,
+        modal: PropTypes.string.isRequired
+    }).isRequired,
+    resetData: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    resetData: resetDataActionCreator,
+}, dispatch);
+
+const enhance = compose(
+    connect(null,
+        mapDispatchToProps),
+    withStyles(styles)
+);
+
+const Carousel = ({ classes, resetData }) => {
+    const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
+    const tooltip = isLoggedIn ? "Sell" : "Create an account to add new item.";
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+        resetData();
+    };
+    return (
+        <div id="carouselExampleIndicators" className="carousel slide carousel-fade" data-ride="carousel">
+            <div className="carousel-inner">
+                <div className="navigation-field">
+                    <Tooltip
+                        title={tooltip}
+                    >
+                        <div className="navigation-button">
+                            <BasicButton disabled={!isLoggedIn} onButtonClick={handleOpen}>
+                                <span> Sell  </span>
+                            </BasicButton>
+                        </div>
+                    </Tooltip>
+                    <AddItemModal classes={classes} handleClose={handleClose} open={open} />
+                </div>
+                <div className="carousel-item carousel-first active">
+                    <div className="carousel-caption">
+                        <p>My Caption Title (1st Image)</p>
+                        <span>The whole caption will only show up if the screen is at least medium size.</span>
+                    </div>
+                </div>
+                <div className="carousel-item carousel-second">
+                    <div className="carousel-caption">
+                        <p>My Caption Title (1st Image)</p>
+                        <span>The whole caption will only show up if the screen is at least medium size.</span>
+                    </div>
+                </div>
+                <div className="carousel-item carousel-third">
+                    <div className="carousel-caption">
+                        <p>My Caption Title (1st Image)</p>
+                        <span>The whole caption will only show up if the screen is at least medium size.</span>
+                    </div>
+                </div>
+            </div>
+            <a className="carousel-control-prev d-flex" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true" />
+                <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next d-flex" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true" />
+                <span className="sr-only">Next</span>
+            </a>
+            <ol className="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active" />
+                <li data-target="#carouselExampleIndicators" data-slide-to="1" />
+                <li data-target="#carouselExampleIndicators" data-slide-to="2" />
+            </ol>
+        </div>
+    );
 };
 
 Carousel.propTypes = propTypes;
 
-export default withStyles(styles)(Carousel);
+export default enhance(Carousel);

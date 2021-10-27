@@ -9,7 +9,7 @@ const propTypes = {
     handleClose: PropTypes.func.isRequired,
     classes: PropTypes.shape({
         modal: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
 };
 
 const AddItemModal = ({

@@ -17,11 +17,13 @@ const propTypes = {
         helperText: PropTypes.string
     }).isRequired,
     children: PropTypes.node.isRequired,
+    color: PropTypes.string,
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 
 const defaultProps = {
     label: null,
+    color: "beige"
 };
 
 const styles = {
@@ -38,8 +40,21 @@ const styles = {
         marginTop: "0",
         marginBottom: "8px"
     },
-
     cssLabel: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
+        textTransform: "capitalize",
+        backgroundColor: "transparent"
+    },
+    paperWhite: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
+        textTransform: "capitalize",
+        backgroundColor: "white"
+    },
+    paperBeige: {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
         fontSize: "14px",
@@ -66,55 +81,57 @@ const styles = {
 };
 
 const SelectInput = ({
-    classes, onChange, label, children, defaultValue
-}) => (
-    <TextField
-        id="outlined-select-currency"
-        select
-        required
-        variant="outlined"
-        value={defaultValue || ""}
-        className={classes.textField}
-        onChange={onChange}
-        label={label}
-        SelectProps={{
-            MenuProps: {
-                anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "left"
+    // eslint-disable-next-line no-unused-vars
+    classes, onChange, label, children, defaultValue, color
+}) => {
+    const classToUse = color === "white" ? "paperWhite" : "paperBeige";
+    return (
+        <TextField
+            id="outlined-select-currency"
+            select
+            required
+            variant="outlined"
+            value={defaultValue || ""}
+            className={classes.textField}
+            onChange={onChange}
+            label={label}
+            SelectProps={{
+                MenuProps: {
+                    anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "left"
+                    },
+                    transformOrigin: {
+                        vertical: "top",
+                        horizontal: "left"
+                    },
+                    getContentAnchorEl: null,
+                    classes: {
+                        paper: classes[classToUse]
+                    }
                 },
-                transformOrigin: {
-                    vertical: "top",
-                    horizontal: "left"
-                },
-                getContentAnchorEl: null,
                 classes: {
-                    paper: classes.cssLabel
+                    root: classes.cssLabel,
+                },
+            }}
+            InputProps={{
+                classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
                 }
-            },
-
-            classes: {
-                root: classes.cssLabel,
-            },
-        }}
-        InputProps={{
-            classes: {
-                root: classes.cssOutlinedInput,
-                focused: classes.cssFocused,
-                notchedOutline: classes.notchedOutline,
-            }
-        }}
-        InputLabelProps={{
-            classes: {
-                root: classes.cssLabel,
-                focused: classes.cssFocused,
-            },
-        }}
-    >
-        {children}
-    </TextField>
-
-);
+            }}
+            InputLabelProps={{
+                classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                },
+            }}
+        >
+            {children}
+        </TextField>
+    );
+};
 
 SelectInput.propTypes = propTypes;
 SelectInput.defaultProps = defaultProps;

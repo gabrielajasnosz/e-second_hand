@@ -5,13 +5,15 @@ const initialState = {
         name: "",
         description: null,
         brand: "",
-        category: "",
-        color: "",
-        size: "",
+        categoryId: "",
+        colorId: "",
+        sizeId: "",
         price: "",
         sex: "",
+        images: []
     },
     type: "",
+    category: "",
 };
 
 const newItem = (state = initialState, action) => {
@@ -46,9 +48,15 @@ const newItem = (state = initialState, action) => {
         case newItemActions.setCategory: {
             return {
                 ...state,
+                category: action.category
+            };
+        }
+        case newItemActions.setCategoryId: {
+            return {
+                ...state,
                 newItemData: {
                     ...state.newItemData,
-                    category: action.category
+                    categoryId: action.categoryId
                 }
             };
         }
@@ -57,7 +65,7 @@ const newItem = (state = initialState, action) => {
                 ...state,
                 newItemData: {
                     ...state.newItemData,
-                    color: action.color
+                    colorId: action.color
                 }
             };
         }
@@ -66,7 +74,7 @@ const newItem = (state = initialState, action) => {
                 ...state,
                 newItemData: {
                     ...state.newItemData,
-                    size: action.size
+                    sizeId: action.size
                 }
             };
         }
@@ -92,6 +100,33 @@ const newItem = (state = initialState, action) => {
                     ...state.newItemData,
                     sex: action.sex
                 }
+            };
+        }
+        case newItemActions.setImages: {
+            return {
+                ...state,
+                newItemData: {
+                    ...state.newItemData,
+                    images: action.images
+                }
+            };
+        }
+        case newItemActions.resetData: {
+            return {
+                ...state,
+                newItemData: {
+                    name: "",
+                    description: null,
+                    brand: "",
+                    categoryId: "",
+                    colorId: "",
+                    sizeId: "",
+                    price: "",
+                    sex: "",
+                    images: ""
+                },
+                type: "",
+                category: "",
             };
         }
         default:

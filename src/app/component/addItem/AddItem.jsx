@@ -9,31 +9,39 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import AddItemInputs from "./AddItemInputs";
 import TextButton from "../button/TextButton";
 import AddItemSelects from "./AddItemSelects";
 import AddItemImage from "./AddItemImage";
 import BasicButton from "../button/BasicButton";
 import {
-    isNameEmpty, isColorEmpty, isBrandEmpty, isCategoryEmpty, isSizeEmpty, isPriceEmpty, isTypeEmpty, isSexEmpty
+    isNameEmpty, isColorEmpty, isBrandEmpty, isCategoryIdEmpty, isSizeEmpty, isPriceEmpty, isSexEmpty, isPriceIncorrect
 } from "./selectors/index";
+import {
+    saveItem as saveItemActionCreator,
+} from "./action/newItem";
 
 const steps = ["Add name and description", "Select product type and category", "Add picture"];
 
 const mapStateToProps = (state) => ({
     isNameEmptySelector: isNameEmpty(state),
-    isCategoryEmptySelector: isCategoryEmpty(state),
+    isCategoryIdEmptySelector: isCategoryIdEmpty(state),
     isColorEmptySelector: isColorEmpty(state),
     isBrandEmptySelector: isBrandEmpty(state),
     isSizeEmptySelector: isSizeEmpty(state),
     isPriceEmptySelector: isPriceEmpty(state),
-    isTypeEmptySelector: isTypeEmpty(state),
-    isSexEmptySelector: isSexEmpty(state)
+    isSexEmptySelector: isSexEmpty(state),
+    isPriceIncorrectSelector: isPriceIncorrect(state)
 });
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    saveItem: saveItemActionCreator,
+}, dispatch);
 
 const enhance = compose(
     connect(mapStateToProps,
-        null),
+        mapDispatchToProps),
 );
 
 const AddItem = ({
@@ -42,8 +50,7 @@ const AddItem = ({
     isNameEmptySelector,
     isColorEmptySelector,
     isBrandEmptySelector,
-    // eslint-disable-next-line no-unused-vars
-    isCategoryEmptySelector, isSizeEmptySelector, isPriceEmptySelector, isTypeEmptySelector, isSexEmptySelector
+    isCategoryIdEmptySelector, isSizeEmptySelector, isPriceEmptySelector, isSexEmptySelector, isPriceIncorrectSelector, saveItem
 }) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
@@ -70,15 +77,18 @@ const AddItem = ({
             </TextButton>
             )}
             {activeStep === 1 && (
-                <TextButton onClick={handleNext} disabled={isColorEmptySelector || isCategoryEmptySelector || isBrandEmptySelector}>
+                <TextButton
+                    onClick={handleNext}
+                    disabled={isColorEmptySelector || isCategoryIdEmptySelector || isBrandEmptySelector || isSexEmptySelector}
+                >
                     <span>Next</span>
                 </TextButton>
             )}
             {activeStep === 2 && (
                 <BasicButton
-                    onButtonClick={() => {}}
+                    onButtonClick={saveItem}
                     buttonClassName="reverse-button"
-                    disabled={isSizeEmptySelector || isPriceEmptySelector}
+                    disabled={isSizeEmptySelector || isPriceEmptySelector || isPriceIncorrectSelector}
                 >
                     Add Item
                 </BasicButton>
@@ -157,12 +167,13 @@ const propTypes = {
     handleClose: PropTypes.func.isRequired,
     isNameEmptySelector: PropTypes.bool.isRequired,
     isColorEmptySelector: PropTypes.bool.isRequired,
-    isCategoryEmptySelector: PropTypes.bool.isRequired,
+    isCategoryIdEmptySelector: PropTypes.bool.isRequired,
     isBrandEmptySelector: PropTypes.bool.isRequired,
     isSizeEmptySelector: PropTypes.bool.isRequired,
     isPriceEmptySelector: PropTypes.bool.isRequired,
-    isTypeEmptySelector: PropTypes.bool.isRequired,
-    isSexEmptySelector: PropTypes.bool.isRequired
+    isSexEmptySelector: PropTypes.bool.isRequired,
+    isPriceIncorrectSelector: PropTypes.bool.isRequired,
+    saveItem: PropTypes.func.isRequired
 };
 
 AddItem.propTypes = propTypes;

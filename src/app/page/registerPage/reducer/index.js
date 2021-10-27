@@ -5,7 +5,7 @@ const initialState = {
         displayName: "",
         password: "",
         email: "",
-        sex: "WOMAN"
+        sex: ""
     },
     isRegistrationSuccessful: null,
     registrationMessage: null,
@@ -80,7 +80,7 @@ const registerPageData = (state = initialState, action) => {
                     displayName: "",
                     password: "",
                     email: "",
-                    sex: "WOMAN"
+                    sex: ""
                 }
             };
         }

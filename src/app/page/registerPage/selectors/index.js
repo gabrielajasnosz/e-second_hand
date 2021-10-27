@@ -4,6 +4,7 @@ export const getRegisterPageData = (state) => state.registerPageData;
 export const getRegisterCredentials = createSelector(getRegisterPageData, (registerPageData) => registerPageData.registerCredentials);
 export const getPassword = createSelector(getRegisterCredentials, (registerCredentials) => registerCredentials.password);
 export const getEmail = createSelector(getRegisterCredentials, (registerCredentials) => registerCredentials.email);
+export const getSex = createSelector(getRegisterCredentials, (registerCredentials) => registerCredentials.sex);
 export const getDisplayName = createSelector(getRegisterCredentials, (registerCredentials) => registerCredentials.displayName);
 export const getPasswordValidation = createSelector(getRegisterCredentials, (registerCredentials) => {
     if (registerCredentials.password === "") {
@@ -21,6 +22,13 @@ export const getEmailValidation = createSelector(getRegisterCredentials, (regist
 
 export const getDisplayNameValidation = createSelector(getRegisterCredentials, (registerCredentials) => {
     if (registerCredentials.displayName === "") {
+        return true;
+    }
+    return false;
+});
+
+export const getSexValidation = createSelector(getRegisterCredentials, (registerCredentials) => {
+    if (registerCredentials.sex === "") {
         return true;
     }
     return false;

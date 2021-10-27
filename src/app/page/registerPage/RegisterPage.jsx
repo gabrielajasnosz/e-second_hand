@@ -9,6 +9,7 @@ import {
     withStyles
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 import BasicButton from "../../component/button/BasicButton";
 import Footer from "../../component/footer/Footer";
 import Header from "../../component/header/Header";
@@ -22,7 +23,13 @@ import {
 } from "./action/registerPageData";
 import "../loginPage/LoginPage.scss";
 import {
-    getEmailValidation, getDisplayNameValidation, getPasswordValidation, getEmailConflictStatus, getRegistrationStatus, getRegistrationMessage,
+    getEmailValidation,
+    getDisplayNameValidation,
+    getPasswordValidation,
+    getEmailConflictStatus,
+    getRegistrationStatus,
+    getRegistrationMessage,
+    getSexValidation, getSex,
 } from "./selectors";
 import { UserService } from "../../service/UserService";
 import TextInput from "../../component/input/TextInput";
@@ -31,8 +38,8 @@ import SelectInput from "../../component/input/SelectInput";
 
 const propTypes = {
     classes: PropTypes.shape({
-        registrationSuccessful: PropTypes.string,
-        registrationFail: PropTypes.string,
+        alert: PropTypes.string,
+        message: PropTypes.string,
         cssLabel: PropTypes.string
     }).isRequired,
     setEmail: PropTypes.func.isRequired,
@@ -42,6 +49,8 @@ const propTypes = {
     emailError: PropTypes.bool.isRequired,
     displayNameError: PropTypes.bool.isRequired,
     passwordError: PropTypes.bool.isRequired,
+    sexError: PropTypes.bool.isRequired,
+    sex: PropTypes.bool.isRequired,
     isEmailIncorrect: PropTypes.string,
     registrationStatus: PropTypes.bool,
     registrationMessage: PropTypes.string,
@@ -55,34 +64,15 @@ const styles = {
         fontFamily: "Open Sans, sans-serif",
         fontSize: "14px"
     },
-    registrationSuccessful: {
-        backgroundColor: "transparent",
-        fontFamily: "Open Sans, sans-serif",
-        fontSize: "16px",
-        color: "#1e6936",
-        border: "1px #1e6936 solid",
-        borderRadius: ".3rem",
-        marginBottom: "1rem",
-        backgroundOpacity: 0.7,
-        padding: "1rem 0",
-        display: "flex",
+    alert: {
         justifyContent: "center",
         width: "20rem",
+        margin: "1rem 0"
     },
-    registrationFail: {
-        backgroundColor: "transparent",
-        border: "1px #dd0101 solid",
+    message: {
         fontFamily: "Open Sans, sans-serif",
-        fontSize: "16px",
-        color: "#dd0101",
-        borderRadius: ".3rem",
-        marginBottom: "1rem",
-        backgroundOpacity: 0.7,
-        padding: "1rem 0",
-        display: "flex",
-        justifyContent: "center",
-        width: "20rem",
-    },
+        fontSize: "14px",
+    }
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -98,6 +88,8 @@ const mapStateToProps = (state) => ({
     emailError: getEmailValidation(state),
     passwordError: getPasswordValidation(state),
     displayNameError: getDisplayNameValidation(state),
+    sexError: getSexValidation(state),
+    sex: getSex(state),
     isEmailIncorrect: getEmailConflictStatus(state),
     registrationStatus: getRegistrationStatus(state),
     registrationMessage: getRegistrationMessage(state),
@@ -118,11 +110,11 @@ const enhance = compose(
 const RegisterPage = ({
     setDisplayName, setEmail, setPassword,
     classes, registerUser, emailError, passwordError, displayNameError,
-    isEmailIncorrect, registrationStatus, registrationMessage, resetData, setSex
+    isEmailIncorrect, registrationStatus, registrationMessage, resetData, setSex, sex, sexError
 }) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const isButtonEnabled = emailError || passwordError || displayNameError;
+    const isButtonEnabled = emailError || passwordError || displayNameError || sexError;
 
     const history = useHistory();
 
@@ -150,11 +142,12 @@ const RegisterPage = ({
                                 <div className="row">
                                     <div className="col-md-9 col-lg-8">
                                         {registrationStatus !== null && (
-                                            <div className={registrationStatus ? classes.registrationSuccessful : classes.registrationFail}>
-                                                <span>
-                                                    {registrationMessage}
-                                                </span>
-                                            </div>
+                                        <Alert
+                                            severity={registrationStatus ? "success" : "error"}
+                                            classes={{ root: classes.alert, message: classes.message }}
+                                        >
+                                            {registrationMessage}
+                                        </Alert>
                                         )}
                                         <h3 className="login-heading mb-3">Create new account</h3>
                                         <form className="form">
@@ -165,14 +158,14 @@ const RegisterPage = ({
                                                 <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect} />
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <SelectInput label="Sex" onChange={setSex}>
+                                                <SelectInput label="Sex" onChange={setSex} color="white" defaultValue={sex}>
                                                     <MenuItem value="WOMAN" className={classes.cssLabel}>
                                                         Woman
                                                     </MenuItem>
                                                     <MenuItem value="MAN" className={classes.cssLabel}>
                                                         Man
                                                     </MenuItem>
-                                                    <MenuItem value="OTHER" className={classes.cssLabel}>
+                                                    <MenuItem value="UNDEFINED" className={classes.cssLabel}>
                                                         Other
                                                     </MenuItem>
                                                 </SelectInput>

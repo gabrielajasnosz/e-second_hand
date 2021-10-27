@@ -14,7 +14,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
     setCategory as setCategoryActionCreator,
-    setType as setTypeActionCreator
+    setCategoryId as setCategoryIdActionCreator,
+    setType as setTypeActionCreator,
+    setSex as setSexActionCreator
 } from "../addItem/action/newItem";
 import { getSubcategories } from "../header/selectors";
 
@@ -33,7 +35,9 @@ const propTypes = {
     openContext: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     setCategory: PropTypes.func.isRequired,
-    setType: PropTypes.func.isRequired
+    setCategoryId: PropTypes.func.isRequired,
+    setType: PropTypes.func.isRequired,
+    setSex: PropTypes.func.isRequired
 };
 const styles = {
     field: {
@@ -73,7 +77,9 @@ const styles = {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setCategory: setCategoryActionCreator,
-    setType: setTypeActionCreator
+    setCategoryId: setCategoryIdActionCreator,
+    setType: setTypeActionCreator,
+    setSex: setSexActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -87,7 +93,7 @@ const enhance = compose(
 );
 
 const CategoryPopover = ({
-    classes, categories, sex, openContext, setCategory, onClose, setType
+    classes, categories, sex, openContext, setCategory, onClose, setType, setSex, setCategoryId
 }) => {
     const [content, setContent] = useState([]);
     const [previousContent, setPreviousContent] = useState([]);
@@ -97,13 +103,13 @@ const CategoryPopover = ({
     const genderArray = useMemo(() => [{
         gender: "UNDEFINED",
         id: 1001,
-        name: "Woman",
+        name: "WOMAN",
         parentId: null,
         subCategories: categories
     }, {
         gender: "UNDEFINED",
         id: 1002,
-        name: "Man",
+        name: "MAN",
         parentId: null,
         subCategories: categories
     }], [categories]);
@@ -182,16 +188,21 @@ const CategoryPopover = ({
                                                     content: filteredContent
                                                 }]
                                             );
-                                            setContent(element.subCategories);
-                                            setCurrentContentId(currentContentId + 1);
                                             if (gender === "UNDEFINED") {
                                                 setGender(element.name.toUpperCase());
+                                            }
+                                            if (currentContentId === 0) {
+                                                setSex(element.name);
                                             }
                                             if (currentContentId === 1) {
                                                 setType(element.name);
                                             }
+
+                                            setContent(element.subCategories);
+                                            setCurrentContentId(currentContentId + 1);
                                         } else if (element.subCategories.length === 0 && openContext === "ITEM") {
                                             setCategory(element);
+                                            setCategoryId(element.id);
                                             onClose();
                                         }
                                     }}

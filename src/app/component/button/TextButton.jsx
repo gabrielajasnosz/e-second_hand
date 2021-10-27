@@ -10,7 +10,8 @@ const propTypes = {
     disabled: PropTypes.bool,
     classes: PropTypes.shape({
         root: PropTypes.string.isRequired,
-    }).isRequired
+    }).isRequired,
+    component: PropTypes.string
 };
 
 const styles = {
@@ -26,14 +27,16 @@ const styles = {
 
 const defaultProps = {
     disabled: false,
+    component: undefined
 };
 
 const TextButton = ({
-    onClick, disabled, children, classes
+    onClick, disabled, children, classes, component
 }) => (
     <Button
         disabled={disabled}
         onClick={onClick}
+        component={component}
         classes={{
             root: classes.root
         }}
