@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 import Header from "../../component/header/Header";
 import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
@@ -30,7 +31,9 @@ import PasswordInput from "../../component/input/PasswordInput";
 
 const propTypes = {
     classes: PropTypes.shape({
-        loginFail: PropTypes.string
+        loginFail: PropTypes.string,
+        message: PropTypes.string.isRequired,
+        alert: PropTypes.string.isRequired
     }).isRequired,
     setPassword: PropTypes.func.isRequired,
     setEmail: PropTypes.func.isRequired,
@@ -55,6 +58,15 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         width: "20rem",
+    },
+    alert: {
+        justifyContent: "center",
+        width: "20rem",
+        margin: "1rem 0"
+    },
+    message: {
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
     }
 };
 
@@ -114,11 +126,12 @@ const LoginPage = ({
                                 <div className="row">
                                     <div className="col-md-9 col-lg-8">
                                         {isLoginSuccessful === false && (
-                                            <div className={classes.loginFail}>
-                                                <span>
-                                                    Wrong email or password.
-                                                </span>
-                                            </div>
+                                            <Alert
+                                                severity="error"
+                                                classes={{ root: classes.alert, message: classes.message }}
+                                            >
+                                                Wrong email or password
+                                            </Alert>
                                         )}
                                         <h3 className="login-heading mb-3">Welcome back!</h3>
                                         <div className="form">

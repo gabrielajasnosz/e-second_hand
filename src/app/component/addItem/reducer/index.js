@@ -10,7 +10,8 @@ const initialState = {
         sizeId: "",
         price: "",
         sex: "",
-        images: []
+        images: [],
+        mainImageId: 0
     },
     type: "",
     category: "",
@@ -108,6 +109,15 @@ const newItem = (state = initialState, action) => {
                 newItemData: {
                     ...state.newItemData,
                     images: action.images
+                }
+            };
+        }
+        case newItemActions.setMainImageId: {
+            return {
+                ...state,
+                newItemData: {
+                    ...state.newItemData,
+                    mainImageId: action.mainImageId
                 }
             };
         }

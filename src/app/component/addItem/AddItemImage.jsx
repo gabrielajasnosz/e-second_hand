@@ -12,18 +12,20 @@ import SelectInput from "../input/SelectInput";
 import {
     setSize as setSizeActionCreator,
     setPrice as setPriceActionCreator,
-    setImages as setImagesActionCreator
+    setImages as setImagesActionCreator, setMainImageId as setMainImageIdActionCreator
 } from "./action/newItem";
 import {
-    getNewItemSize, getNewItemPrice, getType, getNewItemImages
+    getNewItemSize, getNewItemPrice, getType, getNewItemImages, getNewItemMainImageId
 } from "./selectors";
 import { getSizes } from "../header/selectors";
 import TextButton from "../button/TextButton";
+import ImagesPreview from "../imagePreview/ImagePreview";
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setSize: setSizeActionCreator,
     setPrice: setPriceActionCreator,
-    setImages: setImagesActionCreator
+    setImages: setImagesActionCreator,
+    setMainImageId: setMainImageIdActionCreator,
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -32,6 +34,7 @@ const mapStateToProps = (state) => ({
     newItemImages: getNewItemImages(state),
     type: getType(state),
     sizes: getSizes(state),
+    mainImageId: getNewItemMainImageId(state)
 });
 
 const enhance = compose(
@@ -45,7 +48,7 @@ const enhance = compose(
 
 const AddItemImage = ({
     // eslint-disable-next-line no-unused-vars
-    classes, setSize, setPrice, newItemSize, newItemPrice, sizes, type, setImages, newItemImages
+    classes, setSize, setPrice, newItemSize, newItemPrice, sizes, type, setImages, newItemImages, setMainImageId, mainImageId
 }) => {
     const [imageError, setImageError] = useState(false);
     // eslint-disable-next-line no-unused-vars
@@ -54,27 +57,30 @@ const AddItemImage = ({
     const inputRef = React.createRef();
 
     const handleUpload = async (e) => {
-        if (e.target.files.length > 4) {
+        if (e.target.files.length > 6) {
+            setImages([]);
             setImageError(true);
+            setImagesPreview([]);
+            setMainImageId(0);
         } else {
+            setImageError(false);
             const allFiles = [];
+            const images = [];
             // eslint-disable-next-line no-plusplus
             for (let i = 0; i < e.target.files.length; i++) {
                 allFiles.push(e.target.files[i]);
+                images.push({
+                    id: i,
+                    url: URL.createObjectURL(e.target.files[i])
+                });
             }
             if (allFiles.length > 0) {
                 setImages(allFiles);
             }
-
-            const images = [];
-            // eslint-disable-next-line no-plusplus
-            for (let i = 0; i < e.target.files.length; i++) {
-                images.push(URL.createObjectURL(e.target.files[i]));
-            }
-            console.log(images);
             if (images.length > 0) {
                 setImagesPreview(images);
             }
+            setMainImageId(0);
         }
     };
 
@@ -112,12 +118,9 @@ const AddItemImage = ({
                 />
             </div>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Add 1-4 pictures *</span>
+                <span className={classes.cssLabelName}>Add 1-6 pictures *</span>
                 {imagesPreview.length > 0 && (
-                    <div>
-                        {/* eslint-disable-next-line jsx-a11y/img-redundant-alt,react/no-array-index-key */}
-                        {imagesPreview.map((img, i) => <img className="preview" src={img} alt={`image-${i}`} key={i} height={50} />)}
-                    </div>
+                    <ImagesPreview images={imagesPreview} />
                 )}
                 <label htmlFor="upload-button">
                     <input
@@ -130,7 +133,7 @@ const AddItemImage = ({
                         onChange={handleUpload}
                     />
                     {/* eslint-disable-next-line react/button-has-type */}
-                    <TextButton onClick={() => inputRef.current.click()}>Upload images</TextButton>
+                    <TextButton onClick={() => inputRef.current.click()}>{newItemImages.length === 0 ? "Upload images" : "Change images"}</TextButton>
                 </label>
             </div>
         </>
@@ -153,7 +156,9 @@ const propTypes = {
     sizes: PropTypes.any.isRequired,
     setImages: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    newItemImages: PropTypes.array.isRequired
+    newItemImages: PropTypes.array.isRequired,
+    setMainImageId: PropTypes.func.isRequired,
+    mainImageId: PropTypes.number.isRequired
 };
 
 AddItemImage.propTypes = propTypes;

@@ -85,6 +85,13 @@ export const setCategoryId = (categoryId) => (dispatch) => {
     });
 };
 
+export const setMainImageId = (mainImageId) => (dispatch) => {
+    dispatch({
+        type: newItemActions.setMainImageId,
+        mainImageId
+    });
+};
+
 export const saveItem = () => () => {
     const data = getNewItemData(store.getState());
     const formData = new FormData();
@@ -98,6 +105,14 @@ export const saveItem = () => () => {
     formData.append("sex", data.sex);
     formData.append("image", data.image);
     formData.append("brand", data.brand);
+    formData.append("mainImageId", data.mainImageId);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of Object.keys(data.images)) {
+        if (key !== "length") {
+            formData.append("files", data.images[key]);
+        }
+    }
 
     ItemService.saveItem(formData).then(console.log("dupa"));
 };

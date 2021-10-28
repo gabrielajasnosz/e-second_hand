@@ -24,12 +24,18 @@ const styles = {
         left: "50%",
         transform: "translate(-50%, -50%)",
         width: "auto",
-        minHeight: "32rem",
+        maxWidth: "40rem",
         height: "auto",
         backgroundColor: "#F0EFEB !important",
         borderRadius: ".3rem",
         boxShadow: 24,
         p: 4,
+    },
+    step: {
+        width: "auto",
+        height: "auto",
+        maxHeight: "25rem",
+        overflow: "auto"
     },
     stepper: {
         width: "100%",

@@ -16,7 +16,15 @@ import AddItemSelects from "./AddItemSelects";
 import AddItemImage from "./AddItemImage";
 import BasicButton from "../button/BasicButton";
 import {
-    isNameEmpty, isColorEmpty, isBrandEmpty, isCategoryIdEmpty, isSizeEmpty, isPriceEmpty, isSexEmpty, isPriceIncorrect
+    isNameEmpty,
+    isColorEmpty,
+    isBrandEmpty,
+    isCategoryIdEmpty,
+    isSizeEmpty,
+    isPriceEmpty,
+    isSexEmpty,
+    isPriceIncorrect,
+    areImagesEmpty
 } from "./selectors/index";
 import {
     saveItem as saveItemActionCreator,
@@ -32,7 +40,8 @@ const mapStateToProps = (state) => ({
     isSizeEmptySelector: isSizeEmpty(state),
     isPriceEmptySelector: isPriceEmpty(state),
     isSexEmptySelector: isSexEmpty(state),
-    isPriceIncorrectSelector: isPriceIncorrect(state)
+    isPriceIncorrectSelector: isPriceIncorrect(state),
+    areImagesEmptySelector: areImagesEmpty(state)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -50,7 +59,13 @@ const AddItem = ({
     isNameEmptySelector,
     isColorEmptySelector,
     isBrandEmptySelector,
-    isCategoryIdEmptySelector, isSizeEmptySelector, isPriceEmptySelector, isSexEmptySelector, isPriceIncorrectSelector, saveItem
+    isCategoryIdEmptySelector,
+    isSizeEmptySelector,
+    isPriceEmptySelector,
+    isSexEmptySelector,
+    isPriceIncorrectSelector,
+    saveItem,
+    areImagesEmptySelector
 }) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
@@ -88,7 +103,7 @@ const AddItem = ({
                 <BasicButton
                     onButtonClick={saveItem}
                     buttonClassName="reverse-button"
-                    disabled={isSizeEmptySelector || isPriceEmptySelector || isPriceIncorrectSelector}
+                    disabled={isSizeEmptySelector || isPriceEmptySelector || isPriceIncorrectSelector || areImagesEmptySelector}
                 >
                     Add Item
                 </BasicButton>
@@ -131,23 +146,21 @@ const AddItem = ({
                     ))}
                 </Stepper>
                 {activeStep === 0 && (
-                    <>
+                    <div className={classes.step}>
                         <AddItemInputs classes={classes} />
-                        {renderButtons()}
-                    </>
+                    </div>
                 )}
                 {activeStep === 1 && (
-                    <>
+                    <div className={classes.step}>
                         <AddItemSelects classes={classes} />
-                        {renderButtons()}
-                    </>
+                    </div>
                 )}
                 {activeStep === 2 && (
-                    <>
+                    <div className={classes.step}>
                         <AddItemImage classes={classes} />
-                        {renderButtons()}
-                    </>
+                    </div>
                 )}
+                {renderButtons()}
             </Box>
         </div>
 
@@ -162,7 +175,8 @@ const propTypes = {
         iconActive: PropTypes.string.isRequired,
         iconCompleted: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
-        userIcon: PropTypes.string.isRequired
+        userIcon: PropTypes.string.isRequired,
+        step: PropTypes.string.isRequired
     }).isRequired,
     handleClose: PropTypes.func.isRequired,
     isNameEmptySelector: PropTypes.bool.isRequired,
@@ -173,6 +187,7 @@ const propTypes = {
     isPriceEmptySelector: PropTypes.bool.isRequired,
     isSexEmptySelector: PropTypes.bool.isRequired,
     isPriceIncorrectSelector: PropTypes.bool.isRequired,
+    areImagesEmptySelector: PropTypes.bool.isRequired,
     saveItem: PropTypes.func.isRequired
 };
 

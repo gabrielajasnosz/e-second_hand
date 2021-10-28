@@ -12,6 +12,7 @@ const newItemActions = {
     setType: `${prefix}_SET_TYPE`,
     setImages: `${prefix}_SET_IMAGES`,
     setSex: `${prefix}_SET_SEX`,
+    setMainImageId: `${prefix}_SET_MAIN_IMAGE_ID`,
     resetData: `${prefix}_RESET_DATA`,
 };
 

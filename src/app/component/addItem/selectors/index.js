@@ -9,6 +9,7 @@ export const getNewItemColor = createSelector(getNewItemData, (newItem) => newIt
 export const getNewItemPrice = createSelector(getNewItemData, (newItem) => newItem.price);
 export const getNewItemSize = createSelector(getNewItemData, (newItem) => newItem.sizeId);
 export const getNewItemImages = createSelector(getNewItemData, (newItem) => newItem.images);
+export const getNewItemMainImageId = createSelector(getNewItemData, (newItem) => newItem.mainImageId);
 
 export const isNameEmpty = createSelector(getNewItemData, (newItemData) => newItemData.name === "");
 
@@ -18,6 +19,7 @@ export const isColorEmpty = createSelector(getNewItemData, (newItemData) => newI
 
 export const isSizeEmpty = createSelector(getNewItemData, (newItemData) => newItemData.size === "");
 export const isPriceEmpty = createSelector(getNewItemData, (newItemData) => newItemData.price === "");
+export const areImagesEmpty = createSelector(getNewItemData, (newItemData) => newItemData.images.length === 0);
 // eslint-disable-next-line no-restricted-globals
 export const isPriceIncorrect = createSelector(getNewItemData, (newItemData) => newItemData.price !== "" && isNaN(newItemData.price));
 
