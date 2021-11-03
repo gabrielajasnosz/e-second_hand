@@ -4,7 +4,7 @@ import StartPage from './app/page/startPage/StartPage.jsx';
 import React from "react";
 import LoginPage from "./app/page/loginPage/LoginPage";
 import RegisterPage from "./app/page/registerPage/RegisterPage"
-import {AnimatePresence} from "framer-motion";
+import Item from "./app/page/itemPage/Item";
 
 function App() {
     return (
@@ -20,6 +20,9 @@ function App() {
                       <Route path="/register">
                           <RegisterPage />
                       </Route>
+                      <Route path="/confirmRegistration/:token" render={(props) => <LoginPage isAccountConfirmation={true} {...props} /> }  />
+
+                      <Route path="/item/:id" component={Item} />
                   </Switch>
           </BrowserRouter>
       </div>

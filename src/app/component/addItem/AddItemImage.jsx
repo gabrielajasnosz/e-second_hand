@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import compose from "recompose/compose";
 import withHandlers from "recompose/withHandlers";
 import Alert from "@mui/material/Alert";
+import { CircularProgress } from "@mui/material";
 import TextInput from "../input/TextInput";
 import SelectInput from "../input/SelectInput";
 import {
@@ -51,12 +52,13 @@ const AddItemImage = ({
     classes, setSize, setPrice, newItemSize, newItemPrice, sizes, type, setImages, newItemImages, setMainImageId, mainImageId
 }) => {
     const [imageError, setImageError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [imagesPreview, setImagesPreview] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const inputRef = React.createRef();
 
     const handleUpload = async (e) => {
+        setIsLoading(true);
         if (e.target.files.length > 6) {
             setImages([]);
             setImageError(true);
@@ -82,6 +84,7 @@ const AddItemImage = ({
             }
             setMainImageId(0);
         }
+        setIsLoading(false);
     };
 
     return (
@@ -119,6 +122,9 @@ const AddItemImage = ({
             </div>
             <div className="form-floating mb-3 step-content">
                 <span className={classes.cssLabelName}>Add 1-6 pictures *</span>
+                {isLoading && (
+                    <CircularProgress color="info" />
+                )}
                 {imagesPreview.length > 0 && (
                     <ImagesPreview images={imagesPreview} />
                 )}

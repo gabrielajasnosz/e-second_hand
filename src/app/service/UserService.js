@@ -26,6 +26,10 @@ function login(loginCredentials) {
         });
 }
 
+function confirmRegistration(token) {
+    return fetch(`http://localhost:8080/confirmRegistration?token=${encodeURIComponent(token)}`);
+}
+
 function register(registerCredentials) {
     return fetch("http://localhost:8080/register", {
         method: "POST",
@@ -51,6 +55,7 @@ export const UserService = {
     logout,
     register,
     validateToken,
+    confirmRegistration,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() { return currentUserSubject.value; },
     get decodedTokenValue() {

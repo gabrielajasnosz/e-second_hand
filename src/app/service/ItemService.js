@@ -13,7 +13,11 @@ function saveItem(newItem) {
     }).then(handleResponse);
 }
 
+function getItem(itemId) {
+    return fetch(`http://localhost:8080/item/item?itemId=${encodeURIComponent(itemId)}`);
+}
 // eslint-disable-next-line import/prefer-default-export
 export const ItemService = {
     saveItem,
+    getItem
 };

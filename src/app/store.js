@@ -7,6 +7,7 @@ import registerPageData from "./page/registerPage/reducer";
 import page from "./page/explorePage/reducer";
 import categories from "./component/header/reducer";
 import newItem from "./component/addItem/reducer";
+import item from "./page/itemPage/reducer";
 
 const areReduxDevtoolsAvailable = !["production", "test"].includes(process.env.NODE_ENV)
     && window.__REDUX_DEVTOOLS_EXTENSION__;
@@ -22,7 +23,8 @@ const store = createStore(combineReducers({
     registerPageData,
     page,
     categories,
-    newItem
+    newItem,
+    item
 }), storeEnhancer);
 
 export default store;

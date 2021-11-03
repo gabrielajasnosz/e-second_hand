@@ -9,6 +9,7 @@ import {
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { useParams } from "react-router";
 import Header from "../../component/header/Header";
 import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
@@ -41,7 +42,8 @@ const propTypes = {
     emailEmpty: PropTypes.bool.isRequired,
     loginUser: PropTypes.func.isRequired,
     isLoginSuccessful: PropTypes.bool.isRequired,
-    resetData: PropTypes.func.isRequired
+    resetData: PropTypes.func.isRequired,
+    isAccountConfirmation: PropTypes.bool
 };
 
 const styles = {
@@ -94,10 +96,12 @@ const enhance = compose(
 );
 
 const LoginPage = ({
-    setPassword, setEmail, classes, emailEmpty, passwordEmpty, loginUser, isLoginSuccessful, resetData
+    setPassword, setEmail, classes, emailEmpty, passwordEmpty, loginUser, isLoginSuccessful, resetData, isAccountConfirmation
 }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [registrationMessage, setRegistrationMessage] = useState(null);
     const history = useHistory();
+    const { token } = useParams();
 
     if (UserService.validateToken(UserService.currentUserValue)) {
         history.push("/");
@@ -109,6 +113,15 @@ const LoginPage = ({
         history.push("/register");
     };
 
+    useEffect(() => {
+        if (isAccountConfirmation) {
+            UserService.confirmRegistration(token).then((response) => response.text())
+                .then((json) => {
+                    setRegistrationMessage(json);
+                    console.log(json);
+                });
+        }
+    }, [isAccountConfirmation, token]);
     useEffect(() => () => {
         resetData();
     }, [resetData]);
@@ -125,6 +138,14 @@ const LoginPage = ({
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-9 col-lg-8">
+                                        {registrationMessage !== null && (
+                                            <Alert
+                                                severity="info"
+                                                classes={{ root: classes.alert, message: classes.message }}
+                                            >
+                                                {registrationMessage}
+                                            </Alert>
+                                        )}
                                         {isLoginSuccessful === false && (
                                             <Alert
                                                 severity="error"
@@ -185,5 +206,8 @@ const LoginPage = ({
 };
 
 LoginPage.propTypes = propTypes;
+LoginPage.defaultProps = {
+    isAccountConfirmation: false
+};
 
 export default enhance(LoginPage);

@@ -75,7 +75,6 @@ const ImagesPreview = ({
                                     classes={{ root: classes.icon }}
                                     onClick={() => setMainImageId(img.id)}
                                 >
-                                    {console.log(img.id)}
                                     { mainImageId === img.id ? (
                                         <StarIcon />
                                     ) : (

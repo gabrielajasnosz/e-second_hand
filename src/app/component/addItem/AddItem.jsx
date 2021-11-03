@@ -30,7 +30,7 @@ import {
     saveItem as saveItemActionCreator,
 } from "./action/newItem";
 
-const steps = ["Add name and description", "Select product type and category", "Add picture"];
+const steps = ["Step 1", "Step 2", "Step 3"];
 
 const mapStateToProps = (state) => ({
     isNameEmptySelector: isNameEmpty(state),
@@ -94,8 +94,9 @@ const AddItem = ({
             {activeStep === 1 && (
                 <TextButton
                     onClick={handleNext}
-                    disabled={isColorEmptySelector || isCategoryIdEmptySelector || isBrandEmptySelector || isSexEmptySelector}
+                    disabled={isColorEmptySelector || isCategoryIdEmptySelector || isSexEmptySelector || isBrandEmptySelector}
                 >
+                    {console.log(isColorEmptySelector)}
                     <span>Next</span>
                 </TextButton>
             )}

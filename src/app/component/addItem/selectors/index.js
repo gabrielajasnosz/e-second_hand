@@ -15,7 +15,7 @@ export const isNameEmpty = createSelector(getNewItemData, (newItemData) => newIt
 
 export const isBrandEmpty = createSelector(getNewItemData, (newItemData) => newItemData.brand === "");
 export const isCategoryIdEmpty = createSelector(getNewItemData, (newItemData) => newItemData.categoryId === "");
-export const isColorEmpty = createSelector(getNewItemData, (newItemData) => newItemData.color === "");
+export const isColorEmpty = createSelector(getNewItemData, (newItemData) => newItemData.colorId === "");
 
 export const isSizeEmpty = createSelector(getNewItemData, (newItemData) => newItemData.size === "");
 export const isPriceEmpty = createSelector(getNewItemData, (newItemData) => newItemData.price === "");

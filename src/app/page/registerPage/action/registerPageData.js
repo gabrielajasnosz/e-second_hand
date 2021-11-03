@@ -61,7 +61,7 @@ export const registerUser = () => (dispatch) => {
         UserService.register(getRegisterCredentials(store.getState()))
             .then(((response) => {
                 if (response.status === 201) {
-                    dispatch(setRegistrationMessage("Your account was successfully created!"));
+                    dispatch(setRegistrationMessage("Check your email and confirm registration!"));
                     dispatch(setRegistrationStatus(true));
                     dispatch(setEmailIncorrect(null));
                 } else if (response.status === 409) {

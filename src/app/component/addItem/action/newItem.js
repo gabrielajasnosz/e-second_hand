@@ -1,6 +1,7 @@
 import newItemActions from "./newItemActions";
+// eslint-disable-next-line no-unused-vars
 import { ItemService } from "../../../service/ItemService";
-import { getNewItemData } from "../selectors";
+import { getNewItemData, getNewItemMainImageId } from "../selectors";
 import store from "../../../store";
 
 export const setName = (name) => (dispatch) => {
@@ -94,6 +95,7 @@ export const setMainImageId = (mainImageId) => (dispatch) => {
 
 export const saveItem = () => () => {
     const data = getNewItemData(store.getState());
+    const mainImageId = getNewItemMainImageId(store.getState());
     const formData = new FormData();
 
     formData.append("name", data.name);
@@ -103,16 +105,18 @@ export const saveItem = () => () => {
     formData.append("sizeId", data.sizeId);
     formData.append("price", data.price);
     formData.append("sex", data.sex);
-    formData.append("image", data.image);
     formData.append("brand", data.brand);
-    formData.append("mainImageId", data.mainImageId);
+    formData.append("mainImage", data.images[mainImageId]);
+
+    data.images.splice(mainImageId, 1);
 
     // eslint-disable-next-line no-restricted-syntax
     for (const key of Object.keys(data.images)) {
         if (key !== "length") {
-            formData.append("files", data.images[key]);
+            formData.append("images", data.images[key]);
         }
     }
 
-    ItemService.saveItem(formData).then(console.log("dupa"));
+    // eslint-disable-next-line no-return-assign
+    ItemService.saveItem(formData).then((json) => window.location.href = `/item/${json}`);
 };
