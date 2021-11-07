@@ -8,6 +8,7 @@ import Carousel from "../../component/carousel/Carousel";
 import LoginPage from "../loginPage/LoginPage";
 import RegisterPage from "../registerPage/RegisterPage";
 import Item from "../itemPage/Item";
+import NotFoundPage from "../notFoundPage/NotFoundPage";
 
 const StartPage = () => {
     const history = createBrowserHistory();
@@ -18,6 +19,7 @@ const StartPage = () => {
                 <Header />
                 <Switch>
                     <Route exact path="/" component={Carousel} />
+                    <Route exact path="/not-found" component={NotFoundPage} />
                     <Route path="/login" component={LoginPage} />
                     <Route path="/register" component={RegisterPage} />
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -27,6 +29,7 @@ const StartPage = () => {
                         render={(props) => <LoginPage isAccountConfirmation {...props} />}
                     />
                     <Route path="/item/:id" component={Item} />
+                    <Route component={NotFoundPage} />
                 </Switch>
                 <Footer />
 

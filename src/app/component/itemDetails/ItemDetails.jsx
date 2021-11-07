@@ -9,9 +9,24 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import moment from "moment";
-import EditItemDetails from "./EditItemDetails";
-import { UserService } from "../../service/UserService";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import { bindActionCreators } from "redux";
+import { Tooltip } from "@material-ui/core";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Visibility } from "@mui/icons-material";
 import { getItemDetails } from "../../page/itemPage/selectors";
+import { UserService } from "../../service/UserService";
+import EditItemDetails from "./EditItemDetails";
+import TextButton from "../button/TextButton";
+import {
+    deleteItem as deleteItemActionCreator,
+    hideItem as hideItemActionCreator,
+    showItem as showItemActionCreator
+} from "./action/editedItem";
 
 const styles = {
     icon: {
@@ -27,26 +42,46 @@ const mapStateToProps = (state) => ({
     itemData: getItemDetails(state),
 });
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    deleteItem: deleteItemActionCreator,
+    hideItem: hideItemActionCreator,
+    showItem: showItemActionCreator
+}, dispatch);
+
 const enhance = compose(
     connect(mapStateToProps,
-        null),
+        mapDispatchToProps),
     withStyles(styles)
 );
 
 const ItemDetails = ({
-    itemData, classes
+    itemData, classes, deleteItem, hideItem, showItem
 }) => {
     const [isEditModeOn, setEditModeOn] = useState(false);
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
     const userHasRightToEdit = isLoggedIn && UserService.decodedTokenValue.userId === itemData.userId;
 
     const date = moment(itemData.creationDate).format("DD MMM, YYYY");
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <div className="item-info">
             <div className="item-details">
                 {!isEditModeOn ? (
                     <>
+                        {itemData.isHidden && (
+                            <span className="hidden-item">
+                                This item is hidden. Only you can see this page.
+                            </span>
+                        )}
                         <span className="date">
                             Added
                             {" "}
@@ -64,14 +99,70 @@ const ItemDetails = ({
                             )}
                             {userHasRightToEdit && (
                             <div style={{ display: "flex", flexDirection: "row" }}>
-                                <IconButton onClick={() => { setEditModeOn(true); }} size="small" classes={{ root: classes.icon }}>
-                                    <EditIcon className={classes.icon} />
-                                </IconButton>
-                                <IconButton onClick={() => {}} size="small" classes={{ root: classes.icon }}>
-                                    <DeleteIcon className={classes.icon} />
-                                </IconButton>
+                                <Tooltip
+                                    title="Edit item"
+                                >
+                                    <IconButton onClick={() => { setEditModeOn(true); }} size="small" classes={{ root: classes.icon }}>
+                                        <EditIcon className={classes.icon} />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete item">
+                                    <IconButton onClick={handleClickOpen} size="small" classes={{ root: classes.icon }}>
+                                        <DeleteIcon className={classes.icon} />
+                                    </IconButton>
+                                </Tooltip>
+                                {itemData.isHidden ? (
+                                    <Tooltip title="Show item to everybody">
+                                        <IconButton onClick={showItem} size="small" classes={{ root: classes.icon }}>
+                                            <Visibility className={classes.icon} />
+                                        </IconButton>
+                                    </Tooltip>
+                                ) : (
+                                    <Tooltip title="Hide item">
+                                        <IconButton onClick={hideItem} size="small" classes={{ root: classes.icon }}>
+                                            <VisibilityOffIcon className={classes.icon} />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+
                             </div>
                             )}
+                            <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                                PaperProps={{
+                                    sx: {
+                                        backgroundColor: "#F0EFEB",
+                                        width: "30rem",
+                                        padding: "0 1rem"
+                                    }
+                                }}
+                            >
+                                <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }} id="alert-dialog-title">
+                                    Are you sure?
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        This action cannot be undone
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <TextButton
+                                        onClick={handleClose}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        <span>Close</span>
+                                    </TextButton>
+                                    <TextButton
+                                        onClick={deleteItem}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        <span>Delete item</span>
+                                    </TextButton>
+                                </DialogActions>
+                            </Dialog>
                         </div>
                         <span className="item-detail-price">
                             {itemData.price}
@@ -128,11 +219,15 @@ ItemDetails.propTypes = {
         name: PropTypes.string,
         userId: PropTypes.number,
         description: PropTypes.string,
-        creationDate: PropTypes.string
+        creationDate: PropTypes.string,
+        isHidden: PropTypes.bool
     }).isRequired,
     classes: PropTypes.shape({
         icon: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    deleteItem: PropTypes.func.isRequired,
+    hideItem: PropTypes.func.isRequired,
+    showItem: PropTypes.func.isRequired
 };
 
 export default enhance(ItemDetails);

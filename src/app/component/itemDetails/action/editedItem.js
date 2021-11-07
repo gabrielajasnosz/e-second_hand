@@ -59,5 +59,29 @@ export const setEditedItemPrice = (price) => ({
 });
 
 export const editItem = () => {
-    ItemService.editItem(getEditedItemDetails(store.getState())).then(() => console.log("dziala"));
+    const editedItem = getEditedItemDetails(store.getState());
+    ItemService.editItem(editedItem).then(() => {
+        window.location.href = `/item/${editedItem.itemId}`;
+    });
+};
+
+export const deleteItem = () => {
+    const itemToDelete = getEditedItemDetails(store.getState()).itemId;
+    ItemService.deleteItem(itemToDelete).then(() => {
+        window.location.href = "/";
+    });
+};
+
+export const hideItem = () => {
+    const itemToDelete = getEditedItemDetails(store.getState()).itemId;
+    ItemService.manageItemVisibility(itemToDelete, true).then(() => {
+        window.location.href = `/item/${itemToDelete}`;
+    });
+};
+
+export const showItem = () => {
+    const itemToDelete = getEditedItemDetails(store.getState()).itemId;
+    ItemService.manageItemVisibility(itemToDelete, false).then(() => {
+        window.location.href = `/item/${itemToDelete}`;
+    });
 };
