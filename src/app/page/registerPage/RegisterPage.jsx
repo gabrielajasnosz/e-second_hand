@@ -129,13 +129,13 @@ const RegisterPage = ({
     }, [resetData]);
 
     return (
-        <div className="row">
-            <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
-            <div className="col-md-8 col-lg-6">
-                <div className="login d-flex align-items-center py-5">
-                    <div className="container">
+        <div className="row w-100">
+            <div className="d-none d-md-flex col-lg-6 bg-image image w-100" />
+            <div className="col-md-8 col-lg-6 w-100">
+                <div className="login d-flex align-items-center py-5 w-100">
+                    <div className="container w-100">
                         <div className="row">
-                            <div className="col-md-9 col-lg-8">
+                            <div className="w-100 mt-5 mb-5">
                                 {registrationStatus !== null && (
                                 <Alert
                                     severity={registrationStatus ? "success" : "error"}

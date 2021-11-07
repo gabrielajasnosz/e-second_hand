@@ -36,8 +36,11 @@ const ImageListContainer = ({
     };
 
     return (
-        <Box sx={{ width: 500, height: "35rem", overflow: "auto" }}>
-            <ImageList cols={2} rowHeight={250}>
+        <Box sx={{
+            width: "50rem", height: "35rem", overflow: "auto", padding: "1rem 1rem", backgroundColor: "#F0EFEB"
+        }}
+        >
+            <ImageList cols={2} rowHeight={300}>
                 {/* eslint-disable-next-line react/prop-types */}
                 {images.map((img) => (
                     // eslint-disable-next-line react/jsx-no-undef,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus

@@ -125,13 +125,13 @@ const LoginPage = ({
     }, [resetData]);
 
     return (
-        <div className="row g-0">
-            <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
-            <div className="col-md-8 col-lg-6">
-                <div className="login d-flex align-items-center py-5">
-                    <div className="container">
+        <div className="row w-100">
+            <div className="d-none d-md-flex col-lg-6 bg-image image w-100" />
+            <div className="col-md-8 col-lg-6 w-100">
+                <div className="login d-flex align-items-center py-5 w-100">
+                    <div className="container w-100">
                         <div className="row">
-                            <div className="col-md-9 col-lg-8">
+                            <div className="w-100 mt-5 mb-5">
                                 {registrationMessage !== null && (
                                 <Alert
                                     severity="info"
@@ -149,8 +149,8 @@ const LoginPage = ({
                                 </Alert>
                                 )}
                                 <h3 className="login-heading mb-3">Welcome back!</h3>
-                                <div className="form">
-                                    <div className="form-floating mb-3">
+                                <div className="form w-100">
+                                    <div className="form-floating mb-3 w-100">
                                         <TextInput label="E-mail" onChange={setEmail} />
                                     </div>
                                     <div className="form-floating mb-3">

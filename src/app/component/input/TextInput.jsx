@@ -44,8 +44,9 @@ const styles = {
         }
     },
     textField: {
-        width: "20rem",
-        marginTop: "0"
+        maxWidth: "20rem",
+        marginTop: "0",
+        width: "100%",
     },
 
     cssLabel: {
@@ -71,12 +72,14 @@ const styles = {
         fontSize: "12px",
     },
     descriptionInput: {
-        width: "25rem",
-        height: "3rem !important",
+        maxWidth: "20rem",
+        width: "100%",
+        minHeight: "3rem !important",
+        height: "auto",
         marginTop: "0"
     },
     description: {
-        width: "22rem",
+        maxWidth: "22rem",
         marginTop: "0"
     },
     userIcon: {

@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import withStyles from "@material-ui/core/styles/withStyles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
+import moment from "moment";
 import EditItemDetails from "./EditItemDetails";
 import { UserService } from "../../service/UserService";
 import { getItemDetails } from "../../page/itemPage/selectors";
@@ -39,11 +40,18 @@ const ItemDetails = ({
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
     const userHasRightToEdit = isLoggedIn && UserService.decodedTokenValue.userId === itemData.userId;
 
+    const date = moment(itemData.creationDate).format("DD MMM, YYYY");
+
     return (
         <div className="item-info">
             <div className="item-details">
                 {!isEditModeOn ? (
                     <>
+                        <span className="date">
+                            Added
+                            {" "}
+                            {date}
+                        </span>
                         <div style={{
                             display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between", marginBottom: "1rem"
                         }}
@@ -119,7 +127,8 @@ ItemDetails.propTypes = {
         price: PropTypes.number,
         name: PropTypes.string,
         userId: PropTypes.number,
-        description: PropTypes.string
+        description: PropTypes.string,
+        creationDate: PropTypes.string
     }).isRequired,
     classes: PropTypes.shape({
         icon: PropTypes.string.isRequired

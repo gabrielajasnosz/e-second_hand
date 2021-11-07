@@ -102,7 +102,7 @@ const AddItemImage = ({
             <div className="form-floating mb-3  step-content">
                 <span className={classes.cssLabelName}>Size *</span>
                 <SelectInput label={null} onChange={setSize} defaultValue={newItemSize}>
-                    {sizes[type.toLowerCase()].map((item) => [
+                    {sizes[type].map((item) => [
                         <MenuItem key={item.id} value={item.id}>
                             {item.name}
                         </MenuItem>

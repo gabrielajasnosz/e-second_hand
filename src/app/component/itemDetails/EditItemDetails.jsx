@@ -34,7 +34,7 @@ const styles = {
     chosenCategory: {
         display: "flex",
         flexDirection: "row",
-        width: "20rem",
+        maxWidth: "20rem",
         border: "1px #bababa solid",
         alignItems: "center",
         borderRadius: "4px",
@@ -96,7 +96,8 @@ const styles = {
     },
     editButton: {
         padding: "0 8px",
-        marginTop: "2rem"
+        marginTop: "2rem",
+        marginBottom: "1rem"
     },
     back: {
         color: "rgba(0, 0, 0, 0.54)",

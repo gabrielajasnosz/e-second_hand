@@ -3,7 +3,8 @@
 
 
 .app-button {
-  width: 20rem;
+  max-width: 20rem;
+  width: 100%;
   height: 56px;
   border-radius: .3rem;
   cursor: pointer;

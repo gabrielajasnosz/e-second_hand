@@ -38,7 +38,8 @@ const styles = {
         }
     },
     textField: {
-        width: "20rem",
+        maxWidth: "20rem",
+        width: "100%",
         marginTop: "0",
         marginBottom: "8px"
     },

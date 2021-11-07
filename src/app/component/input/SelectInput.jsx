@@ -36,9 +36,10 @@ const styles = {
         }
     },
     textField: {
-        width: "20rem",
+        maxWidth: "20rem",
         marginTop: "0",
-        marginBottom: "8px"
+        marginBottom: "8px",
+        width: "100%",
     },
     cssLabel: {
         color: "black !important",
