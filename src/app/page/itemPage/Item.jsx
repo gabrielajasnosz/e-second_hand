@@ -1,39 +1,52 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useReducer } from "react";
-// eslint-disable-next-line import/no-duplicates
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import item, { initialState } from "./reducer/index";
-import Header from "../../component/header/Header";
-import Footer from "../../component/footer/Footer";
 import "./Item.scss";
-// eslint-disable-next-line no-unused-vars
-import { ItemService } from "../../service/ItemService";
+import { bindActionCreators } from "redux";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import ImageListContainer from "../../component/imageList/ImageListContainer";
+import {
+    getItem as getItemActionCreator,
+} from "./action/item";
+import { getItemDetails } from "./selectors";
+import ItemDetails from "../../component/itemDetails/ItemDetails";
 
-const Item = () => {
-    // eslint-disable-next-line no-unused-vars
-    const [state, dispatch] = useReducer(item, initialState);
+const mapStateToProps = (state) => ({
+    item: getItemDetails(state),
+});
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    getItem: getItemActionCreator,
+}, dispatch);
+
+const enhance = compose(
+    connect(mapStateToProps,
+        mapDispatchToProps)
+);
+
+const Item = ({ item, getItem }) => {
     const { id } = useParams();
 
     useEffect(() => {
-        console.log(id);
-        ItemService.getItem(id).then((response) => response.json()).then((json) => {
-            dispatch({ type: "ITEM_SET_ITEM", item: json });
-        });
-    }, [id]);
+        getItem(id);
+    }, [getItem, id]);
 
     return (
-        <div>
-            <Header />
-            <div className="content">
-                <span style={{ fontSize: "50px", color: "black" }}>{id}</span>
-                <span style={{ fontSize: "50px", color: "black" }}>{state.item.category}</span>
-                { state.item.itemPictures && <ImageListContainer images={state.item.itemPictures} /> }
-            </div>
-            <Footer />
+        <div className="content">
+            <ItemDetails />
+            { item.itemPictures && <ImageListContainer images={item.itemPictures} /> }
         </div>
     );
 };
 
-export default Item;
+Item.propTypes = {
+    getItem: PropTypes.func.isRequired,
+    item: PropTypes.shape({
+        // eslint-disable-next-line react/forbid-prop-types
+        itemPictures: PropTypes.array,
+        id: PropTypes.number
+    }).isRequired
+};
+
+export default enhance(Item);

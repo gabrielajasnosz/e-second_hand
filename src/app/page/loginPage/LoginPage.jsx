@@ -10,8 +10,6 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import { useParams } from "react-router";
-import Header from "../../component/header/Header";
-import Footer from "../../component/footer/Footer";
 import BasicButton from "../../component/button/BasicButton";
 
 import {
@@ -41,7 +39,7 @@ const propTypes = {
     passwordEmpty: PropTypes.bool.isRequired,
     emailEmpty: PropTypes.bool.isRequired,
     loginUser: PropTypes.func.isRequired,
-    isLoginSuccessful: PropTypes.bool.isRequired,
+    isLoginSuccessful: PropTypes.bool,
     resetData: PropTypes.func.isRequired,
     isAccountConfirmation: PropTypes.bool
 };
@@ -127,87 +125,81 @@ const LoginPage = ({
     }, [resetData]);
 
     return (
-
-        <div>
-            <Header />
-            <div className="content">
-                <div className="row g-0">
-                    <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
-                    <div className="col-md-8 col-lg-6">
-                        <div className="login d-flex align-items-center py-5">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-9 col-lg-8">
-                                        {registrationMessage !== null && (
-                                            <Alert
-                                                severity="info"
-                                                classes={{ root: classes.alert, message: classes.message }}
-                                            >
-                                                {registrationMessage}
-                                            </Alert>
-                                        )}
-                                        {isLoginSuccessful === false && (
-                                            <Alert
-                                                severity="error"
-                                                classes={{ root: classes.alert, message: classes.message }}
-                                            >
-                                                Wrong email or password
-                                            </Alert>
-                                        )}
-                                        <h3 className="login-heading mb-3">Welcome back!</h3>
-                                        <div className="form">
-                                            <div className="form-floating mb-3">
-                                                <TextInput label="E-mail" onChange={setEmail} />
-                                            </div>
-                                            <div className="form-floating mb-3">
-                                                <PasswordInput
-                                                    label="Password"
-                                                    onChange={setPassword}
-                                                    showPassword={showPassword}
-                                                    setShowPassword={setShowPassword}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="d-grid">
-                                            <BasicButton
-                                                onButtonClick={loginUser}
-                                                label="Sign in"
-                                                disabled={isButtonEnabled}
-                                            >
-                                                <span> Sign in </span>
-                                            </BasicButton>
-                                            <hr />
-                                            <div className="createNewAccount">
-                                                {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                                <span className="helper-text">Don't have an account?</span>
-                                                <div style={{ marginTop: "1rem" }}>
-                                                    <BasicButton
-                                                        onButtonClick={navigateToRegisterPage}
-                                                        label="Sign up"
-                                                        buttonClassName="reverse-button"
-                                                    >
-                                                        <span> Sign up </span>
-                                                    </BasicButton>
-                                                </div>
-                                            </div>
-                                        </div>
-
+        <div className="row g-0">
+            <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
+            <div className="col-md-8 col-lg-6">
+                <div className="login d-flex align-items-center py-5">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-9 col-lg-8">
+                                {registrationMessage !== null && (
+                                <Alert
+                                    severity="info"
+                                    classes={{ root: classes.alert, message: classes.message }}
+                                >
+                                    {registrationMessage}
+                                </Alert>
+                                )}
+                                {isLoginSuccessful === false && (
+                                <Alert
+                                    severity="error"
+                                    classes={{ root: classes.alert, message: classes.message }}
+                                >
+                                    Wrong email or password
+                                </Alert>
+                                )}
+                                <h3 className="login-heading mb-3">Welcome back!</h3>
+                                <div className="form">
+                                    <div className="form-floating mb-3">
+                                        <TextInput label="E-mail" onChange={setEmail} />
+                                    </div>
+                                    <div className="form-floating mb-3">
+                                        <PasswordInput
+                                            label="Password"
+                                            onChange={setPassword}
+                                            showPassword={showPassword}
+                                            setShowPassword={setShowPassword}
+                                        />
                                     </div>
                                 </div>
+
+                                <div className="d-grid">
+                                    <BasicButton
+                                        onButtonClick={loginUser}
+                                        label="Sign in"
+                                        disabled={isButtonEnabled}
+                                    >
+                                        <span> Sign in </span>
+                                    </BasicButton>
+                                    <hr />
+                                    <div className="createNewAccount">
+                                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                                        <span className="helper-text">Don't have an account?</span>
+                                        <div style={{ marginTop: "1rem" }}>
+                                            <BasicButton
+                                                onButtonClick={navigateToRegisterPage}
+                                                label="Sign up"
+                                                buttonClassName="reverse-button"
+                                            >
+                                                <span> Sign up </span>
+                                            </BasicButton>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };
 
 LoginPage.propTypes = propTypes;
 LoginPage.defaultProps = {
-    isAccountConfirmation: false
+    isAccountConfirmation: false,
+    isLoginSuccessful: null
 };
 
 export default enhance(LoginPage);

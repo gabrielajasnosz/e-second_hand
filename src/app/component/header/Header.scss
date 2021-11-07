@@ -12,6 +12,9 @@
 
   .navbar-brand {
     margin: 0 1rem;
+    &:hover{
+    cursor: pointer
+  }
   }
 
   img {

@@ -19,6 +19,13 @@ import {
     setSex as setSexActionCreator
 } from "../addItem/action/newItem";
 import { getSubcategories } from "../header/selectors";
+import {
+    setEditedItemCategoryGender as setEditedItemCategoryGenderActionCreator,
+    setEditedItemProductType as setEditedItemTypeActionCreator,
+    setEditedItemCategory as setEditedItemCategoryActionCreator,
+    setEditedItemSize as setEditedItemSizeActionCreator
+} from "../itemDetails/action/editedItem";
+import { getEditedItemType } from "../itemDetails/selectors";
 
 const propTypes = {
     classes: PropTypes.shape({
@@ -37,7 +44,12 @@ const propTypes = {
     setCategory: PropTypes.func.isRequired,
     setCategoryId: PropTypes.func.isRequired,
     setType: PropTypes.func.isRequired,
-    setSex: PropTypes.func.isRequired
+    setSex: PropTypes.func.isRequired,
+    setCategoryGender: PropTypes.func.isRequired,
+    setItemType: PropTypes.func.isRequired,
+    setItemCategory: PropTypes.func.isRequired,
+    setItemSize: PropTypes.func.isRequired,
+    productType: PropTypes.number
 };
 const styles = {
     field: {
@@ -79,11 +91,17 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setCategory: setCategoryActionCreator,
     setCategoryId: setCategoryIdActionCreator,
     setType: setTypeActionCreator,
-    setSex: setSexActionCreator
+    setSex: setSexActionCreator,
+    setCategoryGender: setEditedItemCategoryGenderActionCreator,
+    setItemType: setEditedItemTypeActionCreator,
+    setItemCategory: setEditedItemCategoryActionCreator,
+    setItemSize: setEditedItemSizeActionCreator
+
 }, dispatch);
 
 const mapStateToProps = (state) => ({
     categories: getSubcategories(state),
+    productType: getEditedItemType(state)
 });
 
 const enhance = compose(
@@ -93,7 +111,12 @@ const enhance = compose(
 );
 
 const CategoryPopover = ({
-    classes, categories, sex, openContext, setCategory, onClose, setType, setSex, setCategoryId
+    classes,
+    categories,
+    sex,
+    openContext,
+    setCategory,
+    onClose, setType, setSex, setCategoryId, setCategoryGender, setItemType, setItemCategory, productType, setItemSize
 }) => {
     const [content, setContent] = useState([]);
     const [previousContent, setPreviousContent] = useState([]);
@@ -180,7 +203,7 @@ const CategoryPopover = ({
                                             if (currentContentId === 0) {
                                                 setType(element.name);
                                             }
-                                        } else if (element.subCategories.length !== 0 && openContext === "ITEM") {
+                                        } else if (element.subCategories.length !== 0) {
                                             setPreviousContent(
                                                 [...previousContent, {
                                                     contentId: currentContentId,
@@ -188,22 +211,45 @@ const CategoryPopover = ({
                                                     content: filteredContent
                                                 }]
                                             );
-                                            if (gender === "UNDEFINED") {
-                                                setGender(element.name.toUpperCase());
+                                            if (openContext === "ITEM") {
+                                                if (gender === "UNDEFINED") {
+                                                    setGender(element.name.toUpperCase());
+                                                }
+                                                if (currentContentId === 0) {
+                                                    setSex(element.name);
+                                                }
+                                                if (currentContentId === 1) {
+                                                    setType(element.id);
+                                                }
                                             }
-                                            if (currentContentId === 0) {
-                                                setSex(element.name);
-                                            }
-                                            if (currentContentId === 1) {
-                                                setType(element.name);
+                                            if (openContext === "EDIT_ITEM") {
+                                                if (gender === "UNDEFINED") {
+                                                    setGender(element.name.toUpperCase());
+                                                }
+                                                if (currentContentId === 0) {
+                                                    setCategoryGender(element.name);
+                                                }
+                                                if (currentContentId === 1) {
+                                                    if (productType !== element.id) {
+                                                        setItemSize(null);
+                                                    }
+                                                    setItemType(element.id);
+                                                }
                                             }
 
                                             setContent(element.subCategories);
                                             setCurrentContentId(currentContentId + 1);
-                                        } else if (element.subCategories.length === 0 && openContext === "ITEM") {
-                                            setCategory(element);
-                                            setCategoryId(element.id);
-                                            onClose();
+                                        } else if (element.subCategories.length === 0) {
+                                            if (openContext === "ITEM") {
+                                                setCategory(element);
+                                                setCategoryId(element.id);
+                                                onClose();
+                                            }
+                                            if (openContext === "EDIT_ITEM") {
+                                                setItemCategory(element.name);
+                                                setCategoryGender(element.gender);
+                                                onClose();
+                                            }
                                         }
                                     }}
                                 >
@@ -225,5 +271,9 @@ const CategoryPopover = ({
 };
 
 CategoryPopover.propTypes = propTypes;
+
+CategoryPopover.defaultProps = {
+    productType: 0,
+};
 
 export default enhance(CategoryPopover);

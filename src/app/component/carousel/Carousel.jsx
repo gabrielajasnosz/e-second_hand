@@ -25,6 +25,7 @@ const styles = {
         transform: "translate(-50%, -50%)",
         width: "auto",
         maxWidth: "40rem",
+        minWidth: "35rem",
         height: "auto",
         backgroundColor: "#F0EFEB !important",
         borderRadius: ".3rem",

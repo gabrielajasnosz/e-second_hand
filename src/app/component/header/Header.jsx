@@ -8,7 +8,7 @@ import withHandlers from "recompose/withHandlers";
 import { Button, withStyles } from "@material-ui/core";
 import Popover from "@material-ui/core/Popover";
 import classNames from "classnames";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
@@ -104,7 +104,8 @@ const enhance = compose(
 );
 
 const Header = ({
-    fetchCategories, classes, fetchSizes, fetchBrands, fetchColors
+    // eslint-disable-next-line react/prop-types
+    fetchCategories, classes, fetchSizes, fetchBrands, fetchColors, history
 }) => {
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
@@ -114,12 +115,12 @@ const Header = ({
         setAnchorFemale(event.currentTarget);
     };
 
-    const history = useHistory();
-
     const navigateToLoginPage = () => {
+        // eslint-disable-next-line react/prop-types
         history.push("/login");
     };
     const navigateToRegisterPage = () => {
+        // eslint-disable-next-line react/prop-types
         history.push("/register");
     };
 
@@ -160,8 +161,9 @@ const Header = ({
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div className="container-fluid">
-                <img src="assets/images/logo.png" alt="Logo" />
-                <a className="navbar-brand" href="/">e-second-hand</a>
+                <img src="assets/images/clothes-hanger.png" alt="" />
+                {/* eslint-disable-next-line react/prop-types,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
+                <div className="navbar-brand" role="button" onClick={() => history.push("/")}>e-second-hand</div>
                 <MenuIconButton label="lol" onButtonClick={() => {}} buttonClassName="navbar-toggler" />
                 <div className="collapse navbar-collapse justify-content-between" id="navbarResponsive">
                     <div className="navbar-nav">
@@ -263,4 +265,4 @@ const Header = ({
 };
 
 Header.propTypes = propTypes;
-export default enhance(Header);
+export default enhance(withRouter(Header));

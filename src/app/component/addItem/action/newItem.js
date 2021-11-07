@@ -99,7 +99,9 @@ export const saveItem = () => () => {
     const formData = new FormData();
 
     formData.append("name", data.name);
-    formData.append("description", data.description);
+    if (data.description !== null && data.description !== "") {
+        formData.append("description", data.description);
+    }
     formData.append("categoryId", data.categoryId);
     formData.append("colorId", data.colorId);
     formData.append("sizeId", data.sizeId);

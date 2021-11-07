@@ -11,8 +11,6 @@ import {
 import { useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import BasicButton from "../../component/button/BasicButton";
-import Footer from "../../component/footer/Footer";
-import Header from "../../component/header/Header";
 import {
     setPassword as setPasswordActionCreator,
     setDisplayName as setDisplayNameActionCreator,
@@ -131,72 +129,67 @@ const RegisterPage = ({
     }, [resetData]);
 
     return (
-        <div>
-            <Header />
-            <div className="content">
-                <div className="row">
-                    <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
-                    <div className="col-md-8 col-lg-6">
-                        <div className="login d-flex align-items-center py-5">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-9 col-lg-8">
-                                        {registrationStatus !== null && (
-                                        <Alert
-                                            severity={registrationStatus ? "success" : "error"}
-                                            classes={{ root: classes.alert, message: classes.message }}
-                                        >
-                                            {registrationMessage}
-                                        </Alert>
-                                        )}
-                                        <h3 className="login-heading mb-3">Create new account</h3>
-                                        <form className="form">
-                                            <div className="form-floating mb-3">
-                                                <TextInput label="Your first and last name" onChange={setDisplayName} />
-                                            </div>
-                                            <div className="form-floating mb-3">
-                                                <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect} />
-                                            </div>
-                                            <div className="form-floating mb-3">
-                                                <SelectInput label="Sex" onChange={setSex} color="white" defaultValue={sex}>
-                                                    <MenuItem value="WOMAN" className={classes.cssLabel}>
-                                                        Woman
-                                                    </MenuItem>
-                                                    <MenuItem value="MAN" className={classes.cssLabel}>
-                                                        Man
-                                                    </MenuItem>
-                                                    <MenuItem value="UNDEFINED" className={classes.cssLabel}>
-                                                        Other
-                                                    </MenuItem>
-                                                </SelectInput>
-                                            </div>
-                                            <div className="form-floating mb-3">
-                                                <PasswordInput
-                                                    label="Password"
-                                                    onChange={setPassword}
-                                                    showPassword={showPassword}
-                                                    setShowPassword={setShowPassword}
-                                                />
-                                            </div>
-                                        </form>
-                                        <div className="d-grid">
-                                            <BasicButton onButtonClick={registerUser} label="Sign up" disabled={isButtonEnabled}>
-                                                <span> Sign up </span>
+        <div className="row">
+            <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image image" />
+            <div className="col-md-8 col-lg-6">
+                <div className="login d-flex align-items-center py-5">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-9 col-lg-8">
+                                {registrationStatus !== null && (
+                                <Alert
+                                    severity={registrationStatus ? "success" : "error"}
+                                    classes={{ root: classes.alert, message: classes.message }}
+                                >
+                                    {registrationMessage}
+                                </Alert>
+                                )}
+                                <h3 className="login-heading mb-3">Create new account</h3>
+                                <form className="form">
+                                    <div className="form-floating mb-3">
+                                        <TextInput label="Your first and last name" onChange={setDisplayName} />
+                                    </div>
+                                    <div className="form-floating mb-3">
+                                        <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect} />
+                                    </div>
+                                    <div className="form-floating mb-3">
+                                        <SelectInput label="Sex" onChange={setSex} color="white" defaultValue={sex}>
+                                            <MenuItem value="WOMAN" className={classes.cssLabel}>
+                                                Woman
+                                            </MenuItem>
+                                            <MenuItem value="MAN" className={classes.cssLabel}>
+                                                Man
+                                            </MenuItem>
+                                            <MenuItem value="UNDEFINED" className={classes.cssLabel}>
+                                                Other
+                                            </MenuItem>
+                                        </SelectInput>
+                                    </div>
+                                    <div className="form-floating mb-3">
+                                        <PasswordInput
+                                            label="Password"
+                                            onChange={setPassword}
+                                            showPassword={showPassword}
+                                            setShowPassword={setShowPassword}
+                                        />
+                                    </div>
+                                </form>
+                                <div className="d-grid">
+                                    <BasicButton onButtonClick={registerUser} label="Sign up" disabled={isButtonEnabled}>
+                                        <span> Sign up </span>
+                                    </BasicButton>
+                                    <hr />
+                                    <div className="createNewAccount">
+                                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                                        <span className="helper-text">Already have an account?</span>
+                                        <div style={{ marginTop: "1rem" }}>
+                                            <BasicButton
+                                                onButtonClick={navigateToLoginPage}
+                                                label="Sign in"
+                                                buttonClassName="reverse-button"
+                                            >
+                                                <span> Sign in </span>
                                             </BasicButton>
-                                            <hr />
-                                            <div className="createNewAccount">
-                                                {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                                <span className="helper-text">Already have an account?</span>
-                                                <div style={{ marginTop: "1rem" }}>
-                                                    <BasicButton
-                                                        onButtonClick={navigateToLoginPage}
-                                                        label="Sign in"
-                                                        buttonClassName="reverse-button"
-                                                    >
-                                                        <span> Sign in </span>
-                                                    </BasicButton>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -205,7 +198,6 @@ const RegisterPage = ({
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };

@@ -45,6 +45,15 @@
     }
   }
 
+  &.cancel-button {
+    background-color: $basic-light-green;
+    margin-top: 1rem;
+
+    &:hover{
+      background-color: $basic-medium-green;
+    }
+  }
+
 
   &:active, &:focus {
     outline: none;
