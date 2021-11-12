@@ -25,6 +25,7 @@ import {
     setEditedItemSize as setEditedItemSizeActionCreator,
     setEditedItemPrice as setEditedItemPriceActionCreator,
     setEditedItemGender as setEditedItemGenderActionCreator,
+    setEditedItemProductType as setEditedItemProductTypeActionCreator,
     editItem as editItemActionCreator
 } from "./action/editedItem";
 
@@ -126,6 +127,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setEditedItemPrice: setEditedItemPriceActionCreator,
     setEditedItemBrand: setEditedItemBrandActionCreator,
     setEditedItemGender: setEditedItemGenderActionCreator,
+    setEditedItemProductType: setEditedItemProductTypeActionCreator,
     editItem: editItemActionCreator
 }, dispatch);
 
@@ -138,9 +140,9 @@ const enhance = compose(
         setEditedItemPrice: ({ setEditedItemPrice }) => (e) => setEditedItemPrice(e.target.value),
         setEditedItemDescription: ({ setEditedItemDescription }) => (e) => setEditedItemDescription(e.target.value),
         setEditedItemBrand: ({ setEditedItemBrand }) => (e) => setEditedItemBrand(e.target.value),
-        setEditedItemSize: ({ setEditedItemSize }) => (e) => setEditedItemSize(e.target.value),
+        changeEditedItemSize: ({ setEditedItemSize }) => (e) => setEditedItemSize(e.target.value),
         setEditedItemColor: ({ setEditedItemColor }) => (e) => setEditedItemColor(e.target.value),
-        setEditedItemGender: ({ setEditedItemGender }) => (e) => setEditedItemGender(e.target.value),
+        changeEditedItemGender: ({ setEditedItemGender }) => (e) => setEditedItemGender(e.target.value),
 
     }))
 );
@@ -151,6 +153,7 @@ const EditItemDetails = ({
     brands,
     colors,
     sizes,
+    type,
     setEditedItemName,
     setEditedItemPrice,
     setEditedItemDescription,
@@ -158,8 +161,12 @@ const EditItemDetails = ({
     setEditedItemSize,
     setEditedItemColor,
     setEditedItemGender,
+    setEditedItemCategory,
     setEditModeOn,
-    editItem
+    editItem,
+    changeEditedItemGender,
+    setEditedItemProductType,
+    changeEditedItemSize
 }) => {
     const [anchorGender, setAnchorGender] = React.useState(null);
 
@@ -225,7 +232,16 @@ const EditItemDetails = ({
                         paper: classes.paper
                     }}
                 >
-                    <CategoryPopover openContext="EDIT_ITEM" sex="UNDEFINED" onClose={handleCloseGender} />
+                    <CategoryPopover
+                        openContext="EDIT_ITEM"
+                        sex="UNDEFINED"
+                        onClose={handleCloseGender}
+                        setSex={setEditedItemGender}
+                        setType={setEditedItemProductType}
+                        setCategory={setEditedItemCategory}
+                        setItemSize={setEditedItemSize}
+                        productType={type}
+                    />
                 </Popover>
             </div>
 
@@ -253,7 +269,7 @@ const EditItemDetails = ({
             { itemData.categoryGender === "UNDEFINED" && (
                 <div className="form-floating mb-3  step-content">
                     <span className={classes.cssLabelName}>Gender *</span>
-                    <SelectInput label={null} onChange={setEditedItemGender} defaultValue={itemData.gender}>
+                    <SelectInput label={null} onChange={changeEditedItemGender} defaultValue={itemData.gender}>
                         <MenuItem value="WOMAN" className={classes.cssLabel}>
                             Woman
                         </MenuItem>
@@ -269,7 +285,7 @@ const EditItemDetails = ({
             )}
             <div className="form-floating mb-3  step-content">
                 <span className={classes.cssLabelName}>Size *</span>
-                <SelectInput label={null} onChange={setEditedItemSize} defaultValue={itemData.size}>
+                <SelectInput label={null} onChange={changeEditedItemSize} defaultValue={itemData.size}>
                     {sizes[productType].map((item) => [
                         <MenuItem key={item} value={item.name}>
                             {item.name}
@@ -324,6 +340,10 @@ EditItemDetails.propTypes = {
     setEditedItemColor: PropTypes.func.isRequired,
     setEditedItemGender: PropTypes.func.isRequired,
     setEditModeOn: PropTypes.func.isRequired,
+    changeEditedItemGender: PropTypes.func.isRequired,
+    setEditedItemProductType: PropTypes.func.isRequired,
+    setEditedItemCategory: PropTypes.func.isRequired,
+    changeEditedItemSize: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
     editItem: PropTypes.func.isRequired
 };

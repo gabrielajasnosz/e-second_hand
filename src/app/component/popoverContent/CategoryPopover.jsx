@@ -11,104 +11,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import {
-    setCategory as setCategoryActionCreator,
-    setCategoryId as setCategoryIdActionCreator,
-    setType as setTypeActionCreator,
-    setSex as setSexActionCreator
-} from "../addItem/action/newItem";
 import { getSubcategories } from "../header/selectors";
-import {
-    setEditedItemCategoryGender as setEditedItemCategoryGenderActionCreator,
-    setEditedItemProductType as setEditedItemTypeActionCreator,
-    setEditedItemCategory as setEditedItemCategoryActionCreator,
-    setEditedItemSize as setEditedItemSizeActionCreator
-} from "../itemDetails/action/editedItem";
-import { getEditedItemType } from "../itemDetails/selectors";
-
-const propTypes = {
-    classes: PropTypes.shape({
-        field: PropTypes.string.isRequired,
-        fieldBack: PropTypes.string.isRequired,
-        subcategory: PropTypes.string.isRequired,
-        img: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-        goBackButton: PropTypes.string.isRequired
-    }).isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    categories: PropTypes.any.isRequired,
-    sex: PropTypes.string.isRequired,
-    openContext: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
-    setCategory: PropTypes.func.isRequired,
-    setCategoryId: PropTypes.func.isRequired,
-    setType: PropTypes.func.isRequired,
-    setSex: PropTypes.func.isRequired,
-    setCategoryGender: PropTypes.func.isRequired,
-    setItemType: PropTypes.func.isRequired,
-    setItemCategory: PropTypes.func.isRequired,
-    setItemSize: PropTypes.func.isRequired,
-    productType: PropTypes.number
-};
-const styles = {
-    field: {
-        textTransform: "capitalize",
-        color: "black !important",
-        fontFamily: "Open Sans, sans-serif !important",
-        fontSize: "14px !important",
-        width: "9rem"
-    },
-    fieldBack: {
-        textTransform: "capitalize",
-        color: "#393938",
-        fontFamily: "Open Sans, sans-serif !important",
-        fontSize: "14px !important",
-        paddingLeft: "1rem"
-    },
-    subcategory: {
-        textTransform: "capitalize",
-        color: "black !important",
-        fontFamily: "Open Sans, sans-serif !important",
-        fontSize: "14px !important",
-        width: "10rem",
-        marginLeft: "2.5rem !important"
-    },
-    img: {
-        height: "20px",
-        marginRight: "1rem"
-    },
-    icon: {
-        color: "#393938",
-        fontSize: "20px",
-    },
-    goBackButton: {
-        paddingTop: "0.5rem"
-    }
-};
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setCategory: setCategoryActionCreator,
-    setCategoryId: setCategoryIdActionCreator,
-    setType: setTypeActionCreator,
-    setSex: setSexActionCreator,
-    setCategoryGender: setEditedItemCategoryGenderActionCreator,
-    setItemType: setEditedItemTypeActionCreator,
-    setItemCategory: setEditedItemCategoryActionCreator,
-    setItemSize: setEditedItemSizeActionCreator
-
-}, dispatch);
-
-const mapStateToProps = (state) => ({
-    categories: getSubcategories(state),
-    productType: getEditedItemType(state)
-});
-
-const enhance = compose(
-    connect(mapStateToProps,
-        mapDispatchToProps),
-    withStyles(styles)
-);
 
 const CategoryPopover = ({
     classes,
@@ -116,7 +19,7 @@ const CategoryPopover = ({
     sex,
     openContext,
     setCategory,
-    onClose, setType, setSex, setCategoryId, setCategoryGender, setItemType, setItemCategory, productType, setItemSize
+    onClose, setType, setSex, productType, setItemSize
 }) => {
     const [content, setContent] = useState([]);
     const [previousContent, setPreviousContent] = useState([]);
@@ -182,28 +85,7 @@ const CategoryPopover = ({
                                 <ListItemButton
                                     disableRipple
                                     onClick={() => {
-                                        if (element.subCategories.length !== 0 && openContext === "HEADER") {
-                                            const subcategories = Array.from(element.subCategories);
-                                            subcategories.push({
-                                                gender: gender.toUpperCase(),
-                                                id: 1000,
-                                                name: "All",
-                                                parentId: element.id,
-                                                subCategories: []
-                                            });
-                                            setPreviousContent(
-                                                [...previousContent, {
-                                                    contentId: currentContentId,
-                                                    contentName: element.name,
-                                                    content: filteredContent
-                                                }]
-                                            );
-                                            setContent(subcategories);
-                                            setCurrentContentId(currentContentId + 1);
-                                            if (currentContentId === 0) {
-                                                setType(element.name);
-                                            }
-                                        } else if (element.subCategories.length !== 0) {
+                                        if (element.subCategories.length !== 0) {
                                             setPreviousContent(
                                                 [...previousContent, {
                                                     contentId: currentContentId,
@@ -214,39 +96,35 @@ const CategoryPopover = ({
                                             if (gender === "UNDEFINED") {
                                                 setGender(element.name.toUpperCase());
                                             }
-                                            if (openContext === "ITEM") {
-                                                if (currentContentId === 0) {
-                                                    setSex(element.name);
-                                                }
-                                                if (currentContentId === 1) {
-                                                    setType(element.id);
-                                                }
+                                            if (currentContentId === 0 && setSex) {
+                                                setSex(element.name);
                                             }
-                                            if (openContext === "EDIT_ITEM") {
-                                                if (currentContentId === 0) {
-                                                    setCategoryGender(element.name);
-                                                }
-                                                if (currentContentId === 1) {
-                                                    if (productType !== element.id) {
-                                                        setItemSize(null);
-                                                    }
-                                                    setItemType(element.id);
-                                                }
-                                            }
+                                            if (currentContentId === 1 && setType) {
+                                                setType(element.id);
 
-                                            setContent(element.subCategories);
-                                            setCurrentContentId(currentContentId + 1);
+                                                if (productType && productType !== element.id && setItemSize) {
+                                                    setItemSize(null);
+                                                }
+                                            }
+                                            if (openContext === "HEADER") {
+                                                const subcategories = Array.from(element.subCategories);
+                                                subcategories.push({
+                                                    gender: gender.toUpperCase(),
+                                                    id: 1000,
+                                                    name: "All",
+                                                    parentId: element.id,
+                                                    subCategories: []
+                                                });
+                                                setContent(subcategories);
+                                                setCurrentContentId(currentContentId + 1);
+                                            } else {
+                                                setContent(element.subCategories);
+                                                setCurrentContentId(currentContentId + 1);
+                                            }
                                         } else if (element.subCategories.length === 0) {
-                                            if (openContext === "ITEM") {
-                                                setCategory(element);
-                                                setCategoryId(element.id);
-                                                onClose();
-                                            }
-                                            if (openContext === "EDIT_ITEM") {
-                                                setItemCategory(element.name);
-                                                setCategoryGender(element.gender);
-                                                onClose();
-                                            }
+                                            setCategory(element);
+                                            setSex(element.gender);
+                                            onClose();
                                         }
                                     }}
                                 >
@@ -267,10 +145,79 @@ const CategoryPopover = ({
     );
 };
 
+const propTypes = {
+    classes: PropTypes.shape({
+        field: PropTypes.string.isRequired,
+        fieldBack: PropTypes.string.isRequired,
+        subcategory: PropTypes.string.isRequired,
+        img: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        goBackButton: PropTypes.string.isRequired
+    }).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    categories: PropTypes.any.isRequired,
+    sex: PropTypes.string.isRequired,
+    openContext: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    setCategory: PropTypes.func,
+    setType: PropTypes.func,
+    setSex: PropTypes.func,
+    setItemSize: PropTypes.func.isRequired,
+    productType: PropTypes.number
+};
+const styles = {
+    field: {
+        textTransform: "capitalize",
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
+        width: "9rem"
+    },
+    fieldBack: {
+        textTransform: "capitalize",
+        color: "#393938",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
+        paddingLeft: "1rem"
+    },
+    subcategory: {
+        textTransform: "capitalize",
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
+        width: "10rem",
+        marginLeft: "2.5rem !important"
+    },
+    img: {
+        height: "20px",
+        marginRight: "1rem"
+    },
+    icon: {
+        color: "#393938",
+        fontSize: "20px",
+    },
+    goBackButton: {
+        paddingTop: "0.5rem"
+    }
+};
+
+const mapStateToProps = (state) => ({
+    categories: getSubcategories(state),
+});
+
+const enhance = compose(
+    connect(mapStateToProps,
+        null),
+    withStyles(styles)
+);
+
 CategoryPopover.propTypes = propTypes;
 
 CategoryPopover.defaultProps = {
-    productType: 0,
+    productType: undefined,
+    setCategory: undefined,
+    setType: undefined,
+    setSex: undefined,
 };
 
 export default enhance(CategoryPopover);

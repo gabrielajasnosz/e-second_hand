@@ -13,8 +13,7 @@ export const initialState = {
     sorting: {
         sortingColumn: "creationDate",
         sortingOrder: "DESC"
-    },
-    isLoading: false
+    }
 };
 
 const itemList = (state = initialState, action) => {

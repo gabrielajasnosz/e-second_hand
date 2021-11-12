@@ -53,7 +53,7 @@ export const fetchItems = () => (dispatch) => {
         sortingColumn: data.sorting.sortingColumn,
         sortingOrder: data.sorting.sortingOrder,
         nextItemValue: data.nextItemValue,
-        pageSize: 2
+        pageSize: 10
     };
 
     if (data.nextItemId !== null || data.itemList.length === 0) {

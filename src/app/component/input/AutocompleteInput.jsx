@@ -11,6 +11,7 @@ const propTypes = {
         input: PropTypes.string,
         textField: PropTypes.string,
         cssLabel: PropTypes.string,
+        cssLabelWhite: PropTypes.string,
         cssOutlinedInput: PropTypes.string,
         cssFocused: PropTypes.string,
         notchedOutline: PropTypes.string,
@@ -18,6 +19,8 @@ const propTypes = {
         helperText: PropTypes.string
     }).isRequired,
     children: PropTypes.node,
+    disableAdding: PropTypes.bool,
+    color: PropTypes.string,
     defaultValue: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     passedOptions: PropTypes.array.isRequired
@@ -26,6 +29,8 @@ const propTypes = {
 const defaultProps = {
     children: null,
     label: null,
+    color: "beige",
+    disableAdding: false
 };
 
 const styles = {
@@ -50,6 +55,12 @@ const styles = {
         fontSize: "14px",
         backgroundColor: "#F0EFEB !important"
     },
+    cssLabelWhite: {
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
+        backgroundColor: "white !important"
+    },
     cssOutlinedInput: {
         height: "56px !important",
         "&$cssFocused $notchedOutline": {
@@ -72,7 +83,7 @@ const styles = {
 const filter = createFilterOptions();
 
 const AutocompleteInput = ({
-    onChange, classes, defaultValue, passedOptions
+    onChange, classes, defaultValue, passedOptions, color, disableAdding
 }) => (
     <Autocomplete
         onSelect={onChange}
@@ -82,7 +93,7 @@ const AutocompleteInput = ({
 
             const { inputValue } = params;
             const isExisting = options.some((option) => inputValue === option.name);
-            if (inputValue !== "" && !isExisting) {
+            if (inputValue !== "" && !isExisting && !disableAdding) {
                 filtered.push({
                     inputValue,
                     name: `Add "${inputValue}"`,
@@ -109,8 +120,8 @@ const AutocompleteInput = ({
         classes={{
             root: classes.cssOutlinedInput,
             option: classes.cssLabel,
-            inputRoot: classes.cssLabel,
-            input: classes.cssLabel,
+            inputRoot: color === "beige" ? classes.cssLabel : classes.cssLabelWhite,
+            input: color === "beige" ? classes.cssLabel : classes.cssLabelWhite,
             paper: classes.cssLabel
         }}
         freeSolo

@@ -2,16 +2,23 @@
 @import "../../assets/variables/fonts";
 
 .item-list {
-  margin: 1rem 4rem;
+  margin: 1rem 6rem;
 }
 
 .image-list{
   padding: 1rem;
-  margin: 0 1rem 4rem 1rem;
+  margin: 0 1rem 1rem 1rem;
   border-radius: .3rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
+}
+
+.item-loader{
+  display: flex;
+  justify-content: center;
+  color: red !important;
+  margin-bottom: 3rem;
 }
 

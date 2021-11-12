@@ -25,10 +25,22 @@ export const setBrand = (brand) => (dispatch) => {
     });
 };
 
+export const setCategoryId = (categoryId) => (dispatch) => {
+    dispatch({
+        type: newItemActions.setCategoryId,
+        categoryId
+    });
+};
+
 export const setCategory = (category) => (dispatch) => {
     dispatch({
         type: newItemActions.setCategory,
         category
+    });
+    const categoryId = category.id;
+    dispatch({
+        type: newItemActions.setCategoryId,
+        categoryId
     });
 };
 
@@ -76,13 +88,6 @@ export const setImages = (images) => (dispatch) => {
     dispatch({
         type: newItemActions.setImages,
         images
-    });
-};
-
-export const setCategoryId = (categoryId) => (dispatch) => {
-    dispatch({
-        type: newItemActions.setCategoryId,
-        categoryId
     });
 };
 

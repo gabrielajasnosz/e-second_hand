@@ -18,10 +18,18 @@ export const setEditedItemBrand = (brand) => ({
     brand
 });
 
-export const setEditedItemCategory = (category) => ({
-    type: editedItemActions.setEditedItemCategory,
-    category
-});
+export const setEditedItemCategory = (categoryElement) => (dispatch) => {
+    const category = categoryElement.name;
+    const categoryGender = categoryElement.gender;
+    dispatch({
+        type: editedItemActions.setEditedItemCategory,
+        category
+    });
+    dispatch({
+        type: editedItemActions.setEditedItemCategoryGender,
+        categoryGender
+    });
+};
 
 export const setEditedItemId = (itemId) => ({
     type: editedItemActions.setEditedItemId,

@@ -14,7 +14,8 @@ import {
     setBrand as setBrandActionCreator,
     setColor as setColorActionCreator,
     setCategory as setCategoryActionCreator,
-    setSex as setSexActionCreator
+    setSex as setSexActionCreator,
+    setType as setTypeActionCreator
 } from "./action/newItem";
 import {
     getNewItemBrand, getNewItemCategory, getNewItemColor, getNewItemSex, getType
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setCategory: setCategoryActionCreator,
     setColor: setColorActionCreator,
     setSex: setSexActionCreator,
+    setType: setTypeActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -46,13 +48,12 @@ const enhance = compose(
     withHandlers(() => ({
         setColor: ({ setColor }) => (e) => setColor(e.target.value),
         setBrand: ({ setBrand }) => (e) => setBrand(e.target.value),
-        setCategory: ({ setCategory }) => (e) => setCategory(e.target.value),
-        setSex: ({ setSex }) => (e) => setSex(e.target.value),
+        changeSex: ({ setSex }) => (e) => setSex(e.target.value),
     }))
 );
 
 const AddItemSelects = ({
-    classes, setBrand, setColor, newItemBrand, newItemColor, newItemCategory, brands, colors, setSex, newItemSex
+    classes, setBrand, setColor, newItemBrand, newItemColor, newItemCategory, brands, colors, setSex, newItemSex, setType, changeSex, setCategory
 }) => {
     const [anchorGender, setAnchorGender] = React.useState(null);
 
@@ -91,7 +92,14 @@ const AddItemSelects = ({
                             paper: classes.paper
                         }}
                     >
-                        <CategoryPopover openContext="ITEM" sex="UNDEFINED" onClose={handleCloseGender} />
+                        <CategoryPopover
+                            openContext="ITEM"
+                            sex="UNDEFINED"
+                            onClose={handleCloseGender}
+                            setSex={setSex}
+                            setType={setType}
+                            setCategory={setCategory}
+                        />
                     </Popover>
                 </div>
             ) : (
@@ -115,14 +123,21 @@ const AddItemSelects = ({
                             paper: classes.paper
                         }}
                     >
-                        <CategoryPopover openContext="ITEM" sex="UNDEFINED" onClose={handleCloseGender} />
+                        <CategoryPopover
+                            openContext="ITEM"
+                            sex="UNDEFINED"
+                            onClose={handleCloseGender}
+                            setSex={setSex}
+                            setType={setType}
+                            setCategory={setCategory}
+                        />
                     </Popover>
                 </div>
             ) }
             { newItemCategory !== "" && newItemCategory.gender === "UNDEFINED" && (
                 <div className="form-floating mb-3  step-content">
                     <span className={classes.cssLabelName}>Gender *</span>
-                    <SelectInput label={null} onChange={setSex} defaultValue={newItemSex}>
+                    <SelectInput label={null} onChange={changeSex} defaultValue={newItemSex}>
                         <MenuItem value="WOMAN" className={classes.cssLabel}>
                             Woman
                         </MenuItem>
@@ -169,6 +184,8 @@ const propTypes = {
     }).isRequired,
     setColor: PropTypes.func.isRequired,
     setBrand: PropTypes.func.isRequired,
+    setCategory: PropTypes.func.isRequired,
+    setType: PropTypes.func.isRequired,
     newItemBrand: PropTypes.string.isRequired,
     newItemColor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     newItemSex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -176,6 +193,7 @@ const propTypes = {
         name: PropTypes.string.isRequired,
         gender: PropTypes.string.isRequired
     })]).isRequired,
+    changeSex: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     brands: PropTypes.any.isRequired,
     // eslint-disable-next-line react/forbid-prop-types

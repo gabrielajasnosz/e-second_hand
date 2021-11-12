@@ -35,4 +35,19 @@
     cursor: pointer;
   }
 
+  .item-preview-author{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    align-content: center;
+
+    .author{
+      margin-left: 0.5rem;
+      text-transform: capitalize;
+      font-family: $preferred-font;
+      font-size: 14px;
+    }
+  }
+
 }

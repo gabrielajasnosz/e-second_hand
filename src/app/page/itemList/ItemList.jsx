@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./ItemList.scss";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
@@ -26,6 +26,9 @@ const styles = {
             width: "12vh !important",
             marginRight: "0 !important"
         }
+    },
+    progress: {
+        color: "#cb997e !important"
     }
 };
 
@@ -52,13 +55,8 @@ const ItemList = ({
 // eslint-disable-next-line no-unused-vars
     brands, sizes, colors, fetchItems, itemList, classes, history, resetData, nextItemId
 }) => {
-    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
-        setIsLoading(true);
-        setTimeout(() => {
-            fetchItems();
-            setIsLoading(false);
-        }, 4000);
+        fetchItems();
     }, [fetchItems]);
     useEffect(() => () => {
         resetData();
@@ -70,14 +68,21 @@ const ItemList = ({
                 pageStart={0}
                 loadMore={fetchItems}
                 hasMore={nextItemId !== null}
+                loader={(
+                    <div className="item-loader">
+                        <CircularProgress classes={{ svg: classes.progress }} />
+                    </div>
+)}
             >
                 {itemList && (
                     <div className="image-list">
                         {itemList.map((item) => <ItemPreview history={history} item={item} classes={classes} />)}
                     </div>
                 )}
-                {isLoading && (
-                    <CircularProgress />
+                {itemList.length === 0 && (
+                    <div className="item-loader">
+                        <CircularProgress classes={{ svg: classes.progress }} />
+                    </div>
                 )}
             </InfiniteScroll>
         </div>
@@ -95,7 +100,8 @@ ItemList.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     itemList: PropTypes.array.isRequired,
     classes: PropTypes.shape({
-        root: PropTypes.string.isRequired
+        root: PropTypes.string.isRequired,
+        progress: PropTypes.string.isRequired
     }).isRequired,
     history: PropTypes.string.isRequired,
     resetData: PropTypes.func.isRequired,
