@@ -35,6 +35,14 @@ function deleteItem(itemId) {
     }).then(handleResponse);
 }
 
+function getItems(filters) {
+    return fetch("http://localhost:8080/item/list", {
+        method: "POST",
+        body: JSON.stringify(filters),
+        headers: authHeader(),
+    }).then(handleResponse);
+}
+
 function manageItemVisibility(itemId, status) {
     return fetch(`http://localhost:8080/item/itemVisibility?itemId=${encodeURIComponent(itemId)}&status=${encodeURIComponent(status)}`, {
         method: "PUT",
@@ -47,5 +55,6 @@ export const ItemService = {
     getItem,
     editItem,
     deleteItem,
+    getItems,
     manageItemVisibility
 };

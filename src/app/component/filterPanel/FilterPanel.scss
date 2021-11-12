@@ -1,0 +1,13 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.filter-panel-container{
+  height: 3rem;
+  background-color: $basic-grey-color;
+  border-radius: .3rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 2rem;
+}

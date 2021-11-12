@@ -1,0 +1,38 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.item-preview-name{
+  margin-bottom: 0.5rem;
+  font-size: 14px !important;
+  font-family: $preferred-font !important;
+  width: 9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-preview-price{
+  margin-top: 0.5rem;
+  font-size: 14px !important;
+  font-family: $preferred-font !important;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  color: $warning;
+  font-weight: bold;
+
+}
+
+.item-preview{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 1rem;
+  background-color: $basic-grey-color;
+  padding: 1rem;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+}

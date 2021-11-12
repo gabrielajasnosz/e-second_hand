@@ -118,7 +118,6 @@ export const saveItem = () => () => {
             formData.append("images", data.images[key]);
         }
     }
-
     // eslint-disable-next-line no-return-assign
-    ItemService.saveItem(formData).then((json) => window.location.href = `/item/${json}`);
+    ItemService.saveItem(formData).then((response) => response.json()).then((json) => window.location.href = `/item/${json.id}`);
 };

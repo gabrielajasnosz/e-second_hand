@@ -1,0 +1,17 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+.item-list {
+  margin: 1rem 4rem;
+}
+
+.image-list{
+  padding: 1rem;
+  margin: 0 1rem 4rem 1rem;
+  border-radius: .3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+

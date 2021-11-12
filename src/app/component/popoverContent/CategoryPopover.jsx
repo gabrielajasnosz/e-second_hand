@@ -211,10 +211,10 @@ const CategoryPopover = ({
                                                     content: filteredContent
                                                 }]
                                             );
+                                            if (gender === "UNDEFINED") {
+                                                setGender(element.name.toUpperCase());
+                                            }
                                             if (openContext === "ITEM") {
-                                                if (gender === "UNDEFINED") {
-                                                    setGender(element.name.toUpperCase());
-                                                }
                                                 if (currentContentId === 0) {
                                                     setSex(element.name);
                                                 }
@@ -223,9 +223,6 @@ const CategoryPopover = ({
                                                 }
                                             }
                                             if (openContext === "EDIT_ITEM") {
-                                                if (gender === "UNDEFINED") {
-                                                    setGender(element.name.toUpperCase());
-                                                }
                                                 if (currentContentId === 0) {
                                                     setCategoryGender(element.name);
                                                 }

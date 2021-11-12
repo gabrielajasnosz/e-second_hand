@@ -14,13 +14,14 @@ body {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow: auto;
+  position: relative;
+  top:4rem;
 
   .page-content{
     width: 100% !important;
     height: auto;
     overflow: auto;
-    position: relative;
-    top:5rem
   }
 
   .carousel-content {
