@@ -23,7 +23,7 @@ const AutocompleteContent = ({ list, onClick }) => (
         padding: "1rem 0", display: "flex", justifyContent: "center", backgroundColor: "#F0EFEB"
     }}
     >
-        <AutocompleteInput onChange={onClick} defaultValue="" passedOptions={list} disableAdding />
+        <AutocompleteInput onChange={onClick} defaultValue="" passedOptions={list} disableAdding attributeName="id" />
     </div>
 
 );

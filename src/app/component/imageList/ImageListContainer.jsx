@@ -9,12 +9,18 @@ import ImageDialog from "../imageDialog/ImageDialog";
 
 const styles = {
     root: {
-        overflow: "hidden"
+        overflow: "hidden",
+        marginTop: "4rem"
+    },
+    itemRoot: {
+        overflow: "hidden",
+        marginTop: "1rem"
     }
 };
 const propTypes = {
     classes: PropTypes.shape({
-        root: PropTypes.string.isRequired
+        root: PropTypes.string.isRequired,
+        itemRoot: PropTypes.string.isRequired
     }).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     images: PropTypes.array.isRequired
@@ -37,10 +43,16 @@ const ImageListContainer = ({
 
     return (
         <Box sx={{
-            width: "50rem", height: "35rem", overflow: "auto", padding: "1rem 1rem", backgroundColor: "#F0EFEB"
+            maxWidth: "40rem",
+            height: "35rem",
+            overflow: "auto",
+            padding: "2rem 1rem 0 1rem",
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "#F0EFEB"
         }}
         >
-            <ImageList cols={2} rowHeight={300}>
+            <ImageList cols={images.length > 2 ? 2 : 1} rowHeight={images.length > 1 ? 300 : 520} classes={{ root: classes.root }}>
                 {/* eslint-disable-next-line react/prop-types */}
                 {images.map((img) => (
                     // eslint-disable-next-line react/jsx-no-undef,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
@@ -54,7 +66,7 @@ const ImageListContainer = ({
                             setImageId(img.id);
                         }}
                     >
-                        <ImageListItem key={img.id} classes={{ root: classes.root }}>
+                        <ImageListItem key={img.id} classes={{ root: classes.itemRoot }}>
                             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                             <img
                                 src={`http://localhost:8080/item/image/${img.id}?w=250&h=250&fit=crop&auto=format`}

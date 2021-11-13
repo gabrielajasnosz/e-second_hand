@@ -7,7 +7,6 @@ import { bindActionCreators } from "redux";
 import compose from "recompose/compose";
 import withHandlers from "recompose/withHandlers";
 import Alert from "@mui/material/Alert";
-import { CircularProgress } from "@mui/material";
 import TextInput from "../input/TextInput";
 import SelectInput from "../input/SelectInput";
 import {
@@ -21,6 +20,7 @@ import {
 import { getSizes } from "../header/selectors";
 import TextButton from "../button/TextButton";
 import ImagesPreview from "../imagePreview/ImagePreview";
+import Progress from "../progress/Progress";
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setSize: setSizeActionCreator,
@@ -123,7 +123,7 @@ const AddItemImage = ({
             <div className="form-floating mb-3 step-content">
                 <span className={classes.cssLabelName}>Add 1-6 pictures *</span>
                 {isLoading && (
-                    <CircularProgress color="info" />
+                    <Progress />
                 )}
                 {imagesPreview.length > 0 && (
                     <ImagesPreview images={imagesPreview} />

@@ -19,7 +19,8 @@ const CategoryPopover = ({
     sex,
     openContext,
     setCategory,
-    onClose, setType, setSex, productType, setItemSize
+    // eslint-disable-next-line no-unused-vars
+    onClose, setType, setSex, productType, setItemSize, history
 }) => {
     const [content, setContent] = useState([]);
     const [previousContent, setPreviousContent] = useState([]);
@@ -44,9 +45,10 @@ const CategoryPopover = ({
         if (gender === "UNDEFINED") {
             setContent(genderArray);
         } else {
+            setSex(gender.toUpperCase());
             setContent(categories);
         }
-    }, [categories, gender, genderArray, setContent]);
+    }, [categories, gender, genderArray, setContent, setSex]);
 
     const filteredContent = useMemo(() => content.filter((e) => gender && (e.gender === gender.toUpperCase() || e.gender === "UNDEFINED")),
         [content, gender]);
@@ -96,9 +98,10 @@ const CategoryPopover = ({
                                             if (gender === "UNDEFINED") {
                                                 setGender(element.name.toUpperCase());
                                             }
-                                            if (currentContentId === 0 && setSex) {
+                                            if (currentContentId === 0 && setSex && openContext !== "HEADER") {
                                                 setSex(element.name);
                                             }
+
                                             if (currentContentId === 1 && setType) {
                                                 setType(element.id);
 
@@ -106,12 +109,12 @@ const CategoryPopover = ({
                                                     setItemSize(null);
                                                 }
                                             }
-                                            if (openContext === "HEADER") {
+                                            if (openContext !== "ITEM" && openContext !== "EDIT_ITEM") {
                                                 const subcategories = Array.from(element.subCategories);
                                                 subcategories.push({
                                                     gender: gender.toUpperCase(),
-                                                    id: 1000,
-                                                    name: "All",
+                                                    id: element.id,
+                                                    name: `All from: ${element.name}`,
                                                     parentId: element.id,
                                                     subCategories: []
                                                 });
@@ -122,9 +125,14 @@ const CategoryPopover = ({
                                                 setCurrentContentId(currentContentId + 1);
                                             }
                                         } else if (element.subCategories.length === 0) {
-                                            setCategory(element);
-                                            setSex(element.gender);
                                             onClose();
+                                            if (openContext === "HEADER") {
+                                                setCategory(element);
+                                                history.push("/list");
+                                                // window.location.href = ("/list");
+                                            } else {
+                                                setCategory(element);
+                                            }
                                         }
                                     }}
                                 >
@@ -163,7 +171,9 @@ const propTypes = {
     setType: PropTypes.func,
     setSex: PropTypes.func,
     setItemSize: PropTypes.func.isRequired,
-    productType: PropTypes.number
+    productType: PropTypes.number,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object
 };
 const styles = {
     field: {
@@ -218,6 +228,7 @@ CategoryPopover.defaultProps = {
     setCategory: undefined,
     setType: undefined,
     setSex: undefined,
+    history: undefined
 };
 
 export default enhance(CategoryPopover);

@@ -7,6 +7,7 @@ const styles = {
     paper: {
         width: "20rem",
         maxHeight: "20rem",
+        height: "auto",
         overflow: "auto",
         textTransform: "capitalize",
         color: "black !important",

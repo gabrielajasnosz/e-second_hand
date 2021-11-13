@@ -3,11 +3,26 @@
 
 
 .filter-panel-container{
-  height: 3rem;
+  min-height: 3rem;
   background-color: $basic-grey-color;
   border-radius: .3rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  padding: 0 2rem;
+  flex-wrap: wrap;
+
+  .filters{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+}
+.active-filters {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
 }

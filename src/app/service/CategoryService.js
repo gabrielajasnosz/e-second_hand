@@ -7,7 +7,11 @@ function getBrands() {
 }
 
 function getSizes() {
-    return fetch("http://localhost:8080/categories/sizes");
+    return fetch("http://localhost:8080/sizes/");
+}
+
+function getSizesUngrouped() {
+    return fetch("http://localhost:8080/sizes/ungrouped");
 }
 
 function getColors() {
@@ -19,5 +23,6 @@ export const CategoryService = {
     getCategories,
     getBrands,
     getSizes,
-    getColors
+    getColors,
+    getSizesUngrouped
 };

@@ -2,10 +2,10 @@ import React from "react";
 import "./ImageListWidget.scss";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import CircularProgress from "@mui/material/CircularProgress";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ItemPreview from "../itemPreview/ItemPreview";
 import TextButton from "../button/TextButton";
+import Progress from "../progress/Progress";
 
 const styles = {
     root: {
@@ -13,8 +13,8 @@ const styles = {
         width: "12rem !important",
 
         "@media only screen and (max-width: 600px)": {
-            height: "18vh !important",
-            width: "12vh !important",
+            height: "23vh !important",
+            width: "17vh !important",
         }
     }
 };
@@ -37,7 +37,7 @@ const ImageListWidget = ({ classes, items, history }) => (
                 ))}
             </div>
         ) : (
-            <CircularProgress color="secondary" />
+            <Progress />
         )}
     </div>
 );

@@ -43,6 +43,13 @@ function getItems(filters) {
     }).then(handleResponse);
 }
 
+function getPriceExtremeValues() {
+    return fetch("http://localhost:8080/item/price/extremeValues", {
+        method: "GET",
+        headers: authHeader(),
+    }).then(handleResponse);
+}
+
 function manageItemVisibility(itemId, status) {
     return fetch(`http://localhost:8080/item/itemVisibility?itemId=${encodeURIComponent(itemId)}&status=${encodeURIComponent(status)}`, {
         method: "PUT",
@@ -56,5 +63,6 @@ export const ItemService = {
     editItem,
     deleteItem,
     getItems,
+    getPriceExtremeValues,
     manageItemVisibility
 };

@@ -4,16 +4,21 @@ export const initialState = {
     itemList: [],
     nextItemId: null,
     nextItemValue: null,
+    categoryId: null,
+    colorId: null,
+    sizeId: null,
     filters: {
-        categoryId: null,
-        brandId: null,
-        colorId: null,
-        sizeId: null,
-    },
-    sorting: {
+        brand: null,
+        categoryName: null,
+        colorName: null,
+        sizeName: null,
         sortingColumn: "creationDate",
-        sortingOrder: "DESC"
-    }
+        sortingOrder: "DESC",
+        minPrice: null,
+        maxPrice: null
+    },
+    isLoading: false,
+    gender: null,
 };
 
 const itemList = (state = initialState, action) => {
@@ -30,58 +35,104 @@ const itemList = (state = initialState, action) => {
                 nextItemId: action.nextItemId
             };
         }
+        case itemActions.setCategoryId: {
+            return {
+                ...state,
+                categoryId: action.categoryId
+            };
+        }
+        case itemActions.setColorId: {
+            return {
+                ...state,
+                colorId: action.colorId
+            };
+        }
+        case itemActions.setSizeId: {
+            return {
+                ...state,
+                sizeId: action.sizeId
+            };
+        }
+        case itemActions.setLoading: {
+            return {
+                ...state,
+                isLoading: action.isLoading
+            };
+        }
+        case itemActions.setGender: {
+            return {
+                ...state,
+                gender: action.gender
+            };
+        }
         case itemActions.setNextItemValue: {
             return {
                 ...state,
                 nextItemValue: action.nextItemValue
             };
         }
-        case itemActions.setCategoryId:
+        case itemActions.setCategoryName:
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    categoryId: state.categoryId
+                    categoryName: action.categoryName
                 }
             };
-        case itemActions.setColorId:
+        case itemActions.setColorName:
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    colorId: state.colorId
+                    colorName: action.colorName
                 }
             };
-        case itemActions.setSizeId:
+        case itemActions.setMinPrice:
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    sizeId: state.sizeId
+                    minPrice: action.minPrice
                 }
             };
-        case itemActions.setBrandId:
+        case itemActions.setMaxPrice:
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    brandId: state.brandId
+                    maxPrice: action.maxPrice
+                }
+            };
+        case itemActions.setSizeName:
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    sizeName: action.sizeName
+                }
+            };
+        case itemActions.setBrand:
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    brand: action.brand
                 }
             };
         case itemActions.setSortingColumn:
             return {
                 ...state,
-                sorting: {
-                    ...state.sorting,
-                    sortingColumn: state.sortingColumn
+                filters: {
+                    ...state.filters,
+                    sortingColumn: action.sortingColumn
                 }
             };
         case itemActions.setSortingOrder:
             return {
                 ...state,
-                sorting: {
-                    ...state.sorting,
-                    sortingOrder: state.sortingOrder
+                filters: {
+                    ...state.filters,
+                    sortingOrder: action.sortingOrder
                 }
             };
         case itemActions.resetItemList:
@@ -89,16 +140,29 @@ const itemList = (state = initialState, action) => {
                 ...state,
                 itemList: [],
                 nextItemId: null,
+                nextItemValue: null,
+                categoryId: null,
+                colorId: null,
+                sizeId: null,
                 filters: {
-                    categoryId: "",
-                    brandId: "",
-                    colorId: "",
-                    sizeId: "",
-                },
-                sorting: {
+                    brand: null,
+                    categoryName: null,
+                    colorName: null,
+                    sizeName: null,
                     sortingColumn: "creationDate",
-                    sortingOrder: "DESC"
-                }
+                    sortingOrder: "DESC",
+                    minPrice: null,
+                    maxPrice: null
+                },
+                isLoading: false,
+                gender: null,
+            };
+        case itemActions.resetList:
+            return {
+                ...state,
+                itemList: [],
+                nextItemId: null,
+                nextItemValue: null
             };
         default:
             return state;

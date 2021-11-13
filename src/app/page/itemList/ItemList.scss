@@ -2,7 +2,7 @@
 @import "../../assets/variables/fonts";
 
 .item-list {
-  margin: 1rem 6rem;
+  margin: 1rem 2rem;
 }
 
 .image-list{
@@ -18,7 +18,13 @@
 .item-loader{
   display: flex;
   justify-content: center;
-  color: red !important;
   margin-bottom: 3rem;
+}
+
+.no-content-info{
+  font-size: 16px;
+  font-family: $preferred-font;
+  color: grey;
+  font-style: italic;
 }
 

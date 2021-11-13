@@ -15,6 +15,10 @@ import Box from "@mui/material/Box";
 import { UserService } from "../../service/UserService";
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import {
+    setCategoryId as setCategoryIdActionCreator,
+    setGender as setGenderActionCreator
+} from "../../page/itemList/action/itemList";
+import {
     fetchCategories as fetchCategoriesActionCreator,
     fetchBrands as fetchBrandsActionCreator,
     fetchSizes as fetchSizesActionCreator,
@@ -37,6 +41,8 @@ const propTypes = {
         icon: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
+    setGender: PropTypes.func.isRequired,
+    setCategory: PropTypes.func.isRequired
 };
 
 const styles = {
@@ -90,7 +96,9 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchCategories: fetchCategoriesActionCreator,
     fetchBrands: fetchBrandsActionCreator,
     fetchSizes: fetchSizesActionCreator,
-    fetchColors: fetchColorsActionCreator
+    fetchColors: fetchColorsActionCreator,
+    setGender: setGenderActionCreator,
+    setCategory: setCategoryIdActionCreator
 }, dispatch);
 
 const enhance = compose(
@@ -105,7 +113,7 @@ const enhance = compose(
 
 const Header = ({
     // eslint-disable-next-line react/prop-types
-    fetchCategories, classes, fetchSizes, fetchBrands, fetchColors, history
+    fetchCategories, classes, fetchSizes, fetchBrands, fetchColors, history, setGender, setCategory
 }) => {
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
@@ -188,7 +196,14 @@ const Header = ({
                                 paper: classes.paper
                             }}
                         >
-                            <CategoryPopover sex="woman" openContext="HEADER" onClose={handleCloseFemale} />
+                            <CategoryPopover
+                                sex="woman"
+                                openContext="HEADER"
+                                onClose={handleCloseFemale}
+                                setCategory={setCategory}
+                                setSex={setGender}
+                                history={history}
+                            />
                         </Popover>
                         <Button
                             aria-describedby={maleId}
@@ -211,7 +226,14 @@ const Header = ({
                                 paper: classes.paper
                             }}
                         >
-                            <CategoryPopover sex="man" openContext="HEADER" onClose={handleCloseMale} />
+                            <CategoryPopover
+                                history={history}
+                                sex="man"
+                                openContext="HEADER"
+                                onClose={handleCloseMale}
+                                setCategory={setCategory}
+                                setSex={setGender}
+                            />
                         </Popover>
                     </div>
                     {!isLoggedIn ? (

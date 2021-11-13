@@ -16,7 +16,8 @@ const styles = {
         width: "9rem"
     },
     root: {
-        height: "20rem",
+        height: "auto",
+        maxHeight: "20rem",
         overflow: "auto",
         background: "#F0EFEB"
     }
@@ -25,12 +26,12 @@ const styles = {
 const ListPopoverContent = ({ list, onClick, classes }) => (
     <List classes={{ root: classes.root }}>
         {/* eslint-disable-next-line array-callback-return */}
-        {list.map((element) => (
+        {list && list.length > 0 && list.map((element) => (
             <div key={element.id}>
                 <ListItem disablePadding>
                     <ListItemButton
                         disableRipple
-                        onClick={onClick}
+                        onClick={() => onClick(element)}
                     >
                         <ListItemText
                             disableTypography

@@ -23,14 +23,16 @@ const propTypes = {
     color: PropTypes.string,
     defaultValue: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    passedOptions: PropTypes.array.isRequired
+    passedOptions: PropTypes.array.isRequired,
+    attributeName: PropTypes.string
 };
 
 const defaultProps = {
     children: null,
     label: null,
     color: "beige",
-    disableAdding: false
+    disableAdding: false,
+    attributeName: "name"
 };
 
 const styles = {
@@ -83,7 +85,7 @@ const styles = {
 const filter = createFilterOptions();
 
 const AutocompleteInput = ({
-    onChange, classes, defaultValue, passedOptions, color, disableAdding
+    onChange, classes, defaultValue, passedOptions, color, disableAdding, attributeName
 }) => (
     <Autocomplete
         onSelect={onChange}
@@ -92,7 +94,7 @@ const AutocompleteInput = ({
             const filtered = filter(options, params);
 
             const { inputValue } = params;
-            const isExisting = options.some((option) => inputValue === option.name);
+            const isExisting = options.some((option) => inputValue === option[attributeName]);
             if (inputValue !== "" && !isExisting && !disableAdding) {
                 filtered.push({
                     inputValue,
@@ -102,8 +104,6 @@ const AutocompleteInput = ({
 
             return filtered;
         }}
-        selectOnFocus
-        handleHomeEndKeys
         options={passedOptions}
         getOptionLabel={(option) => {
             if (typeof option === "string") {
@@ -124,7 +124,6 @@ const AutocompleteInput = ({
             input: color === "beige" ? classes.cssLabel : classes.cssLabelWhite,
             paper: classes.cssLabel
         }}
-        freeSolo
         renderInput={(params) => (
             <TextField
                 /* eslint-disable-next-line react/jsx-props-no-spreading */
