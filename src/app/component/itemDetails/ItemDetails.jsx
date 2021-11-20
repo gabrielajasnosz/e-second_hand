@@ -18,6 +18,7 @@ import { bindActionCreators } from "redux";
 import { Tooltip } from "@material-ui/core";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Visibility } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import { getItemDetails } from "../../page/itemPage/selectors";
 import { UserService } from "../../service/UserService";
 import EditItemDetails from "./EditItemDetails";
@@ -68,6 +69,8 @@ const ItemDetails = ({
         setOpen(true);
     };
 
+    const { t } = useTranslation();
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -79,11 +82,11 @@ const ItemDetails = ({
                     <>
                         {itemData.isHidden && (
                             <span className="hidden-item">
-                                This item is hidden. Only you can see this page.
+                                {t("This item is hidden. Only you can see this page.")}
                             </span>
                         )}
                         <span className="date">
-                            Added
+                            {t("Added")}
                             {" "}
                             {date}
                         </span>
@@ -100,25 +103,25 @@ const ItemDetails = ({
                             {userHasRightToEdit && (
                             <div style={{ display: "flex", flexDirection: "row" }}>
                                 <Tooltip
-                                    title="Edit item"
+                                    title={t("Edit item")}
                                 >
                                     <IconButton onClick={() => { setEditModeOn(true); }} size="small" classes={{ root: classes.icon }}>
                                         <EditIcon className={classes.icon} />
                                     </IconButton>
                                 </Tooltip>
-                                <Tooltip title="Delete item">
+                                <Tooltip title={t("Delete item")}>
                                     <IconButton onClick={handleClickOpen} size="small" classes={{ root: classes.icon }}>
                                         <DeleteIcon className={classes.icon} />
                                     </IconButton>
                                 </Tooltip>
                                 {itemData.isHidden ? (
-                                    <Tooltip title="Show item to everybody">
+                                    <Tooltip title={t("Make item visible")}>
                                         <IconButton onClick={showItem} size="small" classes={{ root: classes.icon }}>
                                             <Visibility className={classes.icon} />
                                         </IconButton>
                                     </Tooltip>
                                 ) : (
-                                    <Tooltip title="Hide item">
+                                    <Tooltip title={t("Hide item")}>
                                         <IconButton onClick={hideItem} size="small" classes={{ root: classes.icon }}>
                                             <VisibilityOffIcon className={classes.icon} />
                                         </IconButton>
@@ -141,11 +144,11 @@ const ItemDetails = ({
                                 }}
                             >
                                 <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }} id="alert-dialog-title">
-                                    Are you sure?
+                                    {t("Are you sure?")}
                                 </DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        This action cannot be undone
+                                        {t("This action cannot be undone")}
                                     </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
@@ -153,13 +156,13 @@ const ItemDetails = ({
                                         onClick={handleClose}
                                         sx={{ mr: 1 }}
                                     >
-                                        <span>Close</span>
+                                        <span>{t("Close")}</span>
                                     </TextButton>
                                     <TextButton
                                         onClick={deleteItem}
                                         sx={{ mr: 1 }}
                                     >
-                                        <span>Delete item</span>
+                                        <span>{t("Delete item")}</span>
                                     </TextButton>
                                 </DialogActions>
                             </Dialog>

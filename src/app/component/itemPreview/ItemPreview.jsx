@@ -5,7 +5,7 @@ import "./ItemPreview.scss";
 import Avatar from "@mui/material/Avatar";
 
 const ItemPreview = ({ item, classes, history }) => (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus,react/prop-types
     <div className="item-preview" role="button" onClick={() => history.push(`/item/${item.id}`)}>
         { item.userDisplayName && (
             <div className="item-preview-author">
@@ -44,7 +44,7 @@ ItemPreview.propTypes = {
     classes: PropTypes.shape({
         root: PropTypes.string.isRequired
     }).isRequired,
-    history: PropTypes.string.isRequired
+    history: PropTypes.shape({}).isRequired
 };
 
 export default ItemPreview;

@@ -6,8 +6,6 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import InfiniteScroll from "react-infinite-scroller";
-import withHandlers from "recompose/withHandlers";
-import debounce from "lodash/debounce";
 import { getBrands, getColors, getSizes } from "../../component/header/selectors";
 import FilterPanel from "../../component/filterPanel/FilterPanel";
 import {
@@ -15,22 +13,26 @@ import {
     resetData as resetDataActionCreator,
     setCategoryId as setCategoryIdActionCreator,
     setGender as setGenderActionCreator,
-    setBrand as setBrandActionCreator,
     setSizeId as setSizeActionCreator,
     setColorId as setColorActionCreator,
+    setBrandId as setBrandIdActionCreator,
     setSortingColumn as setSortingColumnActionCreator,
     setSortingOrder as setSortingOrderActionCreator,
     setMinPrice as setMinPriceActionCreator,
     setMaxPrice as setMaxPriceActionCreator,
-    resetList as resetListActionCreator
+    resetList as resetListActionCreator,
+    saveFilters as saveFiltersActionCreator,
+    fetchSavedFilters as fetchSavedFiltersActionCreator,
+    fetchFiltersById as fetchFiltersByIdActionCreator
 } from "./action/itemList";
 import {
-    getActiveFilters, getItemListItems, getLoading, getNextItemId
+    getActiveFilters, getFiltersLoading, getItemListItems, getLoading, getNextItemId, getSavedFilters
 } from "./selectors";
 import ItemPreview from "../../component/itemPreview/ItemPreview";
 import { CategoryService } from "../../service/CategoryService";
 import Progress from "../../component/progress/Progress";
 import { ItemService } from "../../service/ItemService";
+import { UserService } from "../../service/UserService";
 
 const styles = {
     root: {
@@ -55,7 +57,9 @@ const mapStateToProps = (state) => ({
     itemList: getItemListItems(state),
     nextItemId: getNextItemId(state),
     isLoading: getLoading(state),
-    activeFilters: getActiveFilters(state)
+    activeFilters: getActiveFilters(state),
+    savedFilters: getSavedFilters(state),
+    filtersLoading: getFiltersLoading(state)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -63,25 +67,22 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     resetData: resetDataActionCreator,
     setCategoryId: setCategoryIdActionCreator,
     setGender: setGenderActionCreator,
-    changeBrand: setBrandActionCreator,
+    setBrand: setBrandIdActionCreator,
     setSize: setSizeActionCreator,
     setColor: setColorActionCreator,
     setSortingColumn: setSortingColumnActionCreator,
     setSortingOrder: setSortingOrderActionCreator,
     resetList: resetListActionCreator,
     setMinPrice: setMinPriceActionCreator,
-    setMaxPrice: setMaxPriceActionCreator
+    setMaxPrice: setMaxPriceActionCreator,
+    saveFilters: saveFiltersActionCreator,
+    fetchSavedFilters: fetchSavedFiltersActionCreator,
+    fetchFiltersById: fetchFiltersByIdActionCreator
 }, dispatch);
 
 const enhance = compose(
     connect(mapStateToProps,
         mapDispatchToProps),
-    withHandlers(() => {
-        const debouncedSetBrand = debounce((changeBrand, e) => changeBrand(e.target.value), 500);
-        return {
-            setBrand: ({ changeBrand }) => (e) => debouncedSetBrand(changeBrand, e),
-        };
-    }),
     withStyles(styles)
 );
 
@@ -92,8 +93,6 @@ const ItemList = ({
     itemList,
     classes,
     history,
-    // eslint-disable-next-line no-unused-vars
-    resetList,
     resetData,
     nextItemId,
     setCategoryId,
@@ -105,17 +104,32 @@ const ItemList = ({
     setSortingColumn,
     setSortingOrder,
     activeFilters,
-    changeBrand,
     setMinPrice,
-    setMaxPrice
+    setMaxPrice,
+    saveFilters,
+    fetchSavedFilters,
+    savedFilters,
+    filtersLoading,
+    fetchFiltersById
 }) => {
     const [sizesUngrouped, setSizesUngrouped] = useState([]);
     const [priceExtremeValues, setPriceExtremeValues] = useState({});
+    const [isLoggedIn, setLoggedIn] = React.useState(false);
     useEffect(() => {
+        setLoggedIn(UserService.validateToken(UserService.currentUserValue));
         fetchItems();
         CategoryService.getSizesUngrouped().then((response) => response.json()).then((json) => setSizesUngrouped(json));
         ItemService.getPriceExtremeValues().then((response) => response.json()).then((json) => setPriceExtremeValues(json));
-    }, [fetchItems]);
+    }, [fetchItems, fetchSavedFilters]);
+    useEffect(() => {
+        if (UserService.validateToken(UserService.currentUserValue)) {
+            fetchSavedFilters();
+        }
+    }, [fetchItems, fetchSavedFilters]);
+    const filters = activeFilters.filter((e) => e.name !== "sortingColumn" && e.name !== "sortingOrder");
+
+    const canSaveFilter = isLoggedIn && (filters.length > 0);
+
     useEffect(() => () => {
         resetData();
     }, [resetData]);
@@ -133,11 +147,16 @@ const ItemList = ({
                 setSortingColumn={setSortingColumn}
                 setSortingOrder={setSortingOrder}
                 activeFilters={activeFilters}
-                changeBrand={changeBrand}
                 priceExtremeValues={priceExtremeValues}
                 setMinPrice={setMinPrice}
                 setMaxPrice={setMaxPrice}
+                saveFilters={saveFilters}
+                savedFilters={savedFilters}
+                canSaveFilter={canSaveFilter}
+                filtersLoading={filtersLoading}
+                fetchFiltersById={fetchFiltersById}
             />
+
             <InfiniteScroll
                 pageStart={0}
                 loadMore={fetchItems}
@@ -163,11 +182,10 @@ const ItemList = ({
 
 ItemList.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    brands: PropTypes.array.isRequired,
+    brands: PropTypes.array,
     // eslint-disable-next-line react/forbid-prop-types
-    sizes: PropTypes.array.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    colors: PropTypes.array.isRequired,
+    colors: PropTypes.array,
     fetchItems: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     itemList: PropTypes.array.isRequired,
@@ -175,7 +193,7 @@ ItemList.propTypes = {
         root: PropTypes.string.isRequired,
         progress: PropTypes.string.isRequired
     }).isRequired,
-    history: PropTypes.string.isRequired,
+    history: PropTypes.shape({}).isRequired,
     resetData: PropTypes.func.isRequired,
     nextItemId: PropTypes.number,
     setCategoryId: PropTypes.func.isRequired,
@@ -188,14 +206,21 @@ ItemList.propTypes = {
     setSortingOrder: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     activeFilters: PropTypes.array.isRequired,
-    resetList: PropTypes.func.isRequired,
-    changeBrand: PropTypes.func.isRequired,
     setMinPrice: PropTypes.func.isRequired,
-    setMaxPrice: PropTypes.func.isRequired
+    setMaxPrice: PropTypes.func.isRequired,
+    saveFilters: PropTypes.func.isRequired,
+    fetchSavedFilters: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    savedFilters: PropTypes.array,
+    filtersLoading: PropTypes.bool.isRequired,
+    fetchFiltersById: PropTypes.func.isRequired
 };
 
 ItemList.defaultProps = {
-    nextItemId: null
+    nextItemId: null,
+    brands: [],
+    colors: [],
+    savedFilters: []
 };
 
 export default enhance(ItemList);

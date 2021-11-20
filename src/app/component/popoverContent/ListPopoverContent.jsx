@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 import List from "@mui/material/List";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { useTranslation } from "react-i18next";
 
 const styles = {
     field: {
@@ -23,26 +24,30 @@ const styles = {
     }
 };
 
-const ListPopoverContent = ({ list, onClick, classes }) => (
-    <List classes={{ root: classes.root }}>
-        {/* eslint-disable-next-line array-callback-return */}
-        {list && list.length > 0 && list.map((element) => (
-            <div key={element.id}>
-                <ListItem disablePadding>
-                    <ListItemButton
-                        disableRipple
-                        onClick={() => onClick(element)}
-                    >
-                        <ListItemText
-                            disableTypography
-                            primary={<Typography variant="body2" className={classes.field}>{element.name}</Typography>}
-                        />
-                    </ListItemButton>
-                </ListItem>
-            </div>
-        ))}
-    </List>
-);
+const ListPopoverContent = ({ list, onClick, classes }) => {
+    const { t } = useTranslation();
+
+    return (
+        <List classes={{ root: classes.root }}>
+            {/* eslint-disable-next-line array-callback-return */}
+            {list && list.length > 0 && list.map((element) => (
+                <div key={element.id}>
+                    <ListItem disablePadding>
+                        <ListItemButton
+                            disableRipple
+                            onClick={() => onClick(element)}
+                        >
+                            <ListItemText
+                                disableTypography
+                                primary={<Typography variant="body2" className={classes.field}>{t(element.name)}</Typography>}
+                            />
+                        </ListItemButton>
+                    </ListItem>
+                </div>
+            ))}
+        </List>
+    );
+};
 
 ListPopoverContent.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types

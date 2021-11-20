@@ -11,6 +11,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { getSubcategories } from "../header/selectors";
 
 const CategoryPopover = ({
@@ -27,19 +28,21 @@ const CategoryPopover = ({
     const [currentContentId, setCurrentContentId] = useState(0);
     const [gender, setGender] = useState(sex);
 
+    const { t } = useTranslation();
+
     const genderArray = useMemo(() => [{
         gender: "UNDEFINED",
         id: 1001,
-        name: "WOMAN",
+        name: t("woman"),
         parentId: null,
         subCategories: categories
     }, {
         gender: "UNDEFINED",
         id: 1002,
-        name: "MAN",
+        name: t("man"),
         parentId: null,
         subCategories: categories
-    }], [categories]);
+    }], [categories, t]);
 
     useEffect(() => {
         if (gender === "UNDEFINED") {
@@ -73,7 +76,7 @@ const CategoryPopover = ({
                                     variant="body2"
                                     className={classes.fieldBack}
                                 >
-                                    {previousContent.filter((e) => e.contentId === currentContentId - 1)[0].contentName}
+                                    {t(previousContent.filter((e) => e.contentId === currentContentId - 1)[0].contentName)}
                                 </Typography>
 )}
                         />
@@ -114,7 +117,7 @@ const CategoryPopover = ({
                                                 subcategories.push({
                                                     gender: gender.toUpperCase(),
                                                     id: element.id,
-                                                    name: `All from: ${element.name}`,
+                                                    name: `${t("All from:")} ${t(element.name)}`,
                                                     parentId: element.id,
                                                     subCategories: []
                                                 });
@@ -128,6 +131,7 @@ const CategoryPopover = ({
                                             onClose();
                                             if (openContext === "HEADER") {
                                                 setCategory(element);
+                                                // eslint-disable-next-line react/prop-types
                                                 history.push("/list");
                                                 // window.location.href = ("/list");
                                             } else {
@@ -138,7 +142,7 @@ const CategoryPopover = ({
                                 >
                                     <ListItemText
                                         disableTypography
-                                        primary={<Typography variant="body2" className={classes.field}>{element.name}</Typography>}
+                                        primary={<Typography variant="body2" className={classes.field}>{t(element.name)}</Typography>}
                                     />
                                     {element.subCategories.length !== 0 && (
                                         <KeyboardArrowRightIcon />
@@ -172,8 +176,7 @@ const propTypes = {
     setSex: PropTypes.func,
     setItemSize: PropTypes.func.isRequired,
     productType: PropTypes.number,
-    // eslint-disable-next-line react/forbid-prop-types
-    history: PropTypes.object
+    history: PropTypes.shape({})
 };
 const styles = {
     field: {

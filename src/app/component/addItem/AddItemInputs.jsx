@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import withHandlers from "recompose/withHandlers";
+import { useTranslation } from "react-i18next";
 import TextInput from "../input/TextInput";
 import {
     setName as setNameActionCreator,
@@ -37,18 +38,29 @@ const enhance = compose(
 const AddItemInputs = ({
     // eslint-disable-next-line no-unused-vars
     classes, setName, setDescription, newItemName,
-}) => (
-    <>
-        <div className="form-floating mb-3 step-content">
-            <span className={classes.cssLabelName}>Name *</span>
-            <TextInput label={null} onChange={setName} defaultValue={newItemName || ""} />
-        </div>
-        <div className="form-floating mb-3 step-content">
-            <span className={classes.cssLabelName}>Description</span>
-            <TextInput label={null} onChange={setDescription} multiline />
-        </div>
-    </>
-);
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <>
+            <div className="form-floating mb-3 step-content">
+                <span className={classes.cssLabelName}>
+                    {t("Name")}
+                    {" "}
+                    *
+                </span>
+                <TextInput label={null} onChange={setName} defaultValue={newItemName || ""} />
+            </div>
+            <div className="form-floating mb-3 step-content">
+                <span className={classes.cssLabelName}>
+                    {t("Description")}
+                    {" "}
+                </span>
+                <TextInput label={null} onChange={setDescription} multiline />
+            </div>
+        </>
+    );
+};
 
 const propTypes = {
     classes: PropTypes.shape({

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 import compose from "recompose/compose";
 import { bindActionCreators } from "redux";
 import withHandlers from "recompose/withHandlers";
@@ -27,6 +28,7 @@ import {
 import { UserService } from "../../service/UserService";
 import TextInput from "../../component/input/TextInput";
 import PasswordInput from "../../component/input/PasswordInput";
+import "../../../translations/i18n";
 
 const propTypes = {
     classes: PropTypes.shape({
@@ -96,6 +98,7 @@ const enhance = compose(
 const LoginPage = ({
     setPassword, setEmail, classes, emailEmpty, passwordEmpty, loginUser, isLoginSuccessful, resetData, isAccountConfirmation
 }) => {
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
     const [registrationMessage, setRegistrationMessage] = useState(null);
     const history = useHistory();
@@ -145,17 +148,17 @@ const LoginPage = ({
                                     severity="error"
                                     classes={{ root: classes.alert, message: classes.message }}
                                 >
-                                    Wrong email or password
+                                    {t("wrongEmail")}
                                 </Alert>
                                 )}
-                                <h3 className="login-heading mb-3">Welcome back!</h3>
+                                <h3 className="login-heading mb-3">{t("welcomeBack")}</h3>
                                 <div className="form w-100">
                                     <div className="form-floating mb-3 w-100">
                                         <TextInput label="E-mail" onChange={setEmail} />
                                     </div>
                                     <div className="form-floating mb-3">
                                         <PasswordInput
-                                            label="Password"
+                                            label={t("password")}
                                             onChange={setPassword}
                                             showPassword={showPassword}
                                             setShowPassword={setShowPassword}
@@ -169,19 +172,25 @@ const LoginPage = ({
                                         label="Sign in"
                                         disabled={isButtonEnabled}
                                     >
-                                        <span> Sign in </span>
+                                        <span>
+                                            {" "}
+                                            {t("Sign in")}
+                                        </span>
                                     </BasicButton>
                                     <hr />
                                     <div className="createNewAccount">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                        <span className="helper-text">Don't have an account?</span>
+                                        <span className="helper-text">{t("Don't have an account?")}</span>
                                         <div style={{ marginTop: "1rem" }}>
                                             <BasicButton
                                                 onButtonClick={navigateToRegisterPage}
                                                 label="Sign up"
                                                 buttonClassName="reverse-button"
                                             >
-                                                <span> Sign up </span>
+                                                <span>
+                                                    {" "}
+                                                    {t("Sign up")}
+                                                </span>
                                             </BasicButton>
                                         </div>
                                     </div>

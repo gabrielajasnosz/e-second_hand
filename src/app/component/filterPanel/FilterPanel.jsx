@@ -6,14 +6,15 @@ import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { useTranslation } from "react-i18next";
 import TextButton from "../button/TextButton";
-// eslint-disable-next-line no-unused-vars
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import PopoverCustom from "../popoverContent/PopoverCustom";
 import AutocompleteContent from "../popoverContent/AutocompleteContent";
 import ListPopoverContent from "../popoverContent/ListPopoverContent";
 import ChipCustom from "../chip/ActiveFilterChip";
 import PriceRangeContent from "../popoverContent/PriceRangeContent";
+import SavedFilters from "../savedFilters/SavedFilters";
 
 const sortingColumns = [{
     id: "creationDate",
@@ -38,6 +39,11 @@ const emptyObject = {
     name: null
 };
 
+const emptyObjectBrand = {
+    value: null,
+    label: null
+};
+
 // eslint-disable-next-line no-unused-vars
 const FilterPanel = ({
     sizes,
@@ -46,9 +52,14 @@ const FilterPanel = ({
     setCategory,
     setGender,
     // eslint-disable-next-line no-unused-vars
-    setBrand, setSize, setColor, setSortingColumn, setSortingOrder, activeFilters, changeBrand, priceExtremeValues,
+    setBrand, setSize, setColor, setSortingColumn, setSortingOrder, activeFilters, priceExtremeValues,
     setMinPrice,
-    setMaxPrice
+    setMaxPrice,
+    savedFilters,
+    saveFilters,
+    canSaveFilter,
+    filtersLoading,
+    fetchFiltersById
 }) => {
     const [anchorCategory, setAnchorCategory] = React.useState(null);
     const [anchorPriceRange, setAnchorPriceRange] = React.useState(null);
@@ -57,6 +68,8 @@ const FilterPanel = ({
     const [anchorColor, setAnchorColor] = React.useState(null);
     const [anchorSortingColumn, setAnchorSortingColumn] = React.useState(null);
     const [anchorSortingOrder, setAnchorSortingOrder] = React.useState(null);
+    // eslint-disable-next-line no-unused-vars
+    const { t } = useTranslation();
 
     const handleClick = (event, element) => {
         if (element === "category") {
@@ -127,7 +140,7 @@ const FilterPanel = ({
             <div className="filter-panel-container">
                 <div className="filters">
                     <TextButton onClick={(event) => handleClick(event, "category")}>
-                        <span>Category</span>
+                        <span>{t("Category")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -150,7 +163,7 @@ const FilterPanel = ({
                         />
                     </PopoverCustom>
                     <TextButton onClick={(event) => handleClick(event, "brand")}>
-                        <span>Brand</span>
+                        <span>{t("Brand")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -166,7 +179,7 @@ const FilterPanel = ({
                         <AutocompleteContent list={brands} onClick={setBrand} />
                     </PopoverCustom>
                     <TextButton onClick={(event) => handleClick(event, "size")}>
-                        <span>Size</span>
+                        <span>{t("Size")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -182,7 +195,7 @@ const FilterPanel = ({
                         <ListPopoverContent list={sizes} onClick={setSize} />
                     </PopoverCustom>
                     <TextButton onClick={(event) => handleClick(event, "color")}>
-                        <span>Color</span>
+                        <span>{t("Color")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -200,7 +213,7 @@ const FilterPanel = ({
                 </div>
                 <div className="filters">
                     <TextButton onClick={(event) => handleClick(event, "sortingColumn")}>
-                        <span>Sort by</span>
+                        <span>{t("Sort by")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -216,7 +229,7 @@ const FilterPanel = ({
                         <ListPopoverContent list={sortingColumns} onClick={setSortingColumn} />
                     </PopoverCustom>
                     <TextButton onClick={(event) => handleClick(event, "sortingOrder")}>
-                        <span>Sorting order</span>
+                        <span>{t("Sorting order")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -232,7 +245,7 @@ const FilterPanel = ({
                         <ListPopoverContent list={sortingOrders} onClick={setSortingOrder} />
                     </PopoverCustom>
                     <TextButton onClick={(event) => handleClick(event, "priceRange")}>
-                        <span>Price range</span>
+                        <span>{t("Price range")}</span>
                         <ArrowDropDownOutlinedIcon />
                     </TextButton>
                     <PopoverCustom
@@ -254,56 +267,71 @@ const FilterPanel = ({
                 </div>
             </div>
 
-            <div className="active-filters">
-                {activeFilters && activeFilters.length > 0 && (
-                    activeFilters.map((e) => {
-                        if (e.name === "sortingColumn") {
-                            return <ChipCustom activeFilter={e} />;
-                        }
-                        if (e.name === "sortingOrder" && e.value === "DESC") {
-                            return <ChipCustom activeFilter={e} icon={<ArrowCircleDownIcon />} />;
-                        }
-                        if (e.name === "sortingOrder" && e.value === "ASC") {
-                            return <ChipCustom activeFilter={e} icon={<ArrowCircleUpIcon />} />;
-                        }
-                        if (e.name === "categoryName") {
-                            return (
-                                <ChipCustom
-                                    activeFilter={e}
-                                    onDelete={() => {
-                                        setGender(null);
-                                        setCategory(emptyObject);
-                                    }}
-                                    deleteIcon={<HighlightOffIcon />}
-                                />
-                            );
-                        }
-                        if (e.name === "colorName") {
-                            return <ChipCustom activeFilter={e} onDelete={() => setColor(emptyObject)} deleteIcon={<HighlightOffIcon />} />;
-                        }
-                        if (e.name === "sizeName") {
-                            return <ChipCustom activeFilter={e} onDelete={() => setSize(emptyObject)} deleteIcon={<HighlightOffIcon />} />;
-                        }
-                        if (e.name === "brand") {
-                            return <ChipCustom activeFilter={e} onDelete={() => changeBrand(null)} deleteIcon={<HighlightOffIcon />} />;
-                        }
-                        if (e.name === "minPrice") {
-                            const maxPrice = activeFilters.filter((x) => x.name === "maxPrice")[0].value;
-                            return (
-                                <ChipCustom
-                                    activeFilter={e}
-                                    maxPrice={maxPrice}
-                                    onDelete={() => {
-                                        setMinPrice(null);
-                                        setMaxPrice(null);
-                                    }}
-                                    deleteIcon={<HighlightOffIcon />}
-                                />
-                            );
-                        }
-                        return null;
-                    })
-                )}
+            <div className="filters-subpanel">
+                <div className="active-filters">
+                    {activeFilters && activeFilters.length > 0 && (
+                        activeFilters.map((e) => {
+                            if (e.name === "sortingColumn") {
+                                return <ChipCustom activeFilter={e} />;
+                            }
+                            if (e.name === "sortingOrder" && e.value === "DESC") {
+                                return <ChipCustom activeFilter={e} icon={<ArrowCircleDownIcon />} />;
+                            }
+                            if (e.name === "sortingOrder" && e.value === "ASC") {
+                                return <ChipCustom activeFilter={e} icon={<ArrowCircleUpIcon />} />;
+                            }
+                            if (e.name === "categoryName") {
+                                return (
+                                    <ChipCustom
+                                        activeFilter={e}
+                                        onDelete={() => {
+                                            setGender(null);
+                                            setCategory(emptyObject);
+                                        }}
+                                        deleteIcon={<HighlightOffIcon />}
+                                    />
+                                );
+                            }
+                            if (e.name === "colorName") {
+                                return <ChipCustom activeFilter={e} onDelete={() => setColor(emptyObject)} deleteIcon={<HighlightOffIcon />} />;
+                            }
+                            if (e.name === "sizeName") {
+                                return <ChipCustom activeFilter={e} onDelete={() => setSize(emptyObject)} deleteIcon={<HighlightOffIcon />} />;
+                            }
+                            if (e.name === "brandName") {
+                                return (
+                                    <ChipCustom
+                                        activeFilter={e}
+                                        onDelete={() => setBrand(emptyObjectBrand)}
+                                        deleteIcon={<HighlightOffIcon />}
+                                    />
+                                );
+                            }
+                            if (e.name === "minPrice") {
+                                const maxPrice = activeFilters.filter((x) => x.name === "maxPrice")[0].value;
+                                return (
+                                    <ChipCustom
+                                        activeFilter={e}
+                                        maxPrice={maxPrice}
+                                        onDelete={() => {
+                                            setMinPrice(null);
+                                            setMaxPrice(null);
+                                        }}
+                                        deleteIcon={<HighlightOffIcon />}
+                                    />
+                                );
+                            }
+                            return null;
+                        })
+                    )}
+                </div>
+                <SavedFilters
+                    saveFilters={saveFilters}
+                    savedFilters={savedFilters}
+                    canSaveFilter={canSaveFilter}
+                    filtersLoading={filtersLoading}
+                    fetchFiltersById={fetchFiltersById}
+                />
             </div>
         </div>
 
@@ -311,11 +339,11 @@ const FilterPanel = ({
 };
 FilterPanel.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    brands: PropTypes.array.isRequired,
+    brands: PropTypes.array,
     // eslint-disable-next-line react/forbid-prop-types
-    sizes: PropTypes.array.isRequired,
+    sizes: PropTypes.array,
     // eslint-disable-next-line react/forbid-prop-types
-    colors: PropTypes.array.isRequired,
+    colors: PropTypes.array,
     setCategory: PropTypes.func.isRequired,
     setGender: PropTypes.func.isRequired,
     setBrand: PropTypes.func.isRequired,
@@ -329,7 +357,20 @@ FilterPanel.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     priceExtremeValues: PropTypes.object.isRequired,
     setMinPrice: PropTypes.func.isRequired,
-    setMaxPrice: PropTypes.func.isRequired
+    setMaxPrice: PropTypes.func.isRequired,
+    saveFilters: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    savedFilters: PropTypes.array,
+    canSaveFilter: PropTypes.bool.isRequired,
+    filtersLoading: PropTypes.bool.isRequired,
+    fetchFiltersById: PropTypes.func.isRequired
+};
+
+FilterPanel.defaultProps = {
+    brands: [],
+    sizes: [],
+    colors: [],
+    savedFilters: []
 };
 
 export default FilterPanel;

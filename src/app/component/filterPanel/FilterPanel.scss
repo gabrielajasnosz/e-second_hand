@@ -24,5 +24,13 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  width: 50rem;
 
+}
+
+.filters-subpanel{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }

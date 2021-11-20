@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import withHandlers from "recompose/withHandlers";
 import Popover from "@material-ui/core/Popover";
 import EditIcon from "@mui/icons-material/Edit";
+import { useTranslation } from "react-i18next";
 import SelectInput from "../input/SelectInput";
 import AutocompleteInput from "../input/AutocompleteInput";
 import {
@@ -57,6 +58,8 @@ const AddItemSelects = ({
 }) => {
     const [anchorGender, setAnchorGender] = React.useState(null);
 
+    const { t } = useTranslation();
+
     const handleClickGender = (event) => {
         setAnchorGender(event.currentTarget);
     };
@@ -70,14 +73,26 @@ const AddItemSelects = ({
     return (
         <>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Brand *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Brand")}
+                    {" "}
+                    *
+                </span>
                 <AutocompleteInput onChange={setBrand} defaultValue={newItemBrand} passedOptions={brands} />
             </div>
             { newItemCategory === "" ? (
                 <div className="form-floating mb-3 step-button">
-                    <span className={classes.cssLabelName}>Category *</span>
+                    <span className={classes.cssLabelName}>
+                        {t("Category")}
+                        {" "}
+                        *
+                    </span>
                     <BasicButton onButtonClick={handleClickGender} label="Choose category" buttonClassName="select-button">
-                        <span> Choose category </span>
+                        <span>
+                            {" "}
+                            {t("Category")}
+                            {" "}
+                        </span>
                     </BasicButton>
                     <Popover
                         id={genderId}
@@ -136,13 +151,17 @@ const AddItemSelects = ({
             ) }
             { newItemCategory !== "" && newItemCategory.gender === "UNDEFINED" && (
                 <div className="form-floating mb-3  step-content">
-                    <span className={classes.cssLabelName}>Gender *</span>
+                    <span className={classes.cssLabelName}>
+                        {t("Gender")}
+                        {" "}
+                        *
+                    </span>
                     <SelectInput label={null} onChange={changeSex} defaultValue={newItemSex}>
                         <MenuItem value="WOMAN" className={classes.cssLabel}>
-                            Woman
+                            {t("Woman")}
                         </MenuItem>
                         <MenuItem value="MAN" className={classes.cssLabel}>
-                            Man
+                            {t("Man")}
                         </MenuItem>
                         <MenuItem value="UNDEFINED" className={classes.cssLabel}>
                             Unisex
@@ -151,7 +170,11 @@ const AddItemSelects = ({
                 </div>
             )}
             <div className="form-floating mb-3  step-content">
-                <span className={classes.cssLabelName}>Color *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Color")}
+                    {" "}
+                    *
+                </span>
                 <SelectInput label={null} onChange={setColor} defaultValue={newItemColor}>
                     {colors.map((e) => (
                         <MenuItem value={e.id} className={classes.cssLabel} key={e.id}>
@@ -161,7 +184,7 @@ const AddItemSelects = ({
                                 borderBottom: `2px ${e.hexCode} solid`,
                             }}
                             >
-                                {e.name}
+                                {t(e.name)}
                             </span>
                         </MenuItem>
                     ))}

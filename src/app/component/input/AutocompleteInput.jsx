@@ -114,6 +114,7 @@ const AutocompleteInput = ({
             }
             return option.name;
         }}
+        disableClearable
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         renderOption={(props, option) => <li {...props}>{option.name}</li>}
         sx={{ width: 300 }}

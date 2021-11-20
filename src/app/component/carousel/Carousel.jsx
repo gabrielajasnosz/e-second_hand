@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
+import { useTranslation } from "react-i18next";
 import BasicButton from "../button/BasicButton";
 import { UserService } from "../../service/UserService";
 import AddItemModal from "../addItemModal/AddItemModal";
@@ -144,8 +145,9 @@ const enhance = compose(
 );
 
 const Carousel = ({ classes, resetData }) => {
+    const { t } = useTranslation();
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
-    const tooltip = isLoggedIn ? "Sell" : "Create an account to add new item.";
+    const tooltip = isLoggedIn ? t("Add new item") : t("Sign in to add new item");
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -163,7 +165,11 @@ const Carousel = ({ classes, resetData }) => {
                     >
                         <div className="navigation-button">
                             <BasicButton disabled={!isLoggedIn} onButtonClick={handleOpen}>
-                                <span> Sell  </span>
+                                <span>
+                                    {" "}
+                                    {t("Add new item")}
+                                    {" "}
+                                </span>
                             </BasicButton>
                         </div>
                     </Tooltip>

@@ -9,21 +9,25 @@ const propTypes = {
     classes: PropTypes.shape({
         input: PropTypes.string,
         textField: PropTypes.string,
+        textFieldSize: PropTypes.string,
         cssLabel: PropTypes.string,
         cssOutlinedInput: PropTypes.string,
         cssFocused: PropTypes.string,
         notchedOutline: PropTypes.string,
         loginFail: PropTypes.string,
-        helperText: PropTypes.string
+        helperText: PropTypes.string,
+        size: PropTypes.string
     }).isRequired,
     children: PropTypes.node.isRequired,
+    size: PropTypes.string,
     color: PropTypes.string,
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 
 const defaultProps = {
     label: null,
-    color: "beige"
+    color: "beige",
+    size: undefined
 };
 
 const styles = {
@@ -70,7 +74,15 @@ const styles = {
     cssFocused: {
         fontFamily: "Open Sans, sans-serif"
     },
-
+    size: {
+        height: "40px",
+        padding: 0,
+    },
+    textFieldSize: {
+        marginTop: "0",
+        width: "194px",
+        marginBottom: "8px",
+    },
     notchedOutline: {
         borderWidth: "1px",
     },
@@ -83,7 +95,7 @@ const styles = {
 
 const SelectInput = ({
     // eslint-disable-next-line no-unused-vars
-    classes, onChange, label, children, defaultValue, color
+    classes, onChange, label, children, defaultValue, color, size
 }) => {
     const classToUse = color === "white" ? "paperWhite" : "paperBeige";
     return (
@@ -93,7 +105,7 @@ const SelectInput = ({
             required
             variant="outlined"
             value={defaultValue || ""}
-            className={classes.textField}
+            className={size === "small" ? classes.textFieldSize : classes.textField}
             onChange={onChange}
             label={label}
             SelectProps={{
@@ -120,6 +132,7 @@ const SelectInput = ({
                     root: classes.cssOutlinedInput,
                     focused: classes.cssFocused,
                     notchedOutline: classes.notchedOutline,
+                    input: size === "small" ? classes.size : undefined
                 }
             }}
             InputLabelProps={{

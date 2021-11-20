@@ -2,6 +2,7 @@ import React from "react";
 import Chip from "@mui/material/Chip";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { useTranslation } from "react-i18next";
 
 const styles = {
     root: {
@@ -32,29 +33,30 @@ const styles = {
 const ActiveFilterChip = ({
     activeFilter, onDelete, icon, classes, deleteIcon, maxPrice
 }) => {
+    const { t } = useTranslation();
     const prepareChipLabel = () => {
         if (activeFilter.name === "sortingOrder") {
-            const value = activeFilter.value === "DESC" ? "Descending" : "Ascending";
-            return `Sorting Order: ${value}`;
+            const value = activeFilter.value === "DESC" ? t("Descending") : t("Ascending");
+            return `${t("Sorting order")}: ${value}`;
         }
         if (activeFilter.name === "sortingColumn") {
-            const value = activeFilter.value === "creationDate" ? "Creation date" : "Price";
-            return `Sorting Column: ${value}`;
+            const value = activeFilter.value === "creationDate" ? t("Creation date") : t("Price");
+            return `${t("Sort by")}: ${value}`;
         }
-        if (activeFilter.name === "brand") {
-            return `Brand: ${activeFilter.value}`;
+        if (activeFilter.name === "brandName") {
+            return `${t("Brand")}: ${activeFilter.value}`;
         }
         if (activeFilter.name === "sizeName") {
-            return `Size: ${activeFilter.value}`;
+            return `${t("Size")}: ${activeFilter.value}`;
         }
         if (activeFilter.name === "colorName") {
-            return `Color: ${activeFilter.value}`;
+            return `${t("Color")}: ${t(activeFilter.value)}`;
         }
         if (activeFilter.name === "categoryName") {
-            return `Category: ${activeFilter.value}`;
+            return `${t("Category")}: ${t(activeFilter.value)}`;
         }
         if (activeFilter.name === "minPrice") {
-            return `Price range: ${activeFilter.value} - ${maxPrice} `;
+            return `${t("Price range")}: ${activeFilter.value} - ${maxPrice} `;
         }
         return "";
     };

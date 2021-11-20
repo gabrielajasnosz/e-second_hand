@@ -1,11 +1,17 @@
 import itemActions from "./itemListActions";
 import { ItemService } from "../../../service/ItemService";
+import { SavedFiltersService } from "../../../service/SavedFiltersService";
 import store from "../../../store";
 import { getItemList } from "../selectors";
 
 export const setItemList = (itemList) => ({
     type: itemActions.setItemList,
     itemList
+});
+
+export const setSavedFilters = (savedFilters) => ({
+    type: itemActions.setSavedFilters,
+    savedFilters
 });
 
 export const setNextItemId = (nextItemId) => ({
@@ -18,8 +24,18 @@ export const setNextItemValue = (nextItemValue) => ({
     nextItemValue
 });
 
+export const setFilters = (filter) => ({
+    type: itemActions.setFilters,
+    filter
+});
+
 export const resetList = () => ({
     type: itemActions.resetList
+});
+
+export const setFiltersLoading = (filtersLoading) => ({
+    type: itemActions.setFiltersLoading,
+    filtersLoading
 });
 
 export const setLoading = (isLoading) => ({
@@ -31,6 +47,12 @@ export const setCategoryName = (categoryName) => ({
     type: itemActions.setCategoryName,
     categoryName
 });
+
+export const setBrandName = (brandName) => ({
+    type: itemActions.setBrandName,
+    brandName
+});
+
 export const setSizeName = (sizeName) => ({
     type: itemActions.setSizeName,
     sizeName
@@ -47,7 +69,7 @@ export const fetchItems = () => (dispatch) => {
         sizeId: data.sizeId,
         colorId: data.colorId,
         categoryId: data.categoryId,
-        brand: data.filters.brand,
+        brandId: data.brandId,
         sortingColumn: data.filters.sortingColumn,
         sortingOrder: data.filters.sortingOrder,
         nextItemValue: data.nextItemValue,
@@ -148,6 +170,26 @@ export const setSortingOrder = (element) => (dispatch) => {
     dispatch(fetchItems());
 };
 
+export const setBrandId = (brand) => (dispatch) => {
+    dispatch({
+        type: itemActions.setBrandId,
+        brandId: brand.value
+    });
+    dispatch({
+        type: itemActions.setBrandName,
+        brandName: brand.label
+    });
+
+    dispatch({
+        type: itemActions.setNextItemId,
+        nextItemId: null
+    });
+    dispatch({
+        type: itemActions.resetList
+    });
+    dispatch(fetchItems());
+};
+
 export const setSizeId = (element) => (dispatch) => {
     const sizeName = element.name;
     const sizeId = element.id;
@@ -167,23 +209,6 @@ export const setSizeId = (element) => (dispatch) => {
         type: itemActions.resetList
     });
     dispatch(fetchItems());
-};
-
-export const setBrand = (brand) => (dispatch) => {
-    dispatch({
-        type: itemActions.setBrand,
-        brand
-    });
-    if (brand !== "") {
-        dispatch({
-            type: itemActions.setNextItemId,
-            nextItemId: null
-        });
-        dispatch({
-            type: itemActions.resetList
-        });
-        dispatch(fetchItems());
-    }
 };
 
 export const setGender = (gender) => ({
@@ -214,4 +239,51 @@ export const resetData = () => (dispatch) => {
     dispatch({
         type: itemActions.resetItemList,
     });
+};
+
+export const fetchSavedFilters = () => (dispatch) => {
+    SavedFiltersService.getSavedFilters().then((response) => response.json()).then((json) => {
+        dispatch(setSavedFilters(json));
+    });
+};
+
+export const fetchFiltersById = (id) => (dispatch) => {
+    SavedFiltersService.getSavedFilterById(id).then((response) => response.json()).then((json) => {
+        dispatch(setFilters(json));
+        dispatch({
+            type: itemActions.setNextItemId,
+            nextItemId: null
+        });
+        dispatch({
+            type: itemActions.resetList
+        });
+        dispatch(fetchItems());
+    });
+
+    return true;
+};
+
+export const saveFilters = (name) => (dispatch) => {
+    const data = getItemList(store.getState());
+    const filterObject = {
+        sizeId: data.sizeId,
+        colorId: data.colorId,
+        categoryId: data.categoryId,
+        brandId: data.brandId,
+        sortingColumn: data.filters.sortingColumn,
+        sortingOrder: data.filters.sortingOrder,
+        maxPrice: data.filters.maxPrice,
+        minPrice: data.filters.minPrice,
+        name,
+        gender: data.gender
+    };
+    dispatch(setFiltersLoading(true));
+    SavedFiltersService.saveFilters(filterObject).then((response) => response.json()).then(() => {
+        setTimeout(() => {
+            dispatch(fetchSavedFilters());
+            dispatch(setFiltersLoading(false));
+        }, 4000);
+    });
+
+    return true;
 };

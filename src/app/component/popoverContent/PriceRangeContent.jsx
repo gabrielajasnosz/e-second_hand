@@ -2,13 +2,13 @@ import React from "react";
 import Slider from "@mui/material/Slider";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { useTranslation } from "react-i18next";
 import BasicButton from "../button/BasicButton";
 
 const styles = {
     container: {
         backgroundColor: "#F0EFEB !important",
-        height: "15rem",
-        padding: "3rem",
+        padding: "1.5rem",
     },
     root: {
         color: "#cb997e !important",
@@ -27,6 +27,8 @@ const PriceRangeContent = ({
         setValue(newValue);
     };
 
+    const { t } = useTranslation();
+
     const savePriceRange = () => {
         setMaxPrice(value[1]);
         setMinPrice(value[0]);
@@ -34,7 +36,7 @@ const PriceRangeContent = ({
 
     return (
         <div className={classes.container}>
-            <span>Select price range</span>
+            <span>{t("Select price range")}</span>
             <Slider
                 getAriaLabel={() => "Price range"}
                 size="small"
@@ -48,7 +50,7 @@ const PriceRangeContent = ({
                 classes={{ root: classes.root }}
             />
             <BasicButton onButtonClick={savePriceRange}>
-                <span>SAVE</span>
+                <span>{t("Save")}</span>
             </BasicButton>
         </div>
     );

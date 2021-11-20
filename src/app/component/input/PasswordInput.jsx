@@ -50,7 +50,7 @@ const PasswordInput = ({
                 focused: classes.cssFocused
             }}
         >
-            Password
+            {label}
         </InputLabel>
         <OutlinedInput
             id="outlined-adornment-password"

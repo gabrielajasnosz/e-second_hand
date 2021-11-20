@@ -6,9 +6,10 @@ export const initialState = {
     nextItemValue: null,
     categoryId: null,
     colorId: null,
+    brandId: null,
     sizeId: null,
     filters: {
-        brand: null,
+        brandName: null,
         categoryName: null,
         colorName: null,
         sizeName: null,
@@ -19,6 +20,8 @@ export const initialState = {
     },
     isLoading: false,
     gender: null,
+    savedFilters: [],
+    filtersLoading: false,
 };
 
 const itemList = (state = initialState, action) => {
@@ -27,6 +30,18 @@ const itemList = (state = initialState, action) => {
             return {
                 ...state,
                 itemList: [...state.itemList, ...action.itemList]
+            };
+        }
+        case itemActions.setFiltersLoading: {
+            return {
+                ...state,
+                filtersLoading: action.filtersLoading
+            };
+        }
+        case itemActions.setSavedFilters: {
+            return {
+                ...state,
+                savedFilters: action.savedFilters
             };
         }
         case itemActions.setNextItemId: {
@@ -111,13 +126,18 @@ const itemList = (state = initialState, action) => {
                     sizeName: action.sizeName
                 }
             };
-        case itemActions.setBrand:
+        case itemActions.setBrandName:
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    brand: action.brand
+                    brandName: action.brandName
                 }
+            };
+        case itemActions.setBrandId:
+            return {
+                ...state,
+                brandId: action.brandId
             };
         case itemActions.setSortingColumn:
             return {
@@ -135,6 +155,26 @@ const itemList = (state = initialState, action) => {
                     sortingOrder: action.sortingOrder
                 }
             };
+        case itemActions.setFilters:
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    brandName: action.filter.brandDto ? action.filter.brandDto.name : null,
+                    categoryName: action.filter.categoryDto ? action.filter.categoryDto.name : null,
+                    colorName: action.filter.colorDto ? action.filter.colorDto.name : null,
+                    sizeName: action.filter.sizeDto ? action.filter.sizeDto.name : null,
+                    sortingColumn: action.filter.sortingColumn,
+                    sortingOrder: action.filter.sortingOrder,
+                    minPrice: action.filter.minPrice,
+                    maxPrice: action.filter.maxPrice,
+                },
+                gender: action.filter.gender,
+                categoryId: action.filter.categoryDto ? action.filter.categoryDto.id : null,
+                colorId: action.filter.colorDto ? action.filter.colorDto.id : null,
+                brandId: action.filter.brandDto ? action.filter.brandDto.id : null,
+                sizeId: action.filter.sizeDto ? action.filter.sizeDto.id : null,
+            };
         case itemActions.resetItemList:
             return {
                 ...state,
@@ -143,9 +183,10 @@ const itemList = (state = initialState, action) => {
                 nextItemValue: null,
                 categoryId: null,
                 colorId: null,
+                brandId: null,
                 sizeId: null,
                 filters: {
-                    brand: null,
+                    brandName: null,
                     categoryName: null,
                     colorName: null,
                     sizeName: null,
@@ -156,6 +197,8 @@ const itemList = (state = initialState, action) => {
                 },
                 isLoading: false,
                 gender: null,
+                savedFilters: [],
+                filtersLoading: false,
             };
         case itemActions.resetList:
             return {

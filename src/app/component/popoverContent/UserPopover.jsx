@@ -10,6 +10,7 @@ import Divider from "@mui/material/Divider";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import { UserService } from "../../service/UserService";
 
 const propTypes = {
@@ -23,52 +24,56 @@ const propTypes = {
     }).isRequired,
 };
 
-const UserPopover = ({ classes }) => (
-    <Box sx={{ backgroundColor: "#F0EFEB", height: "auto" }}>
-        <List>
-            <ListItem disablePadding>
-                <ListItemButton
-                    disableRipple
-                    onClick={() => {}}
-                >
-                    <AccountCircleIcon className={classes.icon} />
-                    <ListItemText
-                        disableTypography
-                        primary={<Typography variant="body2" className={classes.field}>My profile</Typography>}
-                    />
-                </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-                <ListItemButton
-                    disableRipple
-                    onClick={() => {}}
-                >
-                    <SettingsIcon className={classes.icon} />
-                    <ListItemText
-                        disableTypography
-                        primary={<Typography variant="body2" className={classes.field}>Manage your data</Typography>}
-                    />
-                </ListItemButton>
-            </ListItem>
-            <Divider className={classes.divider} />
-            <ListItem disablePadding>
-                <ListItemButton
-                    disableRipple
-                    onClick={() => {
-                        UserService.logout();
-                        window.location.href = "/";
-                    }}
-                >
-                    <LogoutIcon className={classes.icon} />
-                    <ListItemText
-                        disableTypography
-                        primary={<Typography variant="body2" className={classes.field}>Logout</Typography>}
-                    />
-                </ListItemButton>
-            </ListItem>
-        </List>
-    </Box>
-);
+const UserPopover = ({ classes }) => {
+    const { t } = useTranslation();
+
+    return (
+        <Box sx={{ backgroundColor: "#F0EFEB", height: "auto" }}>
+            <List>
+                <ListItem disablePadding>
+                    <ListItemButton
+                        disableRipple
+                        onClick={() => {}}
+                    >
+                        <AccountCircleIcon className={classes.icon} />
+                        <ListItemText
+                            disableTypography
+                            primary={<Typography variant="body2" className={classes.field}>{t("My profile")}</Typography>}
+                        />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton
+                        disableRipple
+                        onClick={() => {}}
+                    >
+                        <SettingsIcon className={classes.icon} />
+                        <ListItemText
+                            disableTypography
+                            primary={<Typography variant="body2" className={classes.field}>{t("Manage your data")}</Typography>}
+                        />
+                    </ListItemButton>
+                </ListItem>
+                <Divider className={classes.divider} />
+                <ListItem disablePadding>
+                    <ListItemButton
+                        disableRipple
+                        onClick={() => {
+                            UserService.logout();
+                            window.location.href = "/";
+                        }}
+                    >
+                        <LogoutIcon className={classes.icon} />
+                        <ListItemText
+                            disableTypography
+                            primary={<Typography variant="body2" className={classes.field}>{t("Logout")}</Typography>}
+                        />
+                    </ListItemButton>
+                </ListItem>
+            </List>
+        </Box>
+    );
+};
 
 UserPopover.propTypes = propTypes;
 export default UserPopover;

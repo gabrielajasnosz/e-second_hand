@@ -1,0 +1,20 @@
+.saved-filters{
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 1rem;
+  align-content: center;
+  align-items: center;
+
+  .save-span{
+    margin-left: 1rem
+  }
+
+  .saved-filters-select{
+    margin-top: 0.5rem;
+
+  .select-span{
+      font-size: 12px
+    };
+  }
+
+}

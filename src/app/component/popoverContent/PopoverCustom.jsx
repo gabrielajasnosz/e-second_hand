@@ -6,9 +6,8 @@ import Popover from "@mui/material/Popover";
 const styles = {
     paper: {
         width: "20rem",
-        maxHeight: "20rem",
         height: "auto",
-        overflow: "auto",
+        backgroundColor: "#F0EFEB !important",
         textTransform: "capitalize",
         color: "black !important",
         fontFamily: "Open Sans, sans-serif !important",
@@ -38,11 +37,16 @@ PopoverCustom.propTypes = {
     classes: PropTypes.shape({
         paper: PropTypes.string.isRequired
     }).isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     open: PropTypes.bool.isRequired,
-    anchor: PropTypes.string.isRequired,
+    anchor: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     anchorOrigin: PropTypes.shape({}).isRequired
 
+};
+
+PopoverCustom.defaultProps = {
+    id: undefined,
+    anchor: null
 };
 export default withStyles(styles)(PopoverCustom);

@@ -12,6 +12,7 @@ import { withRouter } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
+import { useTranslation } from "react-i18next";
 import { UserService } from "../../service/UserService";
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import {
@@ -27,6 +28,7 @@ import {
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
 import { getSubcategories } from "./selectors";
+import "../../../translations/i18n";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -115,6 +117,7 @@ const Header = ({
     // eslint-disable-next-line react/prop-types
     fetchCategories, classes, fetchSizes, fetchBrands, fetchColors, history, setGender, setCategory
 }) => {
+    const { t } = useTranslation();
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
     const [isLoggedIn, setLoggedIn] = React.useState(false);
@@ -181,7 +184,7 @@ const Header = ({
                             disableRipple
                             onClick={handleClickFemale}
                         >
-                            Woman
+                            {t("woman")}
                         </Button>
                         <Popover
                             id={femaleId}
@@ -211,7 +214,7 @@ const Header = ({
                             disableRipple
                             onClick={handleClickMale}
                         >
-                            Man
+                            {t("man")}
                         </Button>
                         <Popover
                             id={maleId}
@@ -243,14 +246,14 @@ const Header = ({
                                 disableRipple
                                 onClick={navigateToLoginPage}
                             >
-                                Login
+                                {t("login")}
                             </Button>
                             <Button
                                 className={classNames(classes.button, "nav-link")}
                                 disableRipple
                                 onClick={navigateToRegisterPage}
                             >
-                                Register
+                                {t("register")}
                             </Button>
                         </div>
                     ) : (

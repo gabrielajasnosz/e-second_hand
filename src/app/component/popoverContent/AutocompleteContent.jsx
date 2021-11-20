@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import AutocompleteInput from "../input/AutocompleteInput";
+import AutocompleteSelect from "../input/AutocompleteSelect";
 
 const styles = {
     field: {
@@ -18,15 +18,22 @@ const styles = {
     }
 };
 
-const AutocompleteContent = ({ list, onClick }) => (
-    <div style={{
-        padding: "1rem 0", display: "flex", justifyContent: "center", backgroundColor: "#F0EFEB"
-    }}
-    >
-        <AutocompleteInput onChange={onClick} defaultValue="" passedOptions={list} disableAdding attributeName="id" />
-    </div>
+// eslint-disable-next-line no-unused-vars
+const AutocompleteContent = ({ list, onClick }) => {
+    const map = list.map((el) => ({
+        label: el.name,
+        value: el.id
+    }));
 
-);
+    return (
+        <div style={{
+            padding: "1rem 0", display: "flex", justifyContent: "center", backgroundColor: "#F0EFEB"
+        }}
+        >
+            <AutocompleteSelect options={map} onChange={onClick} />
+        </div>
+    );
+};
 
 AutocompleteContent.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types

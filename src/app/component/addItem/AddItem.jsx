@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { useTranslation } from "react-i18next";
 import AddItemInputs from "./AddItemInputs";
 import TextButton from "../button/TextButton";
 import AddItemSelects from "./AddItemSelects";
@@ -29,8 +30,6 @@ import {
 import {
     saveItem as saveItemActionCreator,
 } from "./action/newItem";
-
-const steps = ["Step 1", "Step 2", "Step 3"];
 
 const mapStateToProps = (state) => ({
     isNameEmptySelector: isNameEmpty(state),
@@ -67,6 +66,9 @@ const AddItem = ({
     saveItem,
     areImagesEmptySelector
 }) => {
+    const { t } = useTranslation();
+
+    const steps = [`${t("Step")} 1`, `${t("Step")} 2`, `${t("Step")} 3`];
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
@@ -84,11 +86,11 @@ const AddItem = ({
                 onClick={handleBack}
                 sx={{ mr: 1 }}
             >
-                <span>Back</span>
+                <span>{t("Back")}</span>
             </TextButton>
             {activeStep === 0 && (
             <TextButton onClick={handleNext} disabled={isNameEmptySelector}>
-                <span>Next</span>
+                <span>{t("Next")}</span>
             </TextButton>
             )}
             {activeStep === 1 && (
@@ -96,8 +98,7 @@ const AddItem = ({
                     onClick={handleNext}
                     disabled={isColorEmptySelector || isCategoryIdEmptySelector || isSexEmptySelector || isBrandEmptySelector}
                 >
-                    {console.log(isColorEmptySelector)}
-                    <span>Next</span>
+                    <span>{t("Next")}</span>
                 </TextButton>
             )}
             {activeStep === 2 && (
@@ -106,7 +107,7 @@ const AddItem = ({
                     buttonClassName="reverse-button"
                     disabled={isSizeEmptySelector || isPriceEmptySelector || isPriceIncorrectSelector || areImagesEmptySelector}
                 >
-                    Add Item
+                    <span>{t("Save")}</span>
                 </BasicButton>
             )}
 
@@ -116,7 +117,7 @@ const AddItem = ({
     return (
         <div className="add-item-container">
             <div className="add-item-row">
-                <span>Add item</span>
+                <span>{t("Add new item")}</span>
                 <IconButton onClick={handleClose} size="small" classes={{ root: classes.userIcon }}>
                     <CloseIcon />
                 </IconButton>

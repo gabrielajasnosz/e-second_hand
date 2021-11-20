@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { useTranslation } from "react-i18next";
 import BasicButton from "../../component/button/BasicButton";
 import {
     setPassword as setPasswordActionCreator,
@@ -20,6 +21,7 @@ import {
     setSex as setSexActionCreator
 } from "./action/registerPageData";
 import "../loginPage/LoginPage.scss";
+import "../../../translations/i18n";
 import {
     getEmailValidation,
     getDisplayNameValidation,
@@ -60,7 +62,8 @@ const styles = {
     cssLabel: {
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
-        fontSize: "14px"
+        fontSize: "14px",
+        textTransform: "capitalize"
     },
     alert: {
         justifyContent: "center",
@@ -111,6 +114,7 @@ const RegisterPage = ({
     isEmailIncorrect, registrationStatus, registrationMessage, resetData, setSex, sex, sexError
 }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const { t } = useTranslation();
 
     const isButtonEnabled = emailError || passwordError || displayNameError || sexError;
 
@@ -141,33 +145,33 @@ const RegisterPage = ({
                                     severity={registrationStatus ? "success" : "error"}
                                     classes={{ root: classes.alert, message: classes.message }}
                                 >
-                                    {registrationMessage}
+                                    {t(registrationMessage)}
                                 </Alert>
                                 )}
-                                <h3 className="login-heading mb-3">Create new account</h3>
+                                <h3 className="login-heading mb-3">{t("Create new account")}</h3>
                                 <form className="form">
                                     <div className="form-floating mb-3">
-                                        <TextInput label="Your first and last name" onChange={setDisplayName} />
+                                        <TextInput label={t("Your first and last name")} onChange={setDisplayName} />
                                     </div>
                                     <div className="form-floating mb-3">
                                         <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect} />
                                     </div>
                                     <div className="form-floating mb-3">
-                                        <SelectInput label="Sex" onChange={setSex} color="white" defaultValue={sex}>
+                                        <SelectInput label={t("Sex")} onChange={setSex} color="white" defaultValue={sex}>
                                             <MenuItem value="WOMAN" className={classes.cssLabel}>
-                                                Woman
+                                                {t("woman")}
                                             </MenuItem>
                                             <MenuItem value="MAN" className={classes.cssLabel}>
-                                                Man
+                                                {t("man")}
                                             </MenuItem>
                                             <MenuItem value="UNDEFINED" className={classes.cssLabel}>
-                                                Other
+                                                {t("other")}
                                             </MenuItem>
                                         </SelectInput>
                                     </div>
                                     <div className="form-floating mb-3">
                                         <PasswordInput
-                                            label="Password"
+                                            label={t("password")}
                                             onChange={setPassword}
                                             showPassword={showPassword}
                                             setShowPassword={setShowPassword}
@@ -176,19 +180,27 @@ const RegisterPage = ({
                                 </form>
                                 <div className="d-grid">
                                     <BasicButton onButtonClick={registerUser} label="Sign up" disabled={isButtonEnabled}>
-                                        <span> Sign up </span>
+                                        <span>
+                                            {" "}
+                                            {t("Sign up")}
+                                            {" "}
+                                        </span>
                                     </BasicButton>
                                     <hr />
                                     <div className="createNewAccount">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                        <span className="helper-text">Already have an account?</span>
+                                        <span className="helper-text">{t("Already have an account?")}</span>
                                         <div style={{ marginTop: "1rem" }}>
                                             <BasicButton
                                                 onButtonClick={navigateToLoginPage}
                                                 label="Sign in"
                                                 buttonClassName="reverse-button"
                                             >
-                                                <span> Sign in </span>
+                                                <span>
+                                                    {" "}
+                                                    {t("Sign in")}
+                                                    {" "}
+                                                </span>
                                             </BasicButton>
                                         </div>
                                     </div>

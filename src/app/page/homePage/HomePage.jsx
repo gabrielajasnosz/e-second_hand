@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "../../component/carousel/Carousel";
-import ImageListWidget from "../../component/imageListWidget/ImageListWidget";
+import ImageListWidget from "../../component/itemListWidget/ItemListWidget";
 import { ItemService } from "../../service/ItemService";
 // eslint-disable-next-line react/prop-types
 const HomePage = ({ history }) => {

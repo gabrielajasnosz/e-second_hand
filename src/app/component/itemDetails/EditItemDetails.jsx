@@ -10,6 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { bindActionCreators } from "redux";
 import withHandlers from "recompose/withHandlers";
+import { useTranslation } from "react-i18next";
 import TextInput from "../input/TextInput";
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import AutocompleteInput from "../input/AutocompleteInput";
@@ -174,6 +175,8 @@ const EditItemDetails = ({
         setAnchorGender(event.currentTarget);
     };
 
+    const { t } = useTranslation();
+
     const handleCloseGender = () => {
         setAnchorGender(null);
     };
@@ -193,27 +196,43 @@ const EditItemDetails = ({
                 <CloseIcon className={classes.backIcon} />
             </IconButton>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Price *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Price")}
+                    {" "}
+                    *
+                </span>
                 <TextInput
                     label={null}
                     onChange={setEditedItemPrice}
                     defaultValue={itemData.price}
-                    error={isPriceValueIncorrect ? "Please provide correct value" : null}
+                    error={isPriceValueIncorrect ? t("Please provide correct value") : null}
                     /* eslint-disable-next-line no-restricted-globals */
                     endAdornment
                 />
             </div>
             {" "}
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Name *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Name")}
+                    {" "}
+                    *
+                </span>
                 <TextInput label={null} onChange={setEditedItemName} defaultValue={itemData.name || ""} />
             </div>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Description</span>
+                <span className={classes.cssLabelName}>
+                    {t("Description")}
+                    {" "}
+                    *
+                </span>
                 <TextInput label={null} onChange={setEditedItemDescription} defaultValue={itemData.description} multiline />
             </div>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Category *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Category")}
+                    {" "}
+                    *
+                </span>
                 {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div className={classes.chosenCategory} role="button" onClick={handleClickGender} tabIndex={0}>
                     <span className={classes.cssLabelCategory}>{itemData.category}</span>
@@ -246,11 +265,19 @@ const EditItemDetails = ({
             </div>
 
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Brand *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Brand")}
+                    {" "}
+                    *
+                </span>
                 <AutocompleteInput onChange={setEditedItemBrand} defaultValue={itemData.brand} passedOptions={brands} />
             </div>
             <div className="form-floating mb-3  step-content">
-                <span className={classes.cssLabelName}>Color *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Color")}
+                    {" "}
+                    *
+                </span>
                 <SelectInput label={null} onChange={setEditedItemColor} defaultValue={itemData.color}>
                     {colors.map((e) => (
                         <MenuItem value={e.name} className={classes.cssLabel} key={e.id}>
@@ -260,7 +287,7 @@ const EditItemDetails = ({
                                 borderBottom: `2px ${e.hexCode} solid`,
                             }}
                             >
-                                {e.name}
+                                {t(e.name)}
                             </span>
                         </MenuItem>
                     ))}
@@ -268,13 +295,17 @@ const EditItemDetails = ({
             </div>
             { itemData.categoryGender === "UNDEFINED" && (
                 <div className="form-floating mb-3  step-content">
-                    <span className={classes.cssLabelName}>Gender *</span>
+                    <span className={classes.cssLabelName}>
+                        {t("Gender")}
+                        {" "}
+                        *
+                    </span>
                     <SelectInput label={null} onChange={changeEditedItemGender} defaultValue={itemData.gender}>
                         <MenuItem value="WOMAN" className={classes.cssLabel}>
-                            Woman
+                            {t("woman")}
                         </MenuItem>
                         <MenuItem value="MAN" className={classes.cssLabel}>
-                            Man
+                            {t("man")}
                         </MenuItem>
                         <MenuItem value="UNDEFINED" className={classes.cssLabel}>
                             Unisex
@@ -284,7 +315,11 @@ const EditItemDetails = ({
 
             )}
             <div className="form-floating mb-3  step-content">
-                <span className={classes.cssLabelName}>Size *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Size")}
+                    {" "}
+                    *
+                </span>
                 <SelectInput label={null} onChange={changeEditedItemSize} defaultValue={itemData.size}>
                     {sizes[productType].map((item) => [
                         <MenuItem key={item} value={item.name}>
@@ -295,7 +330,11 @@ const EditItemDetails = ({
             </div>
             <div className={classes.editButton}>
                 <BasicButton onButtonClick={editItem} disabled={isButtonDisabled} label="Save changes" buttonClassName="select-button">
-                    <span> Save changes </span>
+                    <span>
+                        {" "}
+                        {t("Save")}
+                        {" "}
+                    </span>
                 </BasicButton>
             </div>
         </>

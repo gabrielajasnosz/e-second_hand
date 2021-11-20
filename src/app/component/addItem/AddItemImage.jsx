@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import compose from "recompose/compose";
 import withHandlers from "recompose/withHandlers";
 import Alert from "@mui/material/Alert";
+import { useTranslation } from "react-i18next";
 import TextInput from "../input/TextInput";
 import SelectInput from "../input/SelectInput";
 import {
@@ -55,6 +56,8 @@ const AddItemImage = ({
     const [imagesPreview, setImagesPreview] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const { t } = useTranslation();
+
     const inputRef = React.createRef();
 
     const handleUpload = async (e) => {
@@ -100,7 +103,11 @@ const AddItemImage = ({
                 </Alert>
             )}
             <div className="form-floating mb-3  step-content">
-                <span className={classes.cssLabelName}>Size *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Size")}
+                    {" "}
+                    *
+                </span>
                 <SelectInput label={null} onChange={setSize} defaultValue={newItemSize}>
                     {sizes[type].map((item) => [
                         <MenuItem key={item.id} value={item.id}>
@@ -110,7 +117,11 @@ const AddItemImage = ({
                 </SelectInput>
             </div>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Price *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Price")}
+                    {" "}
+                    *
+                </span>
                 <TextInput
                     label={null}
                     onChange={setPrice}
@@ -121,7 +132,11 @@ const AddItemImage = ({
                 />
             </div>
             <div className="form-floating mb-3 step-content">
-                <span className={classes.cssLabelName}>Add 1-6 pictures *</span>
+                <span className={classes.cssLabelName}>
+                    {t("Add 1-6 pictures")}
+                    {" "}
+                    *
+                </span>
                 {isLoading && (
                     <Progress />
                 )}
@@ -139,7 +154,11 @@ const AddItemImage = ({
                         onChange={handleUpload}
                     />
                     {/* eslint-disable-next-line react/button-has-type */}
-                    <TextButton onClick={() => inputRef.current.click()}>{newItemImages.length === 0 ? "Upload images" : "Change images"}</TextButton>
+                    <TextButton
+                        onClick={() => inputRef.current.click()}
+                    >
+                        {newItemImages.length === 0 ? t("Upload images") : t("Change images")}
+                    </TextButton>
                 </label>
             </div>
         </>
