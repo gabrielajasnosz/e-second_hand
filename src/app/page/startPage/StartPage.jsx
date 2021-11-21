@@ -10,6 +10,7 @@ import RegisterPage from "../registerPage/RegisterPage";
 import Item from "../itemPage/Item";
 import NotFoundPage from "../notFoundPage/NotFoundPage";
 import ItemList from "../itemList/ItemList";
+import UserProfile from "../userProfile/UserProfile";
 
 const StartPage = () => {
     const history = createBrowserHistory();
@@ -30,6 +31,7 @@ const StartPage = () => {
                         render={(props) => <LoginPage isAccountConfirmation {...props} />}
                     />
                     <Route path="/item/:id" component={Item} />
+                    <Route path="/user/:id" component={UserProfile} />
                     <Route path="/list" component={ItemList} />
                     <Route component={NotFoundPage} />
                 </Switch>

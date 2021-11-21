@@ -31,16 +31,15 @@
   background-color: $basic-grey-color;
   padding: 1rem;
 
-  &:hover{
-    cursor: pointer;
-  }
-
   .item-preview-author{
     display: flex;
     flex-direction: row;
     margin-bottom: 0.5rem;
     align-items: center;
     align-content: center;
+    &:hover{
+      cursor: pointer;
+    }
 
     .author{
       margin-left: 0.5rem;

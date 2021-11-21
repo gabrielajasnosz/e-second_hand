@@ -1,0 +1,15 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.profile-container{
+  position: relative;
+  top: 2rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 100%;
+}

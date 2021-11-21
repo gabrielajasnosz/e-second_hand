@@ -177,28 +177,28 @@ const ItemDetails = ({
                             {itemData.description ? (
                                 <span>{itemData.description}</span>
                             ) : (
-                                <span className="no-info">No description</span>
+                                <span className="no-info">{t("No description")}</span>
                             )}
                         </div>
                         <div className="item-row">
-                            <span className="item-feature">Category</span>
-                            <span className="item-detail">{itemData.category}</span>
+                            <span className="item-feature">{t("Category")}</span>
+                            <span className="item-detail">{t(itemData.category)}</span>
                         </div>
                         <div className="item-row">
-                            <span className="item-feature">Brand</span>
-                            <span className="item-detail">{itemData.brand}</span>
+                            <span className="item-feature">{t("Brand")}</span>
+                            <span className="item-detail">{t(itemData.brand)}</span>
                         </div>
                         <div className="item-row">
-                            <span className="item-feature">Color</span>
-                            <span className="item-detail">{itemData.color}</span>
+                            <span className="item-feature">{t("Color")}</span>
+                            <span className="item-detail">{t(itemData.color)}</span>
                         </div>
                         <div className="item-row">
-                            <span className="item-feature">Size</span>
+                            <span className="item-feature">{t("Size")}</span>
                             <span className="item-detail">{itemData.size}</span>
                         </div>
                         <div className="item-row">
-                            <span className="item-feature">Gender</span>
-                            <span className="item-detail">{itemData.gender}</span>
+                            <span className="item-feature">{t("Gender")}</span>
+                            <span className="item-detail">{t(itemData.gender)}</span>
                         </div>
                     </>
                 ) : (

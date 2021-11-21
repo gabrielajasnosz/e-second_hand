@@ -13,6 +13,8 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
+import debounce from "lodash/debounce";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserService } from "../../service/UserService";
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import {
@@ -29,6 +31,7 @@ import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
 import { getSubcategories } from "./selectors";
 import "../../../translations/i18n";
+import UserAutocomplete from "../input/AsyncAutocomplete";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -41,7 +44,8 @@ const propTypes = {
         line: PropTypes.string.isRequired,
         field: PropTypes.string.isRequired,
         icon: PropTypes.string.isRequired,
-        userIcon: PropTypes.string.isRequired
+        userIcon: PropTypes.string.isRequired,
+        autocomplete: PropTypes.string.isRequired
     }).isRequired,
     setGender: PropTypes.func.isRequired,
     setCategory: PropTypes.func.isRequired
@@ -87,6 +91,12 @@ const styles = {
         "&:hover, &:focus": {
             outline: "none",
         }
+    },
+    autocomplete: {
+        marginLeft: "1rem",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "row"
     }
 };
 
@@ -121,6 +131,10 @@ const Header = ({
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
     const [isLoggedIn, setLoggedIn] = React.useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [options, setOptions] = React.useState([]);
+    const [inputValue, setInputValue] = React.useState("");
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleClickFemale = (event) => {
         setAnchorFemale(event.currentTarget);
@@ -159,6 +173,39 @@ const Header = ({
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const mapOptionsToValues = (optionss) => optionss.map((option) => ({
+        value: option.id,
+        name: option.displayName
+    }));
+
+    const setKeyword = (keyword) => {
+        setInputValue(keyword);
+        setOptions([]);
+        if (keyword.length > 2) {
+            UserService.findUsers(keyword).then((response) => response.json()).then((json) => {
+                setOptions(mapOptionsToValues(json));
+                setIsLoading(false);
+            });
+        } else {
+            setIsLoading(false);
+        }
+    };
+
+    // eslint-disable-next-line consistent-return
+    const getOptions = (keyword) => {
+        setKeyword(keyword);
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    const debouncedLoadSuggestions = debounce((e) => getOptions(e.target.value), 2000);
+
+    const onChange = (e) => {
+        if (e.target.value.length > 2) {
+            setIsLoading(true);
+        }
+        debouncedLoadSuggestions(e);
     };
 
     useEffect(() => {
@@ -238,6 +285,17 @@ const Header = ({
                                 setSex={setGender}
                             />
                         </Popover>
+                        { isLoggedIn && (
+                            <div className={classes.autocomplete}>
+                                <UserAutocomplete
+                                    onChange={onChange}
+                                    passedOptions={options}
+                                    defaultValue={inputValue}
+                                    isLoading={isLoading}
+                                    history={history}
+                                />
+                            </div>
+                        ) }
                     </div>
                     {!isLoggedIn ? (
                         <div className="navbar-nav">
@@ -263,7 +321,9 @@ const Header = ({
                             }}
                             >
                                 <IconButton onClick={handleClick} size="small" classes={{ root: classes.userIcon }}>
-                                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                                    <Avatar>
+                                        <PersonRoundedIcon />
+                                    </Avatar>
                                 </IconButton>
                             </Box>
                             <Popover
@@ -278,7 +338,7 @@ const Header = ({
                                     paper: classes.paper
                                 }}
                             >
-                                <UserPopover classes={classes} />
+                                <UserPopover classes={classes} history={history} />
                             </Popover>
 
                         </div>

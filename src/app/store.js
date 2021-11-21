@@ -9,6 +9,7 @@ import newItem from "./component/addItem/reducer";
 import item from "./page/itemPage/reducer";
 import editedItem from "./component/itemDetails/reducer";
 import itemList from "./page/itemList/reducer";
+import userProfile from "./page/userProfile/reducer";
 
 const areReduxDevtoolsAvailable = !["production", "test"].includes(process.env.NODE_ENV)
     && window.__REDUX_DEVTOOLS_EXTENSION__;
@@ -25,6 +26,7 @@ const store = createStore(combineReducers({
     categories,
     newItem,
     item,
+    userProfile,
     itemList,
     editedItem
 }), storeEnhancer);

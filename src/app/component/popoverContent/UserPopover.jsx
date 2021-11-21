@@ -22,10 +22,15 @@ const propTypes = {
         icon: PropTypes.string.isRequired,
         divider: PropTypes.string.isRequired
     }).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object.isRequired
 };
 
-const UserPopover = ({ classes }) => {
+// eslint-disable-next-line no-unused-vars
+const UserPopover = ({ classes, history }) => {
     const { t } = useTranslation();
+
+    const user = UserService.decodedTokenValue;
 
     return (
         <Box sx={{ backgroundColor: "#F0EFEB", height: "auto" }}>
@@ -33,7 +38,7 @@ const UserPopover = ({ classes }) => {
                 <ListItem disablePadding>
                     <ListItemButton
                         disableRipple
-                        onClick={() => {}}
+                        onClick={() => { history.push(`/user/${user.userId}`); }}
                     >
                         <AccountCircleIcon className={classes.icon} />
                         <ListItemText

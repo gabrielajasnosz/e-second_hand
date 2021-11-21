@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { UserService } from "./UserService";
 
 export function authHeader() {

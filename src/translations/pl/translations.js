@@ -3,7 +3,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 
 export const TRANSLATIONS_PL = {
     woman:"Kobieta",
+    WOMAN:"Kobieta",
+    Woman:"Kobieta",
     man:"Mężczyzna",
+    Man:"Mężczyzna",
+    MAN:"Mężczyzna",
     login:"Logowanie",
     register:"Rejestracja",
     wrongEmail:"Błędny adres e-mail lub hasło",
@@ -113,5 +117,16 @@ export const TRANSLATIONS_PL = {
     "white": "biały",
     "red": "czerwony",
     "green": "zielony",
-    "blue": "niebieski"
+    "blue": "niebieski",
+    "Search for users...": "Szukaj użytkowników...",
+    "No options": "Brak wyników",
+    "No description": "Brak opisu",
+    "In system since": "W aplikacji od",
+    "Phone number": "Numer telefonu",
+    "No information": "Brak informacji",
+    "City": "Miejscowość",
+    "Zip code": "Kod pocztowy",
+    "User's items": "Przedmioty użytkownika",
+    "Comments": "Komentarze",
+    "User don't have any items added yet": "Użytkownik nie ma jeszcze dodanych żadnych przedmiotów"
 };
