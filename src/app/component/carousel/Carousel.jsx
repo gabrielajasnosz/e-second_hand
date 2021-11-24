@@ -8,8 +8,9 @@ import compose from "recompose/compose";
 import { useTranslation } from "react-i18next";
 import BasicButton from "../button/BasicButton";
 import { UserService } from "../../service/UserService";
-import AddItemModal from "../addItemModal/AddItemModal";
+import ModalContainer from "../modal/ModalContainer";
 import { resetData as resetDataActionCreator } from "../addItem/action/newItem";
+import AddItem from "../addItem/AddItem";
 
 const styles = {
     tooltip: {
@@ -173,7 +174,12 @@ const Carousel = ({ classes, resetData }) => {
                             </BasicButton>
                         </div>
                     </Tooltip>
-                    <AddItemModal classes={classes} handleClose={handleClose} open={open} />
+                    <ModalContainer
+                        handleClose={handleClose}
+                        open={open}
+                    >
+                        <AddItem classes={classes} handleClose={handleClose} />
+                    </ModalContainer>
                 </div>
                 <div className="carousel-item carousel-first active">
                     <div className="carousel-caption">

@@ -28,9 +28,23 @@ function getItem(itemId) {
     }).then(handleResponse);
 }
 
+function getHiddenItems() {
+    return fetch("http://localhost:8080/item/hidden", {
+        method: "GET",
+        headers: authHeader(),
+    }).then(handleResponse);
+}
+
 function deleteItem(itemId) {
     return fetch(`http://localhost:8080/item/delete?itemId=${encodeURIComponent(itemId)}`, {
         method: "DELETE",
+        headers: authHeader(),
+    }).then(handleResponse);
+}
+
+function getUserCounters(userId) {
+    return fetch(`http://localhost:8080/item/counters?userId=${encodeURIComponent(userId)}`, {
+        method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
@@ -63,6 +77,8 @@ export const ItemService = {
     editItem,
     deleteItem,
     getItems,
+    getUserCounters,
+    getHiddenItems,
     getPriceExtremeValues,
     manageItemVisibility
 };

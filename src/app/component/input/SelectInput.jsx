@@ -53,6 +53,8 @@ const styles = {
         backgroundColor: "transparent"
     },
     paperWhite: {
+        maxHeight: "13rem",
+        overflowY: "auto",
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
         fontSize: "14px",
@@ -60,6 +62,8 @@ const styles = {
         backgroundColor: "white"
     },
     paperBeige: {
+        maxHeight: "13rem",
+        overflowY: "auto",
         color: "black !important",
         fontFamily: "Open Sans, sans-serif",
         fontSize: "14px",

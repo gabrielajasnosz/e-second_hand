@@ -65,6 +65,22 @@
       padding-left: 1rem;
     }
   }
+  .info-author-with-hover{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:hover{
+      cursor: pointer;
+    }
+
+    .author{
+      font-size: 16px;
+      text-transform: capitalize;
+      padding-left: 1rem;
+    }
+  }
 
   .item-name{
     display: flex;

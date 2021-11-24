@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -7,6 +7,9 @@ import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import UserItems from "../userItems/UserItems";
+import { UserService } from "../../service/UserService";
+import { ItemService } from "../../service/ItemService";
+import ItemPreview from "../itemPreview/ItemPreview";
 
 function TabPanel(props) {
     const {
@@ -52,30 +55,85 @@ const styles = {
     root: {
         fontFamily: "Open Sans, sans-serif !important",
         outline: "none !important",
-        fontWeight: "600 !important"
+        fontWeight: "600 !important",
+        alignItems: "center"
+    },
+    list: {
+        padding: "1rem",
+        margin: "0 1rem 1rem 1rem",
+        borderRadius: ".3rem",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        flexWrap: "wrap",
     }
 };
 
 // eslint-disable-next-line no-unused-vars
 const UserTabs = ({
-    classes, userItemsList, history, itemsLoading, getUserItems, nextItemId
+    classes, userItemsList, history, itemsLoading, getUserItems, nextItemId, userId
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { t } = useTranslation();
     const [value, setValue] = React.useState(0);
+    const [hiddenItems, setHiddenItems] = React.useState([]);
+    const [counters, setCounters] = React.useState({});
+    const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
+    // const isUsersProfile = isLoggedIn && UserService.decodedTokenValue.userId === userId;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    useEffect(() => {
+        if (isLoggedIn) {
+            ItemService.getHiddenItems().then((response) => response.json())
+                .then((json) => {
+                    setHiddenItems(json);
+                });
+        }
+        ItemService.getUserCounters(userId).then((response) => response.json())
+            .then((json) => {
+                setCounters(json);
+            });
+    }, [isLoggedIn, userId]);
+
+    const createLabel = (label, counter) => (
+        <div style={{
+            display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center"
+        }}
+        >
+            <span>{label}</span>
+            <div style={{
+                marginLeft: "1rem",
+                border: "1px #a5a58d solid",
+                width: "1.5rem",
+                height: "1.5rem",
+                borderRadius: ".3rem",
+                display: "flex",
+                color: "#393938",
+                alignItems: "center",
+                justifyContent: "center"
+            }}
+            >
+                {counter}
+            </div>
+        </div>
+    );
+
     return (
         <div style={{ width: "60%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }} classes={{ root: classes.root }}>
                 <Tabs value={value} onChange={handleChange} TabIndicatorProps={{ style: { background: "#cb997e" } }}>
-                    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-                    <Tab label={t("User's items")} {...a11yProps(0)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
+                    {/* eslint-disable-next-line react/jsx-props-no-spreading,max-len */}
+                    <Tab label={createLabel(t("User's items"), counters.itemsCounter)} {...a11yProps(0)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     <Tab label={t("Comments")} {...a11yProps(1)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
+                    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                    { isLoggedIn && (
+                        // eslint-disable-next-line react/jsx-props-no-spreading,max-len
+                        <Tab label={createLabel(t("Hidden items"), counters.hiddenItemsCounter)} {...a11yProps(2)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
+                    )}
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -84,6 +142,21 @@ const UserTabs = ({
             <TabPanel value={value} index={1}>
                 Item Two
             </TabPanel>
+            <TabPanel value={value} index={2}>
+                <div className="user-items-container">
+                    <div>
+                        {hiddenItems.length > 0 ? (
+                            <div className={classes.list}>
+                                {hiddenItems.map((item) => <ItemPreview history={history} item={item} />)}
+                            </div>
+                        ) : (
+                            <div className="items-container">
+                                <span className="no-content-info">{t("User don't have any hidden items added yet")}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </TabPanel>
         </div>
     );
 };
@@ -91,7 +164,8 @@ const UserTabs = ({
 UserTabs.propTypes = {
     classes: PropTypes.shape({
         selected: PropTypes.string,
-        root: PropTypes.string
+        root: PropTypes.string,
+        list: PropTypes.string
     }).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     userItemsList: PropTypes.array.isRequired,
@@ -99,7 +173,8 @@ UserTabs.propTypes = {
     history: PropTypes.object.isRequired,
     itemsLoading: PropTypes.bool.isRequired,
     getUserItems: PropTypes.func.isRequired,
-    nextItemId: PropTypes.number
+    nextItemId: PropTypes.number,
+    userId: PropTypes.number.isRequired
 };
 
 UserTabs.defaultProps = {

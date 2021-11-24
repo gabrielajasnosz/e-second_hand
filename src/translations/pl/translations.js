@@ -128,5 +128,11 @@ export const TRANSLATIONS_PL = {
     "Zip code": "Kod pocztowy",
     "User's items": "Przedmioty użytkownika",
     "Comments": "Komentarze",
-    "User don't have any items added yet": "Użytkownik nie ma jeszcze dodanych żadnych przedmiotów"
+    "User don't have any items added yet": "Użytkownik nie ma jeszcze dodanych żadnych przedmiotów",
+    "Upload photo": "Prześlij zdjęcie",
+    "Edit profile": "Edytuj profil",
+    "Provided value is incorrect": "Podana wartość jest nieprawidłowa",
+    "Save filters": "Zapisz filtry",
+    "Hidden items": "Ukryte przedmioty",
+    "User don't have any hidden items added yet": "Użytkownik nie ma jeszcze żadnych ukrytych przedmiotów",
 };

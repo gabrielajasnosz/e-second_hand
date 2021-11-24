@@ -155,6 +155,7 @@ const ItemList = ({
                 canSaveFilter={canSaveFilter}
                 filtersLoading={filtersLoading}
                 fetchFiltersById={fetchFiltersById}
+                fetchSavedFilters={fetchSavedFilters}
             />
 
             <InfiniteScroll

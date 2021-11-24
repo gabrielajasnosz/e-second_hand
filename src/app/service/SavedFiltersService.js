@@ -23,9 +23,17 @@ function getSavedFilterById(id) {
     }).then(handleResponse);
 }
 
+function deleteSavedFilterById(id) {
+    return fetch(`http://localhost:8080/filters/delete?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        headers: authHeader(),
+    }).then(handleResponse);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export const SavedFiltersService = {
     saveFilters,
     getSavedFilters,
-    getSavedFilterById
+    getSavedFilterById,
+    deleteSavedFilterById
 };

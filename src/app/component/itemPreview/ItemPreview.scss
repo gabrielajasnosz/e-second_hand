@@ -31,7 +31,7 @@
   background-color: $basic-grey-color;
   padding: 1rem;
 
-  .item-preview-author{
+  .item-preview-author-with-hover{
     display: flex;
     flex-direction: row;
     margin-bottom: 0.5rem;
@@ -40,6 +40,21 @@
     &:hover{
       cursor: pointer;
     }
+
+    .author{
+      margin-left: 0.5rem;
+      text-transform: capitalize;
+      font-family: $preferred-font;
+      font-size: 14px;
+    }
+  }
+
+  .item-preview-author{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    align-content: center;
 
     .author{
       margin-left: 0.5rem;

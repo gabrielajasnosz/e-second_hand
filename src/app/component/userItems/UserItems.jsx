@@ -1,30 +1,13 @@
 import React from "react";
 import "./UserItems.scss";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroller";
 import ItemPreview from "../itemPreview/ItemPreview";
 import Progress from "../progress/Progress";
 
-const styles = {
-    root: {
-        height: "18rem !important",
-        width: "12rem !important",
-
-        "@media only screen and (max-width: 600px)": {
-            height: "18vh !important",
-            width: "12vh !important",
-            marginRight: "0 !important"
-        }
-    },
-    progress: {
-        color: "#cb997e !important"
-    }
-};
-
 const UserItems = ({
-    items, history, classes, itemsLoading, getUserItems, nextItemId
+    items, history, itemsLoading, getUserItems, nextItemId
 }) => {
     const { t } = useTranslation();
 
@@ -37,7 +20,7 @@ const UserItems = ({
             >
                 {items && (
                     <div className="image-list">
-                        {items.map((item) => <ItemPreview history={history} item={item} classes={classes} />)}
+                        {items.map((item) => <ItemPreview history={history} item={item} />)}
                     </div>
                 )}
                 {items.length === 0 && itemsLoading === false && (
@@ -70,4 +53,4 @@ UserItems.defaultProps = {
     nextItemId: null
 };
 
-export default withStyles(styles)(UserItems);
+export default UserItems;

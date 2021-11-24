@@ -19,6 +19,7 @@ import { Tooltip } from "@material-ui/core";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Visibility } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { getItemDetails } from "../../page/itemPage/selectors";
 import { UserService } from "../../service/UserService";
 import EditItemDetails from "./EditItemDetails";
@@ -56,7 +57,7 @@ const enhance = compose(
 );
 
 const ItemDetails = ({
-    itemData, classes, deleteItem, hideItem, showItem
+    itemData, classes, deleteItem, hideItem, showItem, history
 }) => {
     const [isEditModeOn, setEditModeOn] = useState(false);
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
@@ -95,8 +96,17 @@ const ItemDetails = ({
                         }}
                         >
                             { itemData.userDisplayName && (
-                            <div className="info-author">
-                                <Avatar sx={{ width: 30, height: 30 }}>{itemData.userDisplayName.charAt(0).toUpperCase()}</Avatar>
+                            // eslint-disable-next-line jsx-a11y/interactive-supports-focus,jsx-a11y/click-events-have-key-events
+                            <div
+                                className={isLoggedIn ? "info-author-with-hover" : "info-author"}
+                                role="button"
+                                onClick={() => (isLoggedIn ? history.push(`/user/${itemData.userId}`) : {})}
+                            >
+                                <Avatar
+                                    src={`http://localhost:8080/user/profile-picture/${itemData.userId}`}
+                                    alt={<PersonRoundedIcon className="avatar-icon " />}
+                                    sx={{ width: 30, height: 30 }}
+                                />
                                 <span className="author">{itemData.userDisplayName}</span>
                             </div>
                             )}
@@ -230,7 +240,9 @@ ItemDetails.propTypes = {
     }).isRequired,
     deleteItem: PropTypes.func.isRequired,
     hideItem: PropTypes.func.isRequired,
-    showItem: PropTypes.func.isRequired
+    showItem: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object.isRequired
 };
 
 export default enhance(ItemDetails);

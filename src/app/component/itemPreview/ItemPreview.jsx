@@ -1,45 +1,74 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ImageListItem from "@mui/material/ImageListItem";
 import PropTypes from "prop-types";
 import "./ItemPreview.scss";
 import Avatar from "@mui/material/Avatar";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { UserService } from "../../service/UserService";
 
-const ItemPreview = ({ item, classes, history }) => (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus,react/prop-types
-    <div className="item-preview">
-        { item.userDisplayName && (
-            // eslint-disable-next-line react/prop-types,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
-            <div className="item-preview-author" role="button" onClick={() => history.push(`/user/${item.userId}`)}>
-                <Avatar sx={{ width: 25, height: 25 }}>
-                    <PersonRoundedIcon />
-                </Avatar>
-                <span className="author">{item.userDisplayName}</span>
+const styles = {
+    root: {
+        height: "18rem !important",
+        width: "12rem !important",
+
+        "@media only screen and (max-width: 600px)": {
+            height: "18vh !important",
+            width: "12vh !important",
+            marginRight: "0 !important"
+        }
+    },
+};
+
+const ItemPreview = ({ item, classes, history }) => {
+    const [isLoggedIn, setLoggedIn] = React.useState(false);
+
+    useEffect(() => {
+        setLoggedIn(UserService.validateToken(UserService.currentUserValue));
+    }, []);
+
+    return (
+        <div className="item-preview">
+            { item.userDisplayName && (
+                // eslint-disable-next-line react/prop-types,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
+                <div
+                    className={isLoggedIn ? "item-preview-author-with-hover" : "item-preview-author"}
+                    role="button"
+                    /* eslint-disable-next-line react/prop-types */
+                    onClick={() => (isLoggedIn ? history.push(`/user/${item.userId}`) : {})}
+                >
+                    <Avatar
+                        src={`http://localhost:8080/user/profile-picture/${item.userId}`}
+                        alt={<PersonRoundedIcon className="avatar-icon " />}
+                        sx={{ width: 30, height: 30 }}
+                    />
+                    <span className="author">{item.userDisplayName}</span>
+                </div>
+            )}
+            {/* eslint-disable-next-line react/prop-types,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
+            <div role="button" onClick={() => history.push(`/item/${item.id}`)}>
+                <ImageListItem key={item.id} classes={{ root: classes.root }}>
+                    {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                    <img
+                        src={`http://localhost:8080/item/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format`}
+                        srcSet={`http://localhost:8080/item/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
+                        alt=""
+                        loading="lazy"
+                        className="img"
+                    />
+                </ImageListItem>
             </div>
-        )}
-        {/* eslint-disable-next-line react/prop-types,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
-        <div role="button" onClick={() => history.push(`/item/${item.id}`)}>
-            <ImageListItem key={item.id} classes={{ root: classes.root }}>
-                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                <img
-                    src={`http://localhost:8080/item/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format`}
-                    srcSet={`http://localhost:8080/item/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
-                    alt=""
-                    loading="lazy"
-                    className="img"
-                />
-            </ImageListItem>
+            <span className="item-preview-price" title={item.price}>
+                {item.price}
+                {" "}
+                PLN
+            </span>
+            <span className="item-preview-name" title={item.name}>
+                {item.name}
+            </span>
         </div>
-        <span className="item-preview-price" title={item.price}>
-            {item.price}
-            {" "}
-            PLN
-        </span>
-        <span className="item-preview-name" title={item.name}>
-            {item.name}
-        </span>
-    </div>
-);
+    );
+};
 
 ItemPreview.propTypes = {
     item: PropTypes.shape({
@@ -56,4 +85,4 @@ ItemPreview.propTypes = {
     history: PropTypes.shape({}).isRequired
 };
 
-export default ItemPreview;
+export default withStyles(styles)(ItemPreview);

@@ -53,6 +53,7 @@ const UserProfile = ({
                 itemsLoading={itemsLoading}
                 getUserItems={getUserItems}
                 nextItemId={nextItemId}
+                userId={id}
             />
         </div>
     );

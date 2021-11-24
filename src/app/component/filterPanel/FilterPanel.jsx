@@ -59,7 +59,8 @@ const FilterPanel = ({
     saveFilters,
     canSaveFilter,
     filtersLoading,
-    fetchFiltersById
+    fetchFiltersById,
+    fetchSavedFilters
 }) => {
     const [anchorCategory, setAnchorCategory] = React.useState(null);
     const [anchorPriceRange, setAnchorPriceRange] = React.useState(null);
@@ -331,6 +332,7 @@ const FilterPanel = ({
                     canSaveFilter={canSaveFilter}
                     filtersLoading={filtersLoading}
                     fetchFiltersById={fetchFiltersById}
+                    fetchSavedFilters={fetchSavedFilters}
                 />
             </div>
         </div>
@@ -363,7 +365,8 @@ FilterPanel.propTypes = {
     savedFilters: PropTypes.array,
     canSaveFilter: PropTypes.bool.isRequired,
     filtersLoading: PropTypes.bool.isRequired,
-    fetchFiltersById: PropTypes.func.isRequired
+    fetchFiltersById: PropTypes.func.isRequired,
+    fetchSavedFilters: PropTypes.func.isRequired
 };
 
 FilterPanel.defaultProps = {

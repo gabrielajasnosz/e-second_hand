@@ -14,7 +14,6 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 import debounce from "lodash/debounce";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserService } from "../../service/UserService";
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import {
@@ -135,6 +134,7 @@ const Header = ({
     const [options, setOptions] = React.useState([]);
     const [inputValue, setInputValue] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
+    const [userId, setUserId] = React.useState(null);
 
     const handleClickFemale = (event) => {
         setAnchorFemale(event.currentTarget);
@@ -214,6 +214,9 @@ const Header = ({
         fetchSizes();
         fetchColors();
         setLoggedIn(UserService.validateToken(UserService.currentUserValue));
+        if (UserService.validateToken(UserService.currentUserValue)) {
+            setUserId(UserService.decodedTokenValue.userId);
+        }
     }, [fetchCategories, fetchSizes, fetchBrands, fetchColors]);
 
     return (
@@ -321,9 +324,10 @@ const Header = ({
                             }}
                             >
                                 <IconButton onClick={handleClick} size="small" classes={{ root: classes.userIcon }}>
-                                    <Avatar>
-                                        <PersonRoundedIcon />
-                                    </Avatar>
+                                    <Avatar
+                                        src={`http://localhost:8080/user/profile-picture/${userId}`}
+                                        sx={{ width: "40px", height: "40px" }}
+                                    />
                                 </IconButton>
                             </Box>
                             <Popover

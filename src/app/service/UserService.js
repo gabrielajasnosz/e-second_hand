@@ -55,6 +55,14 @@ function findUsers(keyword) {
     }).then(handleResponse);
 }
 
+function editProfile(userData) {
+    return fetch("http://localhost:8080/edit-profile", {
+        method: "PUT",
+        headers: authHeader(),
+        body: JSON.stringify(userData),
+    }).then(handleResponse);
+}
+
 function getUser(id) {
     return fetch(`http://localhost:8080/get-user?id=${encodeURIComponent(id)}`, {
         method: "GET",
@@ -66,6 +74,17 @@ function validateToken(token) {
     return token && !isExpired(token);
 }
 
+function setProfilePicture(newPictureForm) {
+    return fetch("http://localhost:8080/add-profile-picture", {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${currentUserSubject.value}`
+        },
+        body: newPictureForm
+    }).then(handleResponse);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export const UserService = {
     login,
@@ -74,6 +93,8 @@ export const UserService = {
     validateToken,
     getUser,
     confirmRegistration,
+    setProfilePicture,
+    editProfile,
     findUsers,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() { return currentUserSubject.value; },

@@ -10,6 +10,7 @@ export const initialState = {
         zipCode: null,
         creationDate: null,
         gender: null,
+        profilePictureLocation: null,
         userItemsList: []
     },
     nextItemId: null,

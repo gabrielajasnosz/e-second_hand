@@ -5,7 +5,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import ListItem from "@mui/material/ListItem";
 import Avatar from "@mui/material/Avatar";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import { useTranslation } from "react-i18next";
@@ -129,9 +128,9 @@ const AsyncAutocomplete = ({
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     <ListItem {...props}>
                         <ListItemAvatar>
-                            <Avatar>
-                                <PersonRoundedIcon />
-                            </Avatar>
+                            <Avatar
+                                src={`http://localhost:8080/user/profile-picture/${option.value}`}
+                            />
                         </ListItemAvatar>
                         <ListItemText
                             classes={{ primary: classes.cssLabel }}

@@ -25,7 +25,7 @@ const enhance = compose(
         mapDispatchToProps)
 );
 
-const Item = ({ item, getItem }) => {
+const Item = ({ item, getItem, history }) => {
     const { id } = useParams();
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const Item = ({ item, getItem }) => {
 
     return (
         <div className="content">
-            <ItemDetails />
+            <ItemDetails history={history} />
             { item.itemPictures && <ImageListContainer images={item.itemPictures} /> }
         </div>
     );
@@ -46,7 +46,9 @@ Item.propTypes = {
         // eslint-disable-next-line react/forbid-prop-types
         itemPictures: PropTypes.array,
         id: PropTypes.number
-    }).isRequired
+    }).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object.isRequired
 };
 
 export default enhance(Item);

@@ -115,7 +115,7 @@ const AddItem = ({
     );
 
     return (
-        <div className="add-item-container">
+        <div className="app-modal-content">
             <div className="add-item-row">
                 <span>{t("Add new item")}</span>
                 <IconButton onClick={handleClose} size="small" classes={{ root: classes.userIcon }}>
