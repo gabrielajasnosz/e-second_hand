@@ -79,14 +79,15 @@ const UserTabs = ({
     const [hiddenItems, setHiddenItems] = React.useState([]);
     const [counters, setCounters] = React.useState({});
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
-    // const isUsersProfile = isLoggedIn && UserService.decodedTokenValue.userId === userId;
+    // eslint-disable-next-line max-len
+    const isUsersProfile = isLoggedIn && UserService.decodedTokenValue.userId.toString() === userId;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isUsersProfile) {
             ItemService.getHiddenItems().then((response) => response.json())
                 .then((json) => {
                     setHiddenItems(json);
@@ -96,7 +97,7 @@ const UserTabs = ({
             .then((json) => {
                 setCounters(json);
             });
-    }, [isLoggedIn, userId]);
+    }, [isUsersProfile, userId]);
 
     const createLabel = (label, counter) => (
         <div style={{
@@ -130,7 +131,7 @@ const UserTabs = ({
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     <Tab label={t("Comments")} {...a11yProps(1)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-                    { isLoggedIn && (
+                    { isUsersProfile && (
                         // eslint-disable-next-line react/jsx-props-no-spreading,max-len
                         <Tab label={createLabel(t("Hidden items"), counters.hiddenItemsCounter)} {...a11yProps(2)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
                     )}
