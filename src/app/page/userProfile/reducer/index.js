@@ -17,7 +17,11 @@ export const initialState = {
     nextItemValue: null,
     itemsLoading: false,
     userItemsList: [],
-    userId: null
+    userCommentsList: [],
+    commentsLoading: false,
+    commentsPage: 0,
+    userId: null,
+    hasMoreComments: true
 };
 
 const userProfile = (state = initialState, action) => {
@@ -56,6 +60,30 @@ const userProfile = (state = initialState, action) => {
             return {
                 ...state,
                 userId: action.userId
+            };
+        }
+        case userProfileActions.setUserCommentsList: {
+            return {
+                ...state,
+                userCommentsList: [...state.userCommentsList, ...action.userCommentsList]
+            };
+        }
+        case userProfileActions.setCommentsLoading: {
+            return {
+                ...state,
+                commentsLoading: action.commentsLoading
+            };
+        }
+        case userProfileActions.setCommentsPage: {
+            return {
+                ...state,
+                commentsPage: action.commentsPage
+            };
+        }
+        case userProfileActions.setHasMoreComments: {
+            return {
+                ...state,
+                hasMoreComments: action.hasMoreComments
             };
         }
 

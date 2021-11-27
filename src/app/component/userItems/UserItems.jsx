@@ -18,7 +18,7 @@ const UserItems = ({
                 loadMore={getUserItems}
                 hasMore={nextItemId !== null && itemsLoading === false}
             >
-                {items && (
+                {items && items.length > 0 && (
                     <div className="image-list">
                         {items.map((item) => <ItemPreview history={history} item={item} />)}
                     </div>

@@ -135,4 +135,7 @@ export const TRANSLATIONS_PL = {
     "Save filters": "Zapisz filtry",
     "Hidden items": "Ukryte przedmioty",
     "User don't have any hidden items added yet": "Użytkownik nie ma jeszcze żadnych ukrytych przedmiotów",
+    "User don't have any comments yet": "Użytkownik nie ma jeszcze żadnych komentarzy",
+    "Add comment": "Dodaj komentarz",
+    "Add": "Dodaj",
 };

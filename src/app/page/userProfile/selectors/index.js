@@ -7,3 +7,8 @@ export const getNextItemValue = createSelector(getUser, (userProfile) => userPro
 export const getUserItemsList = createSelector(getUser, (userProfile) => userProfile.userItemsList);
 export const getItemsLoading = createSelector(getUser, (userProfile) => userProfile.itemsLoading);
 export const getUserId = createSelector(getUser, (userProfile) => userProfile.userId);
+
+export const getUserCommentsList = createSelector(getUser, (userProfile) => userProfile.userCommentsList);
+export const getCommentsLoading = createSelector(getUser, (userProfile) => userProfile.commentsLoading);
+export const getCommentsPage = createSelector(getUser, (userProfile) => userProfile.commentsPage);
+export const getHasMoreCommentsPage = createSelector(getUser, (userProfile) => userProfile.hasMoreComments);

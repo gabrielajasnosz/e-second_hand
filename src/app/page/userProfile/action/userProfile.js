@@ -2,9 +2,11 @@ import userProfileActions from "./userProfileActions";
 import { UserService } from "../../../service/UserService";
 import store from "../../../store";
 import {
-    getNextItemId, getNextItemValue, getUserId, getUserItemsList
+    getCommentsPage, getHasMoreCommentsPage,
+    getNextItemId, getNextItemValue, getUserCommentsList, getUserId, getUserItemsList
 } from "../selectors";
 import { ItemService } from "../../../service/ItemService";
+import { CommentService } from "../../../service/CommentService";
 
 export const setUser = (user) => ({
     type: userProfileActions.setUser,
@@ -14,6 +16,21 @@ export const setUser = (user) => ({
 export const setItemsLoading = (itemsLoading) => ({
     type: userProfileActions.setItemsLoading,
     itemsLoading
+});
+
+export const setHasMoreComments = (hasMoreComments) => ({
+    type: userProfileActions.setHasMoreComments,
+    hasMoreComments
+});
+
+export const setCommentsLoading = (commentsLoading) => ({
+    type: userProfileActions.setCommentsLoading,
+    commentsLoading
+});
+
+export const setCommentsPage = (commentsPage) => ({
+    type: userProfileActions.setCommentsPage,
+    commentsPage
 });
 
 export const setNextItemId = (nextItemId) => ({
@@ -28,6 +45,11 @@ export const setNextItemValue = (nextItemValue) => ({
 export const setUserItemsList = (userItemsList) => ({
     type: userProfileActions.setUserItemsList,
     userItemsList
+});
+
+export const setUserCommentsList = (userCommentsList) => ({
+    type: userProfileActions.setUserCommentsList,
+    userCommentsList
 });
 
 export const getUserItems = () => (dispatch) => {
@@ -51,6 +73,29 @@ export const getUserItems = () => (dispatch) => {
                 dispatch(setNextItemId(json.nextItemId));
                 dispatch(setNextItemValue(json.nextItemValue));
                 dispatch(setItemsLoading(false));
+            }, 2000);
+        });
+    }
+    return true;
+};
+
+export const getUserComments = () => (dispatch) => {
+    const userCommentsList = getUserCommentsList(store.getState());
+    const userId = getUserId(store.getState());
+    const commentsPage = getCommentsPage(store.getState());
+    const hasMoreComments = getHasMoreCommentsPage(store.getState());
+
+    if (hasMoreComments || userCommentsList.length === 0) {
+        dispatch(setCommentsLoading(true));
+        CommentService.getComments(userId, commentsPage).then((response) => response.json()).then((json) => {
+            setTimeout(() => {
+                dispatch(setUserCommentsList(json));
+                if (json.length !== 5) {
+                    dispatch(setHasMoreComments(false));
+                } else {
+                    dispatch(setCommentsPage(commentsPage + 1));
+                }
+                dispatch(setCommentsLoading(false));
             }, 2000);
         });
     }

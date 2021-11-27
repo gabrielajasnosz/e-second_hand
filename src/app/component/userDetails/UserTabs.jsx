@@ -10,6 +10,7 @@ import UserItems from "../userItems/UserItems";
 import { UserService } from "../../service/UserService";
 import { ItemService } from "../../service/ItemService";
 import ItemPreview from "../itemPreview/ItemPreview";
+import UserComments from "../userComments/UserComments";
 
 function TabPanel(props) {
     const {
@@ -71,7 +72,7 @@ const styles = {
 
 // eslint-disable-next-line no-unused-vars
 const UserTabs = ({
-    classes, userItemsList, history, itemsLoading, getUserItems, nextItemId, userId
+    classes, userItemsList, history, itemsLoading, getUserItems, nextItemId, userId, userComments, commentsLoading, getUserComments, hasMoreComments
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { t } = useTranslation();
@@ -128,8 +129,8 @@ const UserTabs = ({
                 <Tabs value={value} onChange={handleChange} TabIndicatorProps={{ style: { background: "#cb997e" } }}>
                     {/* eslint-disable-next-line react/jsx-props-no-spreading,max-len */}
                     <Tab label={createLabel(t("User's items"), counters.itemsCounter)} {...a11yProps(0)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
-                    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-                    <Tab label={t("Comments")} {...a11yProps(1)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
+                    {/* eslint-disable-next-line react/jsx-props-no-spreading,max-len */}
+                    <Tab label={createLabel(t("Comments"), counters.commentsCounter)} {...a11yProps(1)} classes={{ selected: classes.selected, root: classes.root }} disableRipple />
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     { isUsersProfile && (
                         // eslint-disable-next-line react/jsx-props-no-spreading,max-len
@@ -141,7 +142,15 @@ const UserTabs = ({
                 <UserItems items={userItemsList} history={history} itemsLoading={itemsLoading} getUserItems={getUserItems} nextItemId={nextItemId} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <UserComments
+                    history={history}
+                    isUsersProfile={isUsersProfile}
+                    userId={userId}
+                    userComments={userComments}
+                    commentsLoading={commentsLoading}
+                    getUserComments={getUserComments}
+                    hasMoreComments={hasMoreComments}
+                />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <div className="user-items-container">
@@ -175,7 +184,12 @@ UserTabs.propTypes = {
     itemsLoading: PropTypes.bool.isRequired,
     getUserItems: PropTypes.func.isRequired,
     nextItemId: PropTypes.number,
-    userId: PropTypes.number.isRequired
+    userId: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    userComments: PropTypes.array.isRequired,
+    commentsLoading: PropTypes.bool.isRequired,
+    getUserComments: PropTypes.func.isRequired,
+    hasMoreComments: PropTypes.bool.isRequired
 };
 
 UserTabs.defaultProps = {

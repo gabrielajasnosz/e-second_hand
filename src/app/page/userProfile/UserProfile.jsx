@@ -7,23 +7,31 @@ import PropTypes from "prop-types";
 import {
     getUser as getUserActionCreator,
     getUserItems as getUsersItemsActionCreator,
-    setUserId as setUserIdActionCreator
+    setUserId as setUserIdActionCreator,
+    getUserComments as getUserCommentsActionCreator,
 } from "./action/userProfile";
 import UserDetails from "../../component/userDetails/UserDetails";
 import "./UserProfile.scss";
 import UserTabs from "../../component/userDetails/UserTabs";
-import { getItemsLoading, getNextItemId, getUserItemsList } from "./selectors";
+import {
+    getCommentsLoading, getHasMoreCommentsPage,
+    getItemsLoading, getNextItemId, getUserCommentsList, getUserItemsList
+} from "./selectors";
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     getUser: getUserActionCreator,
     getUserItems: getUsersItemsActionCreator,
+    getUserComments: getUserCommentsActionCreator,
     setUserId: setUserIdActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
     userItemsList: getUserItemsList(state),
+    userCommentsList: getUserCommentsList(state),
     itemsLoading: getItemsLoading(state),
-    nextItemId: getNextItemId(state)
+    commentsLoading: getCommentsLoading(state),
+    nextItemId: getNextItemId(state),
+    hasMoreComments: getHasMoreCommentsPage(state)
 });
 
 const enhance = compose(
@@ -32,7 +40,17 @@ const enhance = compose(
 );
 
 const UserProfile = ({
-    getUser, getUserItems, userItemsList, history, itemsLoading, nextItemId, setUserId
+    getUser,
+    getUserItems,
+    userItemsList,
+    history,
+    itemsLoading,
+    nextItemId,
+    setUserId,
+    userCommentsList,
+    commentsLoading,
+    getUserComments,
+    hasMoreComments
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { id } = useParams();
@@ -41,8 +59,9 @@ const UserProfile = ({
         setUserId(id).then(() => {
             getUser();
             getUserItems();
+            getUserComments();
         });
-    }, [getUser, getUserItems, id, setUserId]);
+    }, [getUser, getUserComments, getUserItems, id, setUserId]);
 
     return (
         <div className="profile-container">
@@ -54,6 +73,10 @@ const UserProfile = ({
                 getUserItems={getUserItems}
                 nextItemId={nextItemId}
                 userId={id}
+                userComments={userCommentsList}
+                commentsLoading={commentsLoading}
+                getUserComments={getUserComments}
+                hasMoreComments={hasMoreComments}
             />
         </div>
     );
@@ -68,7 +91,12 @@ UserProfile.propTypes = {
     history: PropTypes.object.isRequired,
     itemsLoading: PropTypes.bool.isRequired,
     nextItemId: PropTypes.number,
-    setUserId: PropTypes.func.isRequired
+    setUserId: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    userCommentsList: PropTypes.array.isRequired,
+    commentsLoading: PropTypes.bool.isRequired,
+    getUserComments: PropTypes.func.isRequired,
+    hasMoreComments: PropTypes.bool.isRequired
 };
 
 UserProfile.defaultProps = {
