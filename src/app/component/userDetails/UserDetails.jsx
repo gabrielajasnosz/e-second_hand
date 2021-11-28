@@ -20,6 +20,7 @@ import { UserService } from "../../service/UserService";
 import ChangeImageDialog from "./ChangeImageDialog";
 import ModalContainer from "../modal/ModalContainer";
 import EditProfile from "../editProfile/EditProfile";
+import RatingCustom from "../rating/RatingCustom";
 
 const styles = {
     icon: {
@@ -75,33 +76,44 @@ const UserDetails = ({
             <div className="user-details">
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <div className="edit-profile">
-                        <Badge
-                            overlap="circular"
-                            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                            showBadge={userHasRightToEditProfile}
-                            badgeContent={(
-                                <IconButton onClick={handleDialogOpen} classes={{ root: classes.icon }}>
-                                    {userHasRightToEditProfile && userData.profilePictureLocation === null && (
-                                        <AddAPhotoIcon />
-                                    )}
-                                    {userHasRightToEditProfile && userData.profilePictureLocation !== null && (
-                                        <EditIcon />
-                                    )}
-                                </IconButton>
-                              )}
-                        >
-                            {userData.profilePictureLocation === null ? (
-                                <Avatar sx={{ width: "90px", height: "90px" }}>
-                                    <PersonRoundedIcon className="avatar-icon " />
-                                </Avatar>
-                            ) : (
-                                <Avatar
-                                    src={`http://localhost:8080/user/profile-picture/${userData.id}`}
-                                    sx={{ width: "90px", height: "90px" }}
-                                />
-                            )}
+                        <div style={{ display: "flex", flexDirection: "row" }}>
+                            <Badge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                                showBadge={userHasRightToEditProfile}
+                                badgeContent={(
+                                    <IconButton onClick={handleDialogOpen} classes={{ root: classes.icon }}>
+                                        {userHasRightToEditProfile && userData.profilePictureLocation === null && (
+                                            <AddAPhotoIcon />
+                                        )}
+                                        {userHasRightToEditProfile && userData.profilePictureLocation !== null && (
+                                            <EditIcon />
+                                        )}
+                                    </IconButton>
+                                )}
+                            >
+                                {userData.profilePictureLocation === null ? (
+                                    <Avatar sx={{ width: "90px", height: "90px" }}>
+                                        <PersonRoundedIcon className="avatar-icon " />
+                                    </Avatar>
+                                ) : (
+                                    <Avatar
+                                        src={`http://localhost:8080/user/profile-picture/${userData.id}`}
+                                        sx={{ width: "90px", height: "90px" }}
+                                    />
+                                )}
 
-                        </Badge>
+                            </Badge>
+                            { userData.rating && (
+                                <div style={{ marginLeft: "0.5rem", marginTop: "1rem" }}>
+                                    <RatingCustom
+                                        rating={userData.rating}
+                                        readOnly
+                                        precision={0.2}
+                                    />
+                                </div>
+                            )}
+                        </div>
                         { userHasRightToEditProfile && (
                         <TextButton onClick={handleModalOpen}>
                             <span>{t("Edit profile")}</span>
@@ -205,7 +217,8 @@ UserDetails.propTypes = {
         phoneNumber: PropTypes.string,
         city: PropTypes.string,
         zipCode: PropTypes.string,
-        profilePictureLocation: PropTypes.string
+        profilePictureLocation: PropTypes.string,
+        rating: PropTypes.number
     }).isRequired,
     classes: PropTypes.shape({
         icon: PropTypes.string.isRequired

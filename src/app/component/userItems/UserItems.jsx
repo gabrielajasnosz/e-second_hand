@@ -7,7 +7,7 @@ import ItemPreview from "../itemPreview/ItemPreview";
 import Progress from "../progress/Progress";
 
 const UserItems = ({
-    items, history, itemsLoading, getUserItems, nextItemId
+    items, history, itemsLoading, getUserItems, nextItemId, resetData
 }) => {
     const { t } = useTranslation();
 
@@ -20,7 +20,7 @@ const UserItems = ({
             >
                 {items && items.length > 0 && (
                     <div className="image-list">
-                        {items.map((item) => <ItemPreview history={history} item={item} />)}
+                        {items.map((item) => <ItemPreview history={history} item={item} resetData={resetData} />)}
                     </div>
                 )}
                 {items.length === 0 && itemsLoading === false && (
@@ -46,7 +46,8 @@ UserItems.propTypes = {
     }).isRequired,
     itemsLoading: PropTypes.bool.isRequired,
     getUserItems: PropTypes.func.isRequired,
-    nextItemId: PropTypes.number
+    nextItemId: PropTypes.number,
+    resetData: PropTypes.func.isRequired
 };
 
 UserItems.defaultProps = {

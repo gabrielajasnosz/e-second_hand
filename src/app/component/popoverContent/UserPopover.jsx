@@ -38,7 +38,9 @@ const UserPopover = ({ classes, history }) => {
                 <ListItem disablePadding>
                     <ListItemButton
                         disableRipple
-                        onClick={() => { history.push(`/user/${user.userId}`); }}
+                        onClick={() => {
+                            window.location.href = `/user/${user.userId}`;
+                        }}
                     >
                         <AccountCircleIcon className={classes.icon} />
                         <ListItemText

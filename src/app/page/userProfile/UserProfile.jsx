@@ -9,6 +9,7 @@ import {
     getUserItems as getUsersItemsActionCreator,
     setUserId as setUserIdActionCreator,
     getUserComments as getUserCommentsActionCreator,
+    resetData as resetDataActionCreator
 } from "./action/userProfile";
 import UserDetails from "../../component/userDetails/UserDetails";
 import "./UserProfile.scss";
@@ -22,7 +23,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     getUser: getUserActionCreator,
     getUserItems: getUsersItemsActionCreator,
     getUserComments: getUserCommentsActionCreator,
-    setUserId: setUserIdActionCreator
+    setUserId: setUserIdActionCreator,
+    resetData: resetDataActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -50,7 +52,8 @@ const UserProfile = ({
     userCommentsList,
     commentsLoading,
     getUserComments,
-    hasMoreComments
+    hasMoreComments,
+    resetData
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { id } = useParams();
@@ -62,6 +65,10 @@ const UserProfile = ({
             getUserComments();
         });
     }, [getUser, getUserComments, getUserItems, id, setUserId]);
+
+    useEffect(() => () => {
+        resetData();
+    }, [resetData]);
 
     return (
         <div className="profile-container">
@@ -77,6 +84,7 @@ const UserProfile = ({
                 commentsLoading={commentsLoading}
                 getUserComments={getUserComments}
                 hasMoreComments={hasMoreComments}
+                resetData={resetData}
             />
         </div>
     );
@@ -96,7 +104,8 @@ UserProfile.propTypes = {
     userCommentsList: PropTypes.array.isRequired,
     commentsLoading: PropTypes.bool.isRequired,
     getUserComments: PropTypes.func.isRequired,
-    hasMoreComments: PropTypes.bool.isRequired
+    hasMoreComments: PropTypes.bool.isRequired,
+    resetData: PropTypes.func.isRequired
 };
 
 UserProfile.defaultProps = {

@@ -12,6 +12,8 @@ import Dialog from "@mui/material/Dialog";
 import CommentDialogContent from "./CommentDialogContent";
 // eslint-disable-next-line import/order
 import InfiniteScroll from "react-infinite-scroller";
+import CommentPreview from "../commentPreview/CommentPreview";
+import Progress from "../progress/Progress";
 
 const UserComments = ({
 // eslint-disable-next-line no-unused-vars
@@ -48,18 +50,16 @@ const UserComments = ({
             >
                 {userComments && userComments.length > 0 && (
                 <div className="comments-list">
-                    {userComments.map((e) => (
-                        <span>
-                            {" "}
-                            {e.comment}
-                        </span>
-                    ))}
+                    {userComments.map((e) => <CommentPreview comment={e} history={history} />)}
                 </div>
                 )}
-                {userComments.length === 0 && (
+                {userComments.length === 0 && !commentsLoading && (
                 <div className="items-container">
                     <span className="no-content-info">{t("User don't have any comments yet")}</span>
                 </div>
+                )}
+                {commentsLoading && (
+                    <Progress />
                 )}
                 <Dialog
                     open={commentDialogOpen}

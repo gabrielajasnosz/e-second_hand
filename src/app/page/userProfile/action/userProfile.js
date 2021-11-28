@@ -18,6 +18,10 @@ export const setItemsLoading = (itemsLoading) => ({
     itemsLoading
 });
 
+export const resetData = () => ({
+    type: userProfileActions.resetData
+});
+
 export const setHasMoreComments = (hasMoreComments) => ({
     type: userProfileActions.setHasMoreComments,
     hasMoreComments

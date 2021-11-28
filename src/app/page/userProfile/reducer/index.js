@@ -86,6 +86,32 @@ const userProfile = (state = initialState, action) => {
                 hasMoreComments: action.hasMoreComments
             };
         }
+        case userProfileActions.resetData: {
+            return {
+                ...state,
+                user: {
+                    id: null,
+                    email: null,
+                    displayName: null,
+                    phoneNumber: null,
+                    city: null,
+                    zipCode: null,
+                    creationDate: null,
+                    gender: null,
+                    profilePictureLocation: null,
+                    userItemsList: []
+                },
+                nextItemId: null,
+                nextItemValue: null,
+                itemsLoading: false,
+                userItemsList: [],
+                userCommentsList: [],
+                commentsLoading: false,
+                commentsPage: 0,
+                userId: null,
+                hasMoreComments: true
+            };
+        }
 
         default:
             return state;

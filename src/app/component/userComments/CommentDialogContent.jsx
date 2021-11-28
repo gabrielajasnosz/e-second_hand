@@ -21,7 +21,9 @@ const CommentDialogContent = ({ handleClose, userId }) => {
             comment,
             receiverId: userId
         };
-        CommentService.addComment(commentBody).then((response) => (console.log(response.status)));
+        CommentService.addComment(commentBody).then(() => {
+            window.location.href = `/user/${userId}`;
+        });
     };
 
     return (

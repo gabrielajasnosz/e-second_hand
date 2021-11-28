@@ -10,6 +10,7 @@ const userProfileActions = {
     setCommentsPage: `${prefix}_SET_COMMENTS_PAGE`,
     setUserCommentsList: `${prefix}_SET_USER_COMMENTS_LIST`,
     setHasMoreComments: `${prefix}_SET_HAS_MORE_COMMENTS`,
+    resetData: `${prefix}_RESET_DATA`,
     setUserId: `${prefix}_SET_USER_ID`
 };
 
