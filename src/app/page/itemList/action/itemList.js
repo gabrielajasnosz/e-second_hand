@@ -75,6 +75,7 @@ export const fetchItems = () => (dispatch) => {
         nextItemValue: data.nextItemValue,
         maxPrice: data.filters.maxPrice,
         minPrice: data.filters.minPrice,
+        onlyFollowedUsers: data.filters.onlyFollowedUsers,
         gender: data.gender,
         pageSize: 10
     };
@@ -286,4 +287,18 @@ export const saveFilters = (name) => (dispatch) => {
     });
 
     return true;
+};
+
+export const setOnlyFollowedUsers = (onlyFollowedUsers) => (dispatch) => {
+    dispatch({
+        type: itemActions.setOnlyFollowedUsers,
+        onlyFollowedUsers
+    });
+    console.log(onlyFollowedUsers);
+    if (onlyFollowedUsers === false) {
+        dispatch({
+            type: itemActions.resetList
+        });
+        dispatch(fetchItems());
+    }
 };

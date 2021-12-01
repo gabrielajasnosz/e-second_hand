@@ -72,13 +72,23 @@ const styles = {
 
 // eslint-disable-next-line no-unused-vars
 const UserTabs = ({
-    classes, userItemsList, history, itemsLoading, getUserItems, nextItemId, userId, userComments, commentsLoading, getUserComments, hasMoreComments
+    classes,
+    userItemsList,
+    history,
+    itemsLoading,
+    getUserItems,
+    nextItemId,
+    userId,
+    userComments,
+    commentsLoading,
+    getUserComments,
+    hasMoreComments,
+    counters
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { t } = useTranslation();
     const [value, setValue] = React.useState(0);
     const [hiddenItems, setHiddenItems] = React.useState([]);
-    const [counters, setCounters] = React.useState({});
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
     // eslint-disable-next-line max-len
     const isUsersProfile = isLoggedIn && UserService.decodedTokenValue.userId.toString() === userId;
@@ -94,10 +104,6 @@ const UserTabs = ({
                     setHiddenItems(json);
                 });
         }
-        ItemService.getUserCounters(userId).then((response) => response.json())
-            .then((json) => {
-                setCounters(json);
-            });
     }, [isUsersProfile, userId]);
 
     const createLabel = (label, counter) => (
@@ -189,7 +195,9 @@ UserTabs.propTypes = {
     userComments: PropTypes.array.isRequired,
     commentsLoading: PropTypes.bool.isRequired,
     getUserComments: PropTypes.func.isRequired,
-    hasMoreComments: PropTypes.bool.isRequired
+    hasMoreComments: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    counters: PropTypes.object.isRequired
 };
 
 UserTabs.defaultProps = {

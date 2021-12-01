@@ -16,7 +16,8 @@ export const initialState = {
         sortingColumn: "creationDate",
         sortingOrder: "DESC",
         minPrice: null,
-        maxPrice: null
+        maxPrice: null,
+        onlyFollowedUsers: false
     },
     isLoading: false,
     gender: null,
@@ -118,6 +119,14 @@ const itemList = (state = initialState, action) => {
                     maxPrice: action.maxPrice
                 }
             };
+        case itemActions.setOnlyFollowedUsers:
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    onlyFollowedUsers: action.onlyFollowedUsers
+                }
+            };
         case itemActions.setSizeName:
             return {
                 ...state,
@@ -191,6 +200,7 @@ const itemList = (state = initialState, action) => {
                     colorName: null,
                     sizeName: null,
                     sortingColumn: "creationDate",
+                    onlyFollowedUsers: false,
                     sortingOrder: "DESC",
                     minPrice: null,
                     maxPrice: null

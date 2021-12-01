@@ -58,6 +58,9 @@ const ActiveFilterChip = ({
         if (activeFilter.name === "minPrice") {
             return `${t("Price range")}: ${activeFilter.value} - ${maxPrice} `;
         }
+        if (activeFilter.name === "onlyFollowedUsers") {
+            return `${t("Followed users items")}`;
+        }
         return "";
     };
 

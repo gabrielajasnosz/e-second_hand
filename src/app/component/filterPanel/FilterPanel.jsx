@@ -60,7 +60,8 @@ const FilterPanel = ({
     canSaveFilter,
     filtersLoading,
     fetchFiltersById,
-    fetchSavedFilters
+    fetchSavedFilters,
+    setOnlyFollowedUsers
 }) => {
     const [anchorCategory, setAnchorCategory] = React.useState(null);
     const [anchorPriceRange, setAnchorPriceRange] = React.useState(null);
@@ -299,6 +300,9 @@ const FilterPanel = ({
                             if (e.name === "sizeName") {
                                 return <ChipCustom activeFilter={e} onDelete={() => setSize(emptyObject)} deleteIcon={<HighlightOffIcon />} />;
                             }
+                            if (e.name === "onlyFollowedUsers" && e.value === true) {
+                                return <ChipCustom activeFilter={e} onDelete={() => setOnlyFollowedUsers(false)} deleteIcon={<HighlightOffIcon />} />;
+                            }
                             if (e.name === "brandName") {
                                 return (
                                     <ChipCustom
@@ -366,7 +370,8 @@ FilterPanel.propTypes = {
     canSaveFilter: PropTypes.bool.isRequired,
     filtersLoading: PropTypes.bool.isRequired,
     fetchFiltersById: PropTypes.func.isRequired,
-    fetchSavedFilters: PropTypes.func.isRequired
+    fetchSavedFilters: PropTypes.func.isRequired,
+    setOnlyFollowedUsers: PropTypes.func.isRequired
 };
 
 FilterPanel.defaultProps = {

@@ -20,19 +20,19 @@ const styles = {
     }
 };
 // eslint-disable-next-line react/prop-types
-const ItemListWidget = ({ classes, items, history }) => {
+const ItemListWidget = ({
+    classes, items, history, title, onButtonClick
+}) => {
     const { t } = useTranslation();
 
     return (
         <div className="image-list-widget">
             <div className="widget-title">
                 <span className="widget-name">
-                    {" "}
-                    {t("Explore newest items")}
-                    {" "}
+                    {title}
                 </span>
                 {/* eslint-disable-next-line react/prop-types */}
-                <TextButton onClick={() => { history.push("/list"); }}>
+                <TextButton onClick={onButtonClick}>
                     <span>
                         {" "}
                         {t("See more")}
@@ -59,7 +59,11 @@ ItemListWidget.propTypes = {
         root: PropTypes.string.isRequired
     }).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    items: PropTypes.array
+    items: PropTypes.array,
+    title: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object.isRequired,
+    onButtonClick: PropTypes.func.isRequired
 };
 
 ItemListWidget.defaultProps = {

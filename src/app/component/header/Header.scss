@@ -43,5 +43,15 @@
 
   }
 
+  .language-switch {
+    margin-left: 1rem;
+    margin-top: 1.5px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+    font-family: $preferred-font
+  }
+
 
 }

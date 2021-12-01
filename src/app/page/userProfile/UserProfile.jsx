@@ -9,13 +9,14 @@ import {
     getUserItems as getUsersItemsActionCreator,
     setUserId as setUserIdActionCreator,
     getUserComments as getUserCommentsActionCreator,
-    resetData as resetDataActionCreator
+    resetData as resetDataActionCreator,
+    getCounters as getCountersActionCreator
 } from "./action/userProfile";
 import UserDetails from "../../component/userDetails/UserDetails";
 import "./UserProfile.scss";
 import UserTabs from "../../component/userDetails/UserTabs";
 import {
-    getCommentsLoading, getHasMoreCommentsPage,
+    getCommentsLoading, getCountersSelector, getHasMoreCommentsPage,
     getItemsLoading, getNextItemId, getUserCommentsList, getUserItemsList
 } from "./selectors";
 
@@ -24,7 +25,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     getUserItems: getUsersItemsActionCreator,
     getUserComments: getUserCommentsActionCreator,
     setUserId: setUserIdActionCreator,
-    resetData: resetDataActionCreator
+    resetData: resetDataActionCreator,
+    getCounters: getCountersActionCreator
 }, dispatch);
 
 const mapStateToProps = (state) => ({
@@ -33,7 +35,8 @@ const mapStateToProps = (state) => ({
     itemsLoading: getItemsLoading(state),
     commentsLoading: getCommentsLoading(state),
     nextItemId: getNextItemId(state),
-    hasMoreComments: getHasMoreCommentsPage(state)
+    hasMoreComments: getHasMoreCommentsPage(state),
+    counters: getCountersSelector(state)
 });
 
 const enhance = compose(
@@ -53,7 +56,9 @@ const UserProfile = ({
     commentsLoading,
     getUserComments,
     hasMoreComments,
-    resetData
+    resetData,
+    getCounters,
+    counters
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { id } = useParams();
@@ -63,8 +68,9 @@ const UserProfile = ({
             getUser();
             getUserItems();
             getUserComments();
+            getCounters();
         });
-    }, [getUser, getUserComments, getUserItems, id, setUserId]);
+    }, [getCounters, getUser, getUserComments, getUserItems, id, setUserId]);
 
     useEffect(() => () => {
         resetData();
@@ -72,7 +78,7 @@ const UserProfile = ({
 
     return (
         <div className="profile-container">
-            <UserDetails />
+            <UserDetails counters={counters} />
             <UserTabs
                 userItemsList={userItemsList}
                 history={history}
@@ -85,6 +91,7 @@ const UserProfile = ({
                 getUserComments={getUserComments}
                 hasMoreComments={hasMoreComments}
                 resetData={resetData}
+                counters={counters}
             />
         </div>
     );
@@ -105,7 +112,10 @@ UserProfile.propTypes = {
     commentsLoading: PropTypes.bool.isRequired,
     getUserComments: PropTypes.func.isRequired,
     hasMoreComments: PropTypes.bool.isRequired,
-    resetData: PropTypes.func.isRequired
+    resetData: PropTypes.func.isRequired,
+    getCounters: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    counters: PropTypes.object.isRequired
 };
 
 UserProfile.defaultProps = {

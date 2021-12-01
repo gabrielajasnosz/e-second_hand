@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.scss";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -14,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 import debounce from "lodash/debounce";
+import Switch from "@mui/material/Switch";
 import { UserService } from "../../service/UserService";
 import CategoryPopover from "../popoverContent/CategoryPopover";
 import {
@@ -44,7 +45,9 @@ const propTypes = {
         field: PropTypes.string.isRequired,
         icon: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired,
-        autocomplete: PropTypes.string.isRequired
+        autocomplete: PropTypes.string.isRequired,
+        checked: PropTypes.string.isRequired,
+        track: PropTypes.string.isRequired
     }).isRequired,
     setGender: PropTypes.func.isRequired,
     setCategory: PropTypes.func.isRequired
@@ -71,7 +74,6 @@ const styles = {
         color: "#a5a58d",
     },
     field: {
-        textTransform: "capitalize",
         color: "black !important",
         fontFamily: "Open Sans, sans-serif !important",
         fontSize: "14px !important",
@@ -96,6 +98,12 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         flexDirection: "row"
+    },
+    checked: {
+        color: "#cb997e !important",
+    },
+    track: {
+        backgroundColor: "#cb997e !important"
     }
 };
 
@@ -135,6 +143,15 @@ const Header = ({
     const [inputValue, setInputValue] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const [userId, setUserId] = React.useState(null);
+
+    const [languageCode, setLanguageCode] = useState(localStorage.getItem("i18nextLng"));
+
+    const changeLanguage = () => {
+        const lng = languageCode === "pl" ? "en" : "pl";
+        localStorage.setItem("i18nextLng", lng);
+        setLanguageCode(lng);
+        window.location.reload(true);
+    };
 
     const handleClickFemale = (event) => {
         setAnchorFemale(event.currentTarget);
@@ -316,6 +333,18 @@ const Header = ({
                             >
                                 {t("register")}
                             </Button>
+                            <div className="language-switch">
+                                <span>pl</span>
+                                <Switch
+                                    checked={languageCode === "en"}
+                                    onChange={changeLanguage}
+                                    classes={{
+                                        checked: classes.checked,
+                                        track: classes.track
+                                    }}
+                                />
+                                <span>en</span>
+                            </div>
                         </div>
                     ) : (
                         <div className="navbar-nav">

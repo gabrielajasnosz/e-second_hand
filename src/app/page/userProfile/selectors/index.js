@@ -12,3 +12,4 @@ export const getUserCommentsList = createSelector(getUser, (userProfile) => user
 export const getCommentsLoading = createSelector(getUser, (userProfile) => userProfile.commentsLoading);
 export const getCommentsPage = createSelector(getUser, (userProfile) => userProfile.commentsPage);
 export const getHasMoreCommentsPage = createSelector(getUser, (userProfile) => userProfile.hasMoreComments);
+export const getCountersSelector = createSelector(getUser, (userProfile) => userProfile.counters);

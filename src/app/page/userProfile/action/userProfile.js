@@ -27,6 +27,11 @@ export const setHasMoreComments = (hasMoreComments) => ({
     hasMoreComments
 });
 
+export const setCounters = (counters) => ({
+    type: userProfileActions.setCounters,
+    counters
+});
+
 export const setCommentsLoading = (commentsLoading) => ({
     type: userProfileActions.setCommentsLoading,
     commentsLoading
@@ -111,6 +116,14 @@ export const getUser = () => (dispatch) => {
     UserService.getUser(id).then((response) => response.json()).then((json) => {
         dispatch(setUser(json));
     });
+};
+
+export const getCounters = () => (dispatch) => {
+    const id = getUserId(store.getState());
+    ItemService.getUserCounters(id).then((response) => response.json())
+        .then((json) => {
+            dispatch(setCounters(json));
+        });
 };
 
 export const setUserId = (userId) => (dispatch) => new Promise((resolve) => {

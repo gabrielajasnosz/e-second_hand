@@ -138,4 +138,16 @@ export const TRANSLATIONS_PL = {
     "User don't have any comments yet": "Użytkownik nie ma jeszcze żadnych komentarzy",
     "Add comment": "Dodaj komentarz",
     "Add": "Dodaj",
+    "Add user to followed": "Dodaj do obserwowanych",
+    "Delete user from followed": "Usuń użytkownika z obserwowanych",
+    "Followers": "Obserwujący",
+    "Following": "Obserwowani",
+    "Add name to your custom filters:": "Nadaj nazwę swoim filtrom",
+    "User has no followers": "Uzytkownik nie jest ma żadnych obserwujących",
+    "User has no followed users": "Uzytkownik nikogo nie obserwuje",
+    "Followed users items": "Przedmioty obserwowanych użytkowników",
+    "Preferred language": "Preferowany język",
+    "Polish": "Polski",
+    "English": "Angielski",
+    "Change language": "Zmień język"
 };

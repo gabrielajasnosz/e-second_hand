@@ -4,8 +4,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import { TRANSLATIONS_PL } from "./pl/translations";
 import { TRANSLATIONS_EN } from "./en/translations";
+import i18next from "i18next";
 
-i18n
+
+i18next
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
@@ -19,4 +21,3 @@ i18n
         }
     });
 
-i18n.changeLanguage("pl");

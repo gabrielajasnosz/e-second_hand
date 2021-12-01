@@ -21,7 +21,8 @@ export const initialState = {
     commentsLoading: false,
     commentsPage: 0,
     userId: null,
-    hasMoreComments: true
+    hasMoreComments: true,
+    counters: {}
 };
 
 const userProfile = (state = initialState, action) => {
@@ -84,6 +85,12 @@ const userProfile = (state = initialState, action) => {
             return {
                 ...state,
                 hasMoreComments: action.hasMoreComments
+            };
+        }
+        case userProfileActions.setCounters: {
+            return {
+                ...state,
+                counters: action.counters
             };
         }
         case userProfileActions.resetData: {

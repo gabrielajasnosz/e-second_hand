@@ -23,7 +23,8 @@ import {
     resetList as resetListActionCreator,
     saveFilters as saveFiltersActionCreator,
     fetchSavedFilters as fetchSavedFiltersActionCreator,
-    fetchFiltersById as fetchFiltersByIdActionCreator
+    fetchFiltersById as fetchFiltersByIdActionCreator,
+    setOnlyFollowedUsers as setOnlyFollowedUsersActionCreator
 } from "./action/itemList";
 import {
     getActiveFilters, getFiltersLoading, getItemListItems, getLoading, getNextItemId, getSavedFilters
@@ -72,6 +73,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setColor: setColorActionCreator,
     setSortingColumn: setSortingColumnActionCreator,
     setSortingOrder: setSortingOrderActionCreator,
+    setOnlyFollowedUsers: setOnlyFollowedUsersActionCreator,
     resetList: resetListActionCreator,
     setMinPrice: setMinPriceActionCreator,
     setMaxPrice: setMaxPriceActionCreator,
@@ -110,7 +112,8 @@ const ItemList = ({
     fetchSavedFilters,
     savedFilters,
     filtersLoading,
-    fetchFiltersById
+    fetchFiltersById,
+    setOnlyFollowedUsers
 }) => {
     const [sizesUngrouped, setSizesUngrouped] = useState([]);
     const [priceExtremeValues, setPriceExtremeValues] = useState({});
@@ -156,6 +159,7 @@ const ItemList = ({
                 filtersLoading={filtersLoading}
                 fetchFiltersById={fetchFiltersById}
                 fetchSavedFilters={fetchSavedFilters}
+                setOnlyFollowedUsers={setOnlyFollowedUsers}
             />
 
             <InfiniteScroll
@@ -210,6 +214,7 @@ ItemList.propTypes = {
     setMinPrice: PropTypes.func.isRequired,
     setMaxPrice: PropTypes.func.isRequired,
     saveFilters: PropTypes.func.isRequired,
+    setOnlyFollowedUsers: PropTypes.func.isRequired,
     fetchSavedFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     savedFilters: PropTypes.array,

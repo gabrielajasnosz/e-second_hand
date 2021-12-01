@@ -70,6 +70,15 @@ function manageItemVisibility(itemId, status) {
         headers: authHeader(),
     }).then(handleResponse);
 }
+
+function getFollowedUsersItems(userId, page, pageSize) {
+    // eslint-disable-next-line max-len
+    return fetch(`http://localhost:8080/item/followed-users-items?userId=${encodeURIComponent(userId)}&page=${encodeURIComponent(page)}&pageSize=${encodeURIComponent(pageSize)}`, {
+        method: "GET",
+        headers: authHeader(),
+    }).then(handleResponse);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export const ItemService = {
     saveItem,
@@ -80,5 +89,6 @@ export const ItemService = {
     getUserCounters,
     getHiddenItems,
     getPriceExtremeValues,
-    manageItemVisibility
+    manageItemVisibility,
+    getFollowedUsersItems
 };

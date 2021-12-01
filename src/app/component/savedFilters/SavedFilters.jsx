@@ -93,7 +93,10 @@ const SavedFilters = ({
                         }
                     }}
                 >
-                    <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }}>Add name to your custom filters: </DialogTitle>
+                    <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }}>
+                        {t("Add name to your custom filters:")}
+                        {" "}
+                    </DialogTitle>
                     <DialogContent sx={{ display: "flex", alignItems: "center" }}>
                         <TextInput label={null} onChange={setNameValue} defaultValue={name || ""} />
                     </DialogContent>

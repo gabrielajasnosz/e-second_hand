@@ -11,7 +11,8 @@ const userProfileActions = {
     setUserCommentsList: `${prefix}_SET_USER_COMMENTS_LIST`,
     setHasMoreComments: `${prefix}_SET_HAS_MORE_COMMENTS`,
     resetData: `${prefix}_RESET_DATA`,
-    setUserId: `${prefix}_SET_USER_ID`
+    setUserId: `${prefix}_SET_USER_ID`,
+    setCounters: `${prefix}_SET_COUNTERS`
 };
 
 export default userProfileActions;

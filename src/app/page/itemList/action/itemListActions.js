@@ -23,6 +23,7 @@ const itemActions = {
     resetList: `${prefix}_RESET_LIST`,
     resetItemList: `${prefix}_RESET_ITEM_LIST`,
     setFiltersLoading: `${prefix}_SET_FILTERS_LOADING`,
+    setOnlyFollowedUsers: `${prefix}_SET_ONLY_FOLLOWED_USERS`,
 };
 
 export default itemActions;
