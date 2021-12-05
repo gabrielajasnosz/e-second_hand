@@ -7,12 +7,14 @@ import { connect } from "react-redux";
 import withHandlers from "recompose/withHandlers";
 import { Button, withStyles } from "@material-ui/core";
 import Popover from "@material-ui/core/Popover";
+import Badge from "@mui/material/Badge";
 import classNames from "classnames";
 import { withRouter } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
+import EmailIcon from "@mui/icons-material/Email";
 import debounce from "lodash/debounce";
 import Switch from "@mui/material/Switch";
 import { UserService } from "../../service/UserService";
@@ -25,13 +27,18 @@ import {
     fetchCategories as fetchCategoriesActionCreator,
     fetchBrands as fetchBrandsActionCreator,
     fetchSizes as fetchSizesActionCreator,
-    fetchColors as fetchColorsActionCreator
-} from "./action/categories";
+    fetchColors as fetchColorsActionCreator,
+    fetchChat as fetchChatActionCreator,
+    fetchMessages as fetchMessagesActionCreator
+} from "./action/header";
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
-import { getSubcategories } from "./selectors";
+import { getChatData, getSubcategories } from "./selectors";
 import "../../../translations/i18n";
-import UserAutocomplete from "../input/AsyncAutocomplete";
+import AsyncAutocomplete from "../input/AsyncAutocomplete";
+import ModalContainer from "../modal/ModalContainer";
+import ChangePassword from "../changePasswordModal/ChangePassword";
+import MessagesContainer from "../popoverContent/MessagessContainer";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -47,10 +54,16 @@ const propTypes = {
         userIcon: PropTypes.string.isRequired,
         autocomplete: PropTypes.string.isRequired,
         checked: PropTypes.string.isRequired,
-        track: PropTypes.string.isRequired
+        track: PropTypes.string.isRequired,
+        badge: PropTypes.string.isRequired,
+        paperMessages: PropTypes.string.isRequired
     }).isRequired,
     setGender: PropTypes.func.isRequired,
-    setCategory: PropTypes.func.isRequired
+    setCategory: PropTypes.func.isRequired,
+    fetchChat: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    chat: PropTypes.array.isRequired,
+    fetchMessages: PropTypes.func.isRequired
 };
 
 const styles = {
@@ -64,6 +77,14 @@ const styles = {
         width: "20rem",
         maxHeight: "20rem",
         overflow: "auto",
+        textTransform: "capitalize",
+        color: "black !important",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
+    },
+    paperMessages: {
+        width: "20rem",
+        maxHeight: "80%",
         textTransform: "capitalize",
         color: "black !important",
         fontFamily: "Open Sans, sans-serif !important",
@@ -104,11 +125,17 @@ const styles = {
     },
     track: {
         backgroundColor: "#cb997e !important"
+    },
+    badge: {
+        backgroundColor: "#6b705c !important",
+        fontFamily: "Open Sans, sans-serif !important",
+        fontSize: "14px !important",
     }
 };
 
 const mapStateToProps = (state) => ({
     categories: getSubcategories(state),
+    chat: getChatData(state)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -117,7 +144,9 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchSizes: fetchSizesActionCreator,
     fetchColors: fetchColorsActionCreator,
     setGender: setGenderActionCreator,
-    setCategory: setCategoryIdActionCreator
+    setCategory: setCategoryIdActionCreator,
+    fetchChat: fetchChatActionCreator,
+    fetchMessages: fetchMessagesActionCreator
 }, dispatch);
 
 const enhance = compose(
@@ -132,11 +161,23 @@ const enhance = compose(
 
 const Header = ({
     // eslint-disable-next-line react/prop-types
-    fetchCategories, classes, fetchSizes, fetchBrands, fetchColors, history, setGender, setCategory
+    fetchCategories,
+    classes,
+    fetchSizes,
+    fetchBrands,
+    fetchColors,
+    // eslint-disable-next-line react/prop-types
+    history,
+    setGender,
+    setCategory,
+    fetchChat,
+    chat,
+    fetchMessages
 }) => {
     const { t } = useTranslation();
     const [anchorFemale, setAnchorFemale] = React.useState(null);
     const [anchorMale, setAnchorMale] = React.useState(null);
+    const [anchorMessages, setAnchorMessages] = React.useState(null);
     const [isLoggedIn, setLoggedIn] = React.useState(false);
     // eslint-disable-next-line no-unused-vars
     const [options, setOptions] = React.useState([]);
@@ -178,10 +219,20 @@ const Header = ({
         setAnchorMale(null);
     };
 
+    const handleClickMessages = (event) => {
+        setAnchorMessages(event.currentTarget);
+    };
+
+    const handleCloseMessages = () => {
+        setAnchorMessages(null);
+    };
+
     const openFemale = Boolean(anchorFemale);
     const openMale = Boolean(anchorMale);
+    const openMessages = Boolean(anchorMessages);
     const femaleId = openFemale ? "simple-popover" : undefined;
     const maleId = openMale ? "simple-popover" : undefined;
+    const messagesId = openMessages ? "simple-popover" : undefined;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -225,6 +276,15 @@ const Header = ({
         debouncedLoadSuggestions(e);
     };
 
+    const [changePasswordModalOpen, setChangePasswordModalOpen] = React.useState(false);
+    const handleChangePasswordModalOpen = () => {
+        handleClose();
+        setChangePasswordModalOpen(true);
+    };
+    const handleChangePasswordModalClose = () => {
+        setChangePasswordModalOpen(false);
+    };
+
     useEffect(() => {
         fetchCategories();
         fetchBrands();
@@ -233,13 +293,14 @@ const Header = ({
         setLoggedIn(UserService.validateToken(UserService.currentUserValue));
         if (UserService.validateToken(UserService.currentUserValue)) {
             setUserId(UserService.decodedTokenValue.userId);
+            fetchChat();
         }
-    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors]);
+    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div className="container-fluid">
-                <img src="assets/images/clothes-hanger.png" alt="" />
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25770.png" alt="" />
                 {/* eslint-disable-next-line react/prop-types,jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
                 <div className="navbar-brand" role="button" onClick={() => history.push("/")}>e-second-hand</div>
                 <MenuIconButton label="lol" onButtonClick={() => {}} buttonClassName="navbar-toggler" />
@@ -307,7 +368,7 @@ const Header = ({
                         </Popover>
                         { isLoggedIn && (
                             <div className={classes.autocomplete}>
-                                <UserAutocomplete
+                                <AsyncAutocomplete
                                     onChange={onChange}
                                     passedOptions={options}
                                     defaultValue={inputValue}
@@ -352,6 +413,22 @@ const Header = ({
                                 display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center"
                             }}
                             >
+                                <Button
+                                    className={classNames(classes.button, "nav-link")}
+                                    disableRipple
+                                    onClick={handleClickMessages}
+                                >
+                                    <Badge
+                                        overlap="rectangular"
+                                        badgeContent={5}
+                                        color="primary"
+                                        classes={{
+                                            badge: classes.badge
+                                        }}
+                                    >
+                                        <EmailIcon />
+                                    </Badge>
+                                </Button>
                                 <IconButton onClick={handleClick} size="small" classes={{ root: classes.userIcon }}>
                                     <Avatar
                                         src={`http://localhost:8080/user/profile-picture/${userId}`}
@@ -359,25 +436,50 @@ const Header = ({
                                     />
                                 </IconButton>
                             </Box>
-                            <Popover
-                                open={open}
-                                anchorEl={anchorEl}
-                                onClose={handleClose}
-                                anchorOrigin={{
-                                    vertical: "bottom",
-                                    horizontal: "left",
-                                }}
-                                classes={{
-                                    paper: classes.paper
-                                }}
-                            >
-                                <UserPopover classes={classes} history={history} />
-                            </Popover>
-
                         </div>
                     )}
                 </div>
             </div>
+            <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+                classes={{
+                    paper: classes.paper
+                }}
+            >
+                <UserPopover
+                    classes={classes}
+                    history={history}
+                    onClose={handleClose}
+                    handleChangePasswordModalOpen={handleChangePasswordModalOpen}
+                />
+            </Popover>
+            <ModalContainer
+                handleClose={handleChangePasswordModalClose}
+                open={changePasswordModalOpen}
+            >
+                <ChangePassword handleClose={handleChangePasswordModalClose} />
+            </ModalContainer>
+            <Popover
+                id={messagesId}
+                open={openMessages}
+                anchorEl={anchorMessages}
+                onClose={handleCloseMessages}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+                classes={{
+                    paper: classes.paperMessages
+                }}
+            >
+                <MessagesContainer chat={chat} history={history} fetchMessages={fetchMessages} />
+            </Popover>
         </div>
     );
 };

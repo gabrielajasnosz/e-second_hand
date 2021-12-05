@@ -149,5 +149,16 @@ export const TRANSLATIONS_PL = {
     "Preferred language": "Preferowany język",
     "Polish": "Polski",
     "English": "Angielski",
-    "Change language": "Zmień język"
+    "Change language": "Zmień język",
+    "Change password": "Zmień hasło",
+    "Current password": "Obecne hasło",
+    "Enter current password": "Wprowadź aktualne hasło",
+    "Enter new password": "Wprowadź nowe hasło",
+    "Change": "Zmień",
+    "New password": "Nowe hasło",
+    "Passwords can't be the same": "Hasła nie mogą być takie same",
+    "Password changed successfully": "Hasło zostało zmienione",
+    "Wrong password!": "Błędne hasło",
+    "No chats yet" : "Nie masz jeszcze żadnych czatów",
+    "You": "Ty"
 };

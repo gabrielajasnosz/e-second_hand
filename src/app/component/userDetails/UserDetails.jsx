@@ -25,7 +25,7 @@ import ChangeImageDialog from "./ChangeImageDialog";
 // eslint-disable-next-line import/order
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ModalContainer from "../modal/ModalContainer";
-import EditProfile from "../editProfile/EditProfile";
+import EditProfile from "../editProfileModalContent/EditProfile";
 import RatingCustom from "../rating/RatingCustom";
 import { FollowerService } from "../../service/FollowerService";
 import FollowDialog from "../followDialog/FollowDialog";

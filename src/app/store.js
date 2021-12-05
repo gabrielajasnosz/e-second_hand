@@ -4,7 +4,7 @@ import {
 import thunk from "redux-thunk";
 import user from "./page/loginPage/reducer";
 import registerPageData from "./page/registerPage/reducer";
-import categories from "./component/header/reducer";
+import header from "./component/header/reducer";
 import newItem from "./component/addItem/reducer";
 import item from "./page/itemPage/reducer";
 import editedItem from "./component/itemDetails/reducer";
@@ -23,7 +23,7 @@ const storeEnhancer = areReduxDevtoolsAvailable
 const store = createStore(combineReducers({
     user,
     registerPageData,
-    categories,
+    categories: header,
     newItem,
     item,
     userProfile,

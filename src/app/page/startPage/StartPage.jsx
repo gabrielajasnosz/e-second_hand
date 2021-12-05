@@ -11,6 +11,7 @@ import Item from "../itemPage/Item";
 import NotFoundPage from "../notFoundPage/NotFoundPage";
 import ItemList from "../itemList/ItemList";
 import UserProfile from "../userProfile/UserProfile";
+import ChatPage from "../chatPage/ChatPage";
 
 const StartPage = () => {
     const history = createBrowserHistory();
@@ -24,6 +25,7 @@ const StartPage = () => {
                     <Route exact path="/not-found" component={NotFoundPage} />
                     <Route path="/login" component={LoginPage} />
                     <Route path="/register" component={RegisterPage} />
+                    <Route path="/chat/:id" component={ChatPage} />
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     <Route
                         path="/confirmRegistration/:token"

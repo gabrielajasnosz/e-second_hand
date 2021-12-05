@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { TextField } from "@material-ui/core";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 const propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -81,7 +80,7 @@ const styles = {
         marginTop: "0"
     },
     description: {
-        maxWidth: "22rem",
+        width: "100%",
         marginTop: "0"
     },
     userIcon: {
@@ -91,24 +90,15 @@ const styles = {
     }
 };
 
-const TextInput = ({
-    classes, onChange, label, error, multiline, endAdornment, defaultValue, variant
+const StandardInput = ({
+    classes, onChange, label, multiline, defaultValue
 }, { ...props }) => (
     <TextField
         id="login-input"
         label={label}
-        className={multiline ? classes.description : classes.textField}
+        className={classes.description}
         onChange={onChange}
-        margin="normal"
-        multiline={multiline}
         autoComplete="off"
-        required
-        variant={variant}
-        error={error !== null}
-        helperText={error !== null ? error : null}
-        FormHelperTextProps={{
-            className: classes.helperText
-        }}
         InputLabelProps={{
             classes: {
                 root: classes.cssLabel,
@@ -116,7 +106,6 @@ const TextInput = ({
             },
         }}
         InputProps={{
-            endAdornment: endAdornment ? <InputAdornment position="end"><span className={classes.cssLabel}>PLN</span></InputAdornment> : null,
             classes: {
                 root: classes.cssOutlinedInput,
                 focused: classes.cssFocused,
@@ -131,7 +120,7 @@ const TextInput = ({
 
 );
 
-TextInput.propTypes = propTypes;
-TextInput.defaultProps = defaultProps;
+StandardInput.propTypes = propTypes;
+StandardInput.defaultProps = defaultProps;
 
-export default withStyles(styles)(TextInput);
+export default withStyles(styles)(StandardInput);

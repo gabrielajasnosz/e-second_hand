@@ -39,6 +39,7 @@ const ModalContainer = ({
         <Modal
             open={modalOpen}
             onClose={handleClose}
+            disableEnforceFocus
         >
             <Box classes={{ root: classes.modal }}>
                 { children }

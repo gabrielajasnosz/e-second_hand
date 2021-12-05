@@ -42,9 +42,9 @@ const styles = {
 const PasswordInput = ({
     classes, onChange, label, showPassword, setShowPassword
 }) => (
-    <FormControl variant="outlined" className={classes.textField} required>
+    <FormControl variant="outlined" className={classes.textField} required aria-autocomplete="none">
         <InputLabel
-            htmlFor="outlined-adornment-password"
+            htmlFor="outlined-adornment-passwordd"
             classes={{
                 root: classes.cssLabel,
                 focused: classes.cssFocused
@@ -53,13 +53,14 @@ const PasswordInput = ({
             {label}
         </InputLabel>
         <OutlinedInput
-            id="outlined-adornment-password"
+            id="outlined-adornment-passwordd"
             classes={{
                 root: classes.cssOutlinedInput,
                 focused: classes.cssFocused,
                 notchedOutline: classes.notchedOutline
             }}
             type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
             onChange={onChange}
             endAdornment={(
                 <InputAdornment position="end">

@@ -149,7 +149,7 @@ const RegisterPage = ({
                                 </Alert>
                                 )}
                                 <h3 className="login-heading mb-3">{t("Create new account")}</h3>
-                                <form className="form">
+                                <div className="form">
                                     <div className="form-floating mb-3">
                                         <TextInput label={t("Your first and last name")} onChange={setDisplayName} />
                                     </div>
@@ -177,7 +177,7 @@ const RegisterPage = ({
                                             setShowPassword={setShowPassword}
                                         />
                                     </div>
-                                </form>
+                                </div>
                                 <div className="d-grid">
                                     <BasicButton onButtonClick={registerUser} label="Sign up" disabled={isButtonEnabled}>
                                         <span>

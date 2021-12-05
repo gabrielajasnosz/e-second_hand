@@ -11,7 +11,6 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import Switch from "@mui/material/Switch";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { UserService } from "../../service/UserService";
 
 const propTypes = {
@@ -26,20 +25,12 @@ const propTypes = {
         track: PropTypes.string.isRequired
     }).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    history: PropTypes.object.isRequired
-};
-
-const styles = {
-    checked: {
-        color: "#cb997e !important",
-    },
-    track: {
-        backgroundColor: "#cb997e !important"
-    }
+    history: PropTypes.object.isRequired,
+    handleChangePasswordModalOpen: PropTypes.func.isRequired
 };
 
 // eslint-disable-next-line no-unused-vars
-const UserPopover = ({ classes, history }) => {
+const UserPopover = ({ classes, history, handleChangePasswordModalOpen }) => {
     const [languageCode, setLanguageCode] = useState(localStorage.getItem("i18nextLng"));
     const { t } = useTranslation();
 
@@ -96,6 +87,17 @@ const UserPopover = ({ classes, history }) => {
                 <ListItem disablePadding>
                     <ListItemButton
                         disableRipple
+                        onClick={handleChangePasswordModalOpen}
+                    >
+                        <ListItemText
+                            disableTypography
+                            primary={<Typography variant="body2" className={classes.field}>{t("Change password")}</Typography>}
+                        />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton
+                        disableRipple
                         onClick={() => {
                             UserService.logout();
                             window.location.href = "/";
@@ -114,4 +116,4 @@ const UserPopover = ({ classes, history }) => {
 };
 
 UserPopover.propTypes = propTypes;
-export default withStyles(styles)(UserPopover);
+export default UserPopover;

@@ -1,36 +1,50 @@
-import categoriesActions from "../action/categoriesActions";
+import headerActions from "../action/headerActions";
 
 const initialState = {
     categories: null,
     brands: null,
     sizes: null,
-    colors: null
+    colors: null,
+    chat: [],
+    messages: []
 };
 
-const categories = (state = initialState, action) => {
+const header = (state = initialState, action) => {
     switch (action.type) {
-        case categoriesActions.setCategories: {
+        case headerActions.setCategories: {
             return {
                 ...state,
                 categories: action.categories
             };
         }
-        case categoriesActions.setBrands: {
+        case headerActions.setBrands: {
             return {
                 ...state,
                 brands: action.brands
             };
         }
-        case categoriesActions.setSizes: {
+        case headerActions.setSizes: {
             return {
                 ...state,
                 sizes: action.sizes
             };
         }
-        case categoriesActions.setColors: {
+        case headerActions.setColors: {
             return {
                 ...state,
                 colors: action.colors
+            };
+        }
+        case headerActions.setChat: {
+            return {
+                ...state,
+                chat: action.chat
+            };
+        }
+        case headerActions.setMessages: {
+            return {
+                ...state,
+                messages: action.messages
             };
         }
         default:
@@ -38,4 +52,4 @@ const categories = (state = initialState, action) => {
     }
 };
 
-export default categories;
+export default header;

@@ -63,6 +63,14 @@ function editProfile(userData) {
     }).then(handleResponse);
 }
 
+function changePassword(passwordData) {
+    return fetch("http://localhost:8080/change-password", {
+        method: "PUT",
+        headers: authHeader(),
+        body: JSON.stringify(passwordData),
+    }).then(handleResponse);
+}
+
 function getUser(id) {
     return fetch(`http://localhost:8080/get-user?id=${encodeURIComponent(id)}`, {
         method: "GET",
@@ -96,6 +104,7 @@ export const UserService = {
     setProfilePicture,
     editProfile,
     findUsers,
+    changePassword,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() { return currentUserSubject.value; },
     get decodedTokenValue() {

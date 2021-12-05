@@ -108,6 +108,8 @@ const AsyncAutocomplete = ({
             value={defaultValue}
             filterOptions={(options) => options}
             options={passedOptions}
+            autoComplete="off"
+            disablePortal
             loading={isLoading}
             loadingText={<Progress />}
             noOptionsText={t("No options")}
@@ -153,6 +155,8 @@ const AsyncAutocomplete = ({
                     {...params}
                     variant="outlined"
                     placeholder={t("Search for users...")}
+                    autoComplete="off"
+                    autoFocus={false}
                     className={classes.textField}
                     InputLabelProps={{
                         classes: {
@@ -162,6 +166,7 @@ const AsyncAutocomplete = ({
                     }}
                     InputProps={{
                         ...params.InputProps,
+                        autoComplete: "off",
                         classes: {
                             root: classes.cssOutlinedInput,
                             focused: classes.cssFocused,

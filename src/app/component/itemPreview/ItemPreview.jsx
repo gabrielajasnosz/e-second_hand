@@ -3,7 +3,6 @@ import ImageListItem from "@mui/material/ImageListItem";
 import PropTypes from "prop-types";
 import "./ItemPreview.scss";
 import Avatar from "@mui/material/Avatar";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { UserService } from "../../service/UserService";
 
@@ -39,7 +38,6 @@ const ItemPreview = ({ item, classes, history }) => {
                 >
                     <Avatar
                         src={`http://localhost:8080/user/profile-picture/${item.userId}`}
-                        alt={<PersonRoundedIcon className="avatar-icon " />}
                         sx={{ width: 30, height: 30 }}
                     />
                     <span className="author">{item.userDisplayName}</span>
@@ -77,7 +75,7 @@ ItemPreview.propTypes = {
         name: PropTypes.string.isRequired,
         id: PropTypes.number.isRequired,
         userDisplayName: PropTypes.string.isRequired,
-        userId: PropTypes.string.isRequired
+        userId: PropTypes.number.isRequired
     }).isRequired,
     classes: PropTypes.shape({
         root: PropTypes.string.isRequired

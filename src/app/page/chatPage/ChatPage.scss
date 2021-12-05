@@ -1,0 +1,70 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.chat-page-container{
+  position: relative;
+  top: 2rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 100%;
+
+  .chat-page-content{
+    display: flex;
+    margin-right: 1rem;
+    align-items: center;
+    flex-direction: row;
+    width: 60%;
+    overflow: auto;
+    padding: 0.5rem 2rem;
+    font-family: $preferred-font;
+    background-color: $basic-grey-color;
+    margin-bottom: 2rem;
+  }
+  .messages-container{
+    display: flex;
+    margin-right: 1rem;
+    flex-direction: column;
+    width: 60%;
+    height: 20rem;
+    overflow-y: auto;
+    overflow: auto;
+    padding: 0.5rem 2rem;
+    font-family: $preferred-font;
+    margin-bottom: 2rem;
+
+    .my-message{
+      display: flex;
+      height: auto;
+      min-height: 3rem;
+      align-items: center;
+      padding: 0 1rem;
+      font-size: 14px;
+      width: 25rem;
+      border-radius: 3rem;
+      background-color: rgba(221, 190, 169, 0.5);
+    }
+
+    .other-message{
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      height: auto;
+      width: 25rem;
+      font-size: 14px;
+      min-height: 3rem;
+      border-radius: 3rem;
+      background-color:  rgba(165, 165, 141, 0.5);
+    }
+
+    .input-field{
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+}

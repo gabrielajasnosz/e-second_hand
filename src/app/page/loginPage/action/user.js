@@ -1,6 +1,5 @@
 import userActions from "./userActions";
 import { UserService } from "../../../service/UserService";
-
 import store from "../../../store";
 import { getLoginCredentials } from "../selectors";
 
