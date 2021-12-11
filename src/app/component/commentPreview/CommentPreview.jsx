@@ -24,7 +24,7 @@ const CommentPreview = ({ comment, history }) => {
                     }}
                 >
                     <Avatar
-                        src={`http://localhost:8080/user/profile-picture/${comment.creatorId}`}
+                        src={`http://localhost:8080/users/profile-picture/${comment.creatorId}`}
                         sx={{ width: 30, height: 30 }}
                     />
                     <span className="comment-author">{comment.creatorName}</span>

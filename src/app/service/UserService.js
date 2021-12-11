@@ -6,7 +6,7 @@ import { authHeader, handleResponse } from "./helper";
 const currentUserSubject = new BehaviorSubject(localStorage.getItem("currentUser"));
 
 function login(loginCredentials) {
-    return fetch("http://localhost:8080/login", {
+    return fetch("http://localhost:8080/users/login", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -29,11 +29,11 @@ function login(loginCredentials) {
 }
 
 function confirmRegistration(token) {
-    return fetch(`http://localhost:8080/confirmRegistration?token=${encodeURIComponent(token)}`);
+    return fetch(`http://localhost:8080/users/registration?token=${encodeURIComponent(token)}`);
 }
 
 function register(registerCredentials) {
-    return fetch("http://localhost:8080/register", {
+    return fetch("http://localhost:8080/users/register", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -49,14 +49,14 @@ function logout() {
 }
 
 function findUsers(keyword) {
-    return fetch(`http://localhost:8080/search-for-users?name=${encodeURIComponent(keyword)}`, {
+    return fetch(`http://localhost:8080/users/keyword?name=${encodeURIComponent(keyword)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function editProfile(userData) {
-    return fetch("http://localhost:8080/edit-profile", {
+    return fetch("http://localhost:8080/users", {
         method: "PUT",
         headers: authHeader(),
         body: JSON.stringify(userData),
@@ -64,7 +64,7 @@ function editProfile(userData) {
 }
 
 function changePassword(passwordData) {
-    return fetch("http://localhost:8080/change-password", {
+    return fetch("http://localhost:8080/users/password", {
         method: "PUT",
         headers: authHeader(),
         body: JSON.stringify(passwordData),
@@ -72,7 +72,7 @@ function changePassword(passwordData) {
 }
 
 function getUser(id) {
-    return fetch(`http://localhost:8080/get-user?id=${encodeURIComponent(id)}`, {
+    return fetch(`http://localhost:8080/users?id=${encodeURIComponent(id)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
@@ -83,7 +83,7 @@ function validateToken(token) {
 }
 
 function setProfilePicture(newPictureForm) {
-    return fetch("http://localhost:8080/add-profile-picture", {
+    return fetch("http://localhost:8080/users/profile-picture", {
         method: "PUT",
         headers: {
             Accept: "application/json",

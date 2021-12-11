@@ -37,7 +37,7 @@ const ItemPreview = ({ item, classes, history }) => {
                     onClick={() => (isLoggedIn ? history.push(`/user/${item.userId}`) : {})}
                 >
                     <Avatar
-                        src={`http://localhost:8080/user/profile-picture/${item.userId}`}
+                        src={`http://localhost:8080/users/profile-picture/${item.userId}`}
                         sx={{ width: 30, height: 30 }}
                     />
                     <span className="author">{item.userDisplayName}</span>
@@ -48,8 +48,8 @@ const ItemPreview = ({ item, classes, history }) => {
                 <ImageListItem key={item.id} classes={{ root: classes.root }}>
                     {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                     <img
-                        src={`http://localhost:8080/item/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format`}
-                        srcSet={`http://localhost:8080/item/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
+                        src={`http://localhost:8080/items/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format`}
+                        srcSet={`http://localhost:8080/items/image/${item.mainImageId}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
                         alt=""
                         loading="lazy"
                         className="img"

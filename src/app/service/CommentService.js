@@ -1,7 +1,7 @@
 import { authHeader, handleResponse } from "./helper";
 
 function addComment(commentBody) {
-    return fetch("http://localhost:8080/comments/add", {
+    return fetch("http://localhost:8080/comments", {
         method: "POST",
         body: JSON.stringify(commentBody),
         headers: authHeader(),
@@ -9,7 +9,7 @@ function addComment(commentBody) {
 }
 
 function getComments(userId, page) {
-    return fetch(`http://localhost:8080/comments/get?userId=${encodeURIComponent(userId)}&page=${encodeURIComponent(page)}`, {
+    return fetch(`http://localhost:8080/comments?user=${encodeURIComponent(userId)}&page=${encodeURIComponent(page)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);

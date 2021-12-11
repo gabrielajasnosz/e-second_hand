@@ -3,7 +3,7 @@ import { authHeader, handleResponse } from "./helper";
 import { UserService } from "./UserService";
 
 function saveItem(newItem) {
-    return fetch("http://localhost:8080/item/add", {
+    return fetch("http://localhost:8080/items", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -14,7 +14,7 @@ function saveItem(newItem) {
 }
 
 function editItem(editedItem) {
-    return fetch("http://localhost:8080/item/edit", {
+    return fetch("http://localhost:8080/items", {
         method: "PUT",
         headers: authHeader(),
         body: JSON.stringify(editedItem)
@@ -22,35 +22,35 @@ function editItem(editedItem) {
 }
 
 function getItem(itemId) {
-    return fetch(`http://localhost:8080/item/item?itemId=${encodeURIComponent(itemId)}`, {
+    return fetch(`http://localhost:8080/items?id=${encodeURIComponent(itemId)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getHiddenItems() {
-    return fetch("http://localhost:8080/item/hidden", {
+    return fetch("http://localhost:8080/items/hidden", {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function deleteItem(itemId) {
-    return fetch(`http://localhost:8080/item/delete?itemId=${encodeURIComponent(itemId)}`, {
+    return fetch(`http://localhost:8080/items?id=${encodeURIComponent(itemId)}`, {
         method: "DELETE",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getUserCounters(userId) {
-    return fetch(`http://localhost:8080/item/counters?userId=${encodeURIComponent(userId)}`, {
+    return fetch(`http://localhost:8080/items/counters?user=${encodeURIComponent(userId)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getItems(filters) {
-    return fetch("http://localhost:8080/item/list", {
+    return fetch("http://localhost:8080/items/list", {
         method: "POST",
         body: JSON.stringify(filters),
         headers: authHeader(),
@@ -58,14 +58,14 @@ function getItems(filters) {
 }
 
 function getPriceExtremeValues() {
-    return fetch("http://localhost:8080/item/price/extremeValues", {
+    return fetch("http://localhost:8080/items/price/extreme-values", {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function manageItemVisibility(itemId, status) {
-    return fetch(`http://localhost:8080/item/itemVisibility?itemId=${encodeURIComponent(itemId)}&status=${encodeURIComponent(status)}`, {
+    return fetch(`http://localhost:8080/items/item-visibility?id=${encodeURIComponent(itemId)}&status=${encodeURIComponent(status)}`, {
         method: "PUT",
         headers: authHeader(),
     }).then(handleResponse);
@@ -73,7 +73,7 @@ function manageItemVisibility(itemId, status) {
 
 function getFollowedUsersItems(userId, page, pageSize) {
     // eslint-disable-next-line max-len
-    return fetch(`http://localhost:8080/item/followed-users-items?userId=${encodeURIComponent(userId)}&page=${encodeURIComponent(page)}&pageSize=${encodeURIComponent(pageSize)}`, {
+    return fetch(`http://localhost:8080/items/followed-users?user=${encodeURIComponent(userId)}&page=${encodeURIComponent(page)}&pageSize=${encodeURIComponent(pageSize)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);

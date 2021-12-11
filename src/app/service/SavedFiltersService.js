@@ -2,7 +2,7 @@
 import { authHeader, handleResponse } from "./helper";
 
 function saveFilters(filters) {
-    return fetch("http://localhost:8080/filters/save", {
+    return fetch("http://localhost:8080/filters", {
         method: "POST",
         body: JSON.stringify(filters),
         headers: authHeader(),
@@ -10,21 +10,21 @@ function saveFilters(filters) {
 }
 
 function getSavedFilters() {
-    return fetch("http://localhost:8080/filters/get-saved-filters", {
+    return fetch("http://localhost:8080/filters/list", {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getSavedFilterById(id) {
-    return fetch(`http://localhost:8080/filters/get-filter?id=${encodeURIComponent(id)}`, {
+    return fetch(`http://localhost:8080/filters?id=${encodeURIComponent(id)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function deleteSavedFilterById(id) {
-    return fetch(`http://localhost:8080/filters/delete?id=${encodeURIComponent(id)}`, {
+    return fetch(`http://localhost:8080/filters?id=${encodeURIComponent(id)}`, {
         method: "DELETE",
         headers: authHeader(),
     }).then(handleResponse);

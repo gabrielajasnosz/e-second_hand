@@ -187,7 +187,7 @@ const UserDetails = ({
                                     </Avatar>
                                 ) : (
                                     <Avatar
-                                        src={`http://localhost:8080/user/profile-picture/${userData.id}`}
+                                        src={`http://localhost:8080/users/profile-picture/${userData.id}`}
                                         sx={{ width: "90px", height: "90px" }}
                                     />
                                 )}

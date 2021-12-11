@@ -69,8 +69,8 @@ const ImageListContainer = ({
                         <ImageListItem key={img.id} classes={{ root: classes.itemRoot }}>
                             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                             <img
-                                src={`http://localhost:8080/item/image/${img.id}?w=250&h=250&fit=crop&auto=format`}
-                                srcSet={`http://localhost:8080/item/image/${img.id}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
+                                src={`http://localhost:8080/items/image/${img.id}?w=250&h=250&fit=crop&auto=format`}
+                                srcSet={`http://localhost:8080/items/image/${img.id}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
                                 alt=""
                                 loading="lazy"
                                 className="img"

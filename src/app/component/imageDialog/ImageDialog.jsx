@@ -15,8 +15,8 @@ const ImageDialog = ({
     >
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
         <img
-            src={`http://localhost:8080/item/image/${img}`}
-            srcSet={`http://localhost:8080/item/image/${img}`}
+            src={`http://localhost:8080/items/image/${img}`}
+            srcSet={`http://localhost:8080/items/image/${img}`}
             alt=""
             loading="lazy"
         />

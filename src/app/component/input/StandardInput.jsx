@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { TextField } from "@material-ui/core";
+import TextField from "@mui/material/TextField";
 
 const propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -19,20 +19,12 @@ const propTypes = {
         description: PropTypes.string.isRequired,
         userIcon: PropTypes.string.isRequired
     }).isRequired,
-    error: PropTypes.string,
-    multiline: PropTypes.bool,
-    endAdornment: PropTypes.bool,
     defaultValue: PropTypes.string,
-    variant: PropTypes.string
 };
 
 const defaultProps = {
-    error: null,
-    multiline: null,
-    endAdornment: null,
     defaultValue: null,
-    label: null,
-    variant: "outlined"
+    label: null
 };
 
 const styles = {
@@ -45,7 +37,6 @@ const styles = {
         }
     },
     textField: {
-        maxWidth: "20rem",
         marginTop: "0",
         width: "100%",
     },
@@ -56,9 +47,15 @@ const styles = {
         fontSize: "14px"
     },
     cssOutlinedInput: {
-        "&$cssFocused $notchedOutline": {
-            borderColor: "#a5a58d !important",
-        }
+        "&:before": {
+            borderBottom: "1px solid grey !important"
+        },
+        "&:hover:before": {
+            borderBottom: "2px solid #a5a58d !important"
+        },
+        "&:after": {
+            borderBottom: "2px solid #6b705c !important"
+        },
     },
     cssFocused: {
         fontFamily: "Open Sans, sans-serif"
@@ -66,22 +63,6 @@ const styles = {
 
     notchedOutline: {
         borderWidth: "1px",
-    },
-    helperText: {
-        margin: 0,
-        fontFamily: "Open Sans, sans-serif",
-        fontSize: "12px",
-    },
-    descriptionInput: {
-        maxWidth: "20rem",
-        width: "100%",
-        minHeight: "3rem !important",
-        height: "auto",
-        marginTop: "0"
-    },
-    description: {
-        width: "100%",
-        marginTop: "0"
     },
     userIcon: {
         "&:hover, &:focus": {
@@ -91,13 +72,15 @@ const styles = {
 };
 
 const StandardInput = ({
-    classes, onChange, label, multiline, defaultValue
+// eslint-disable-next-line no-unused-vars
+    classes, onChange, label, defaultValue
 }, { ...props }) => (
     <TextField
-        id="login-input"
+        id="message-input"
         label={label}
-        className={classes.description}
+        className={classes.textField}
         onChange={onChange}
+        variant="standard"
         autoComplete="off"
         InputLabelProps={{
             classes: {
@@ -108,9 +91,9 @@ const StandardInput = ({
         InputProps={{
             classes: {
                 root: classes.cssOutlinedInput,
+                underline: classes.cssOutlinedInput,
                 focused: classes.cssFocused,
-                notchedOutline: classes.notchedOutline,
-                input: multiline ? classes.descriptionInput : null
+                notchedOutline: classes.notchedOutline
             }
         }}
         defaultValue={defaultValue}

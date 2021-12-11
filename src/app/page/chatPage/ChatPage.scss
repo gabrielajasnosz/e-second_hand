@@ -30,9 +30,8 @@
     margin-right: 1rem;
     flex-direction: column;
     width: 60%;
-    height: 20rem;
+    height: 23rem;
     overflow-y: auto;
-    overflow: auto;
     padding: 0.5rem 2rem;
     font-family: $preferred-font;
     margin-bottom: 2rem;
@@ -44,7 +43,7 @@
       align-items: center;
       padding: 0 1rem;
       font-size: 14px;
-      width: 25rem;
+      width: 40%;
       border-radius: 3rem;
       background-color: rgba(221, 190, 169, 0.5);
     }
@@ -54,17 +53,18 @@
       align-items: center;
       padding: 0 1rem;
       height: auto;
-      width: 25rem;
+      width: 40%;
       font-size: 14px;
       min-height: 3rem;
       border-radius: 3rem;
       background-color:  rgba(165, 165, 141, 0.5);
     }
-
-    .input-field{
-      display: flex;
-      width: 100%;
-      justify-content: flex-start;
-    }
   }
+}
+
+.input-field{
+  display: flex;
+  width: 60%;
+  justify-content: flex-start;
+  align-items: center;
 }

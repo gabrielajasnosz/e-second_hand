@@ -131,7 +131,7 @@ const AsyncAutocomplete = ({
                     <ListItem {...props}>
                         <ListItemAvatar>
                             <Avatar
-                                src={`http://localhost:8080/user/profile-picture/${option.value}`}
+                                src={`http://localhost:8080/users/profile-picture/${option.value}`}
                             />
                         </ListItemAvatar>
                         <ListItemText

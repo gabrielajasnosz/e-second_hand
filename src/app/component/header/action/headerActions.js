@@ -7,6 +7,7 @@ const headerActions = {
     setColors: `${prefix}_SET_COLORS`,
     setChat: `${prefix}_SET_CHAT`,
     setMessages: `${prefix}_SET_MESSAGES`,
+    setUnreadCounter: `${prefix}_SET_UNREAD_COUNTER`,
 };
 
 export default headerActions;

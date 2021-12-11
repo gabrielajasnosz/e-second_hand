@@ -60,7 +60,7 @@ const MessagessContainer = ({
                                     }}
                                 >
                                     <Avatar
-                                        src={`http://localhost:8080/user/profile-picture/${e.conversationalistId}`}
+                                        src={`http://localhost:8080/users/profile-picture/${e.conversationalistId}`}
                                         sx={{ width: "50px", height: "50px", marginRight: "0.5rem" }}
                                     />
                                     <div style={{ display: "flex", flexDirection: "column" }}>

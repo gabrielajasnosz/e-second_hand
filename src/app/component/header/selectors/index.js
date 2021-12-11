@@ -7,3 +7,4 @@ export const getBrands = createSelector(getHeaderUtils, (categories) => categori
 export const getColors = createSelector(getHeaderUtils, (categories) => categories.colors);
 export const getChatData = createSelector(getHeaderUtils, (header) => header.chat);
 export const getMessages = createSelector(getHeaderUtils, (header) => header.messages);
+export const getUnreadCounter = createSelector(getHeaderUtils, (header) => header.unreadCounter);

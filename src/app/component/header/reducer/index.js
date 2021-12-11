@@ -6,7 +6,8 @@ const initialState = {
     sizes: null,
     colors: null,
     chat: [],
-    messages: []
+    messages: [],
+    unreadCounter: 0
 };
 
 const header = (state = initialState, action) => {
@@ -33,6 +34,12 @@ const header = (state = initialState, action) => {
             return {
                 ...state,
                 colors: action.colors
+            };
+        }
+        case headerActions.setUnreadCounter: {
+            return {
+                ...state,
+                unreadCounter: action.unreadCounter
             };
         }
         case headerActions.setChat: {

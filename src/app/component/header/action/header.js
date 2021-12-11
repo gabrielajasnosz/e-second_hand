@@ -30,12 +30,24 @@ export const setColors = (colors) => ({
     type: headerActions.setColors,
     colors
 });
+export const setUnreadCounter = (unreadCounter) => ({
+    type: headerActions.setUnreadCounter,
+    unreadCounter
+});
 
 export const fetchChat = () => (dispatch) => {
     MessageService.loadChat()
         .then((response) => response.json())
         .then((json) => {
             dispatch(setChat(json));
+        });
+};
+
+export const fetchUnreadCounter = () => (dispatch) => {
+    MessageService.getUnreadCounter()
+        .then((response) => response.json())
+        .then((json) => {
+            dispatch(setUnreadCounter(json));
         });
 };
 

@@ -28,7 +28,7 @@ const StartPage = () => {
                     <Route path="/chat/:id" component={ChatPage} />
                     {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     <Route
-                        path="/confirmRegistration/:token"
+                        path="/users/registration/:token"
                         /* eslint-disable-next-line react/jsx-props-no-spreading */
                         render={(props) => <LoginPage isAccountConfirmation {...props} />}
                     />

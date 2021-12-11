@@ -1,13 +1,13 @@
 function getCategories() {
-    return fetch("http://localhost:8080/categories/");
+    return fetch("http://localhost:8080/categories");
 }
 
 function getBrands() {
-    return fetch("http://localhost:8080/categories/brands");
+    return fetch("http://localhost:8080/brands");
 }
 
 function getSizes() {
-    return fetch("http://localhost:8080/sizes/");
+    return fetch("http://localhost:8080/sizes");
 }
 
 function getSizesUngrouped() {
@@ -15,7 +15,7 @@ function getSizesUngrouped() {
 }
 
 function getColors() {
-    return fetch("http://localhost:8080/colors/");
+    return fetch("http://localhost:8080/colors");
 }
 
 // eslint-disable-next-line import/prefer-default-export

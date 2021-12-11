@@ -30,7 +30,7 @@ const FollowDialog = ({ list, title, emptyMessage }) => (
                             }}
                         >
                             <Avatar
-                                src={`http://localhost:8080/user/profile-picture/${e.id}`}
+                                src={`http://localhost:8080/users/profile-picture/${e.id}`}
                                 sx={{ width: 30, height: 30 }}
                             />
                             <span className="username">{e.displayName}</span>

@@ -103,7 +103,7 @@ const ItemDetails = ({
                                 onClick={() => (isLoggedIn ? history.push(`/user/${itemData.userId}`) : {})}
                             >
                                 <Avatar
-                                    src={`http://localhost:8080/user/profile-picture/${itemData.userId}`}
+                                    src={`http://localhost:8080/users/profile-picture/${itemData.userId}`}
                                     alt={<PersonRoundedIcon className="avatar-icon " />}
                                     sx={{ width: 30, height: 30 }}
                                 />

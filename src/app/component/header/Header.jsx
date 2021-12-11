@@ -29,16 +29,18 @@ import {
     fetchSizes as fetchSizesActionCreator,
     fetchColors as fetchColorsActionCreator,
     fetchChat as fetchChatActionCreator,
-    fetchMessages as fetchMessagesActionCreator
+    fetchMessages as fetchMessagesActionCreator,
+    fetchUnreadCounter as fetchUnreadCounterActionCreator
 } from "./action/header";
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
-import { getChatData, getSubcategories } from "./selectors";
+import { getChatData, getSubcategories, getUnreadCounter } from "./selectors";
 import "../../../translations/i18n";
 import AsyncAutocomplete from "../input/AsyncAutocomplete";
 import ModalContainer from "../modal/ModalContainer";
 import ChangePassword from "../changePasswordModal/ChangePassword";
 import MessagesContainer from "../popoverContent/MessagessContainer";
+import { MessageService } from "../../service/MessageService";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -63,7 +65,9 @@ const propTypes = {
     fetchChat: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     chat: PropTypes.array.isRequired,
-    fetchMessages: PropTypes.func.isRequired
+    fetchMessages: PropTypes.func.isRequired,
+    fetchUnreadCounter: PropTypes.func.isRequired,
+    unreadCounter: PropTypes.number.isRequired
 };
 
 const styles = {
@@ -135,7 +139,8 @@ const styles = {
 
 const mapStateToProps = (state) => ({
     categories: getSubcategories(state),
-    chat: getChatData(state)
+    chat: getChatData(state),
+    unreadCounter: getUnreadCounter(state)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -146,7 +151,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setGender: setGenderActionCreator,
     setCategory: setCategoryIdActionCreator,
     fetchChat: fetchChatActionCreator,
-    fetchMessages: fetchMessagesActionCreator
+    fetchMessages: fetchMessagesActionCreator,
+    fetchUnreadCounter: fetchUnreadCounterActionCreator
 }, dispatch);
 
 const enhance = compose(
@@ -172,7 +178,9 @@ const Header = ({
     setCategory,
     fetchChat,
     chat,
-    fetchMessages
+    fetchMessages,
+    fetchUnreadCounter,
+    unreadCounter
 }) => {
     const { t } = useTranslation();
     const [anchorFemale, setAnchorFemale] = React.useState(null);
@@ -294,8 +302,12 @@ const Header = ({
         if (UserService.validateToken(UserService.currentUserValue)) {
             setUserId(UserService.decodedTokenValue.userId);
             fetchChat();
+            fetchUnreadCounter();
+            MessageService.subscribeOnNewMessages(() => {
+                console.log("lmaoo");
+            });
         }
-    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat]);
+    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, fetchUnreadCounter]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -420,7 +432,7 @@ const Header = ({
                                 >
                                     <Badge
                                         overlap="rectangular"
-                                        badgeContent={5}
+                                        badgeContent={unreadCounter}
                                         color="primary"
                                         classes={{
                                             badge: classes.badge
@@ -431,7 +443,7 @@ const Header = ({
                                 </Button>
                                 <IconButton onClick={handleClick} size="small" classes={{ root: classes.userIcon }}>
                                     <Avatar
-                                        src={`http://localhost:8080/user/profile-picture/${userId}`}
+                                        src={`http://localhost:8080/users/profile-picture/${userId}`}
                                         sx={{ width: "40px", height: "40px" }}
                                     />
                                 </IconButton>
