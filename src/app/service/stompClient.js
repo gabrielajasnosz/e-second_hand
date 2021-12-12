@@ -1,6 +1,5 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import { UserService } from "./UserService";
 
 let stompClient;
 
@@ -10,7 +9,7 @@ export function getOrCreateStompClient() {
         return stompClient;
     }
     // eslint-disable-next-line no-useless-concat
-    const socket = new SockJS("http://localhost:8080/chat?token=" + `Bearer ${UserService.currentUserValue}`, null, { transports: "websocket" });
+    const socket = new SockJS("http://localhost:8080/chat", null, { transports: "websocket" });
     stompClient = Stomp.over(socket);
     return stompClient;
 }

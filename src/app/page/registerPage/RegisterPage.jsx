@@ -154,7 +154,7 @@ const RegisterPage = ({
                                         <TextInput label={t("Your first and last name")} onChange={setDisplayName} />
                                     </div>
                                     <div className="form-floating mb-3">
-                                        <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect} />
+                                        <TextInput label="E-mail" onChange={setEmail} error={isEmailIncorrect ? t(isEmailIncorrect) : null} />
                                     </div>
                                     <div className="form-floating mb-3">
                                         <SelectInput label={t("Sex")} onChange={setSex} color="white" defaultValue={sex}>

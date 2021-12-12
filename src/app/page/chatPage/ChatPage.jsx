@@ -61,13 +61,16 @@ const ChatPage = ({
 
     const userId = UserService.validateToken(UserService.currentUserValue) ? UserService.decodedTokenValue.userId : null;
 
-    const [messageContent, setMessageContent] = useState(null);
+    const [messageContent, setMessageContent] = useState("");
 
     const sendMessage = () => {
         const content = messageContent;
-        const receiver = chatData.conversationalistId;
-        const chat = chatData.chatId;
-        MessageService.postMessage({ receiver, chat, content });
+        const receiver = chatData[0].conversationalistId;
+        const chat = chatData[0].chatId;
+        const author = userId;
+        MessageService.postMessage({
+            content, receiver, chat, author
+        });
     };
 
     return (
@@ -89,7 +92,7 @@ const ChatPage = ({
                 ))}
             </div>
             <div className="input-field">
-                <StandardInput label="Send message" onChange={setMessageContent} defaultValue="" />
+                <StandardInput label="Send message" onChange={(e) => setMessageContent(e.target.value)} defaultValue="" />
                 <IconButton onClick={sendMessage} size="small" classes={{ root: classes.icon }} disabled={messageContent === null}>
                     <SendIcon className={classes.iconStyle} />
                 </IconButton>

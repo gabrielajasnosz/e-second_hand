@@ -33,16 +33,16 @@ const CategoryPopover = ({
     const genderArray = useMemo(() => [{
         gender: "UNDEFINED",
         id: 1001,
-        name: t("woman"),
+        name: "MAN",
         parentId: null,
         subCategories: categories
     }, {
         gender: "UNDEFINED",
         id: 1002,
-        name: t("man"),
+        name: "WOMAN",
         parentId: null,
         subCategories: categories
-    }], [categories, t]);
+    }], [categories]);
 
     useEffect(() => {
         if (gender === "UNDEFINED") {
@@ -94,7 +94,7 @@ const CategoryPopover = ({
                                             setPreviousContent(
                                                 [...previousContent, {
                                                     contentId: currentContentId,
-                                                    contentName: element.name,
+                                                    contentName: t(element.name),
                                                     content: filteredContent
                                                 }]
                                             );

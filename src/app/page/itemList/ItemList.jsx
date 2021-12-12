@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import InfiniteScroll from "react-infinite-scroller";
+import { useTranslation } from "react-i18next";
 import { getBrands, getColors, getSizes } from "../../component/header/selectors";
 import FilterPanel from "../../component/filterPanel/FilterPanel";
 import {
@@ -133,6 +134,8 @@ const ItemList = ({
 
     const canSaveFilter = isLoggedIn && (filters.length > 0);
 
+    const { t } = useTranslation();
+
     useEffect(() => () => {
         resetData();
     }, [resetData]);
@@ -174,7 +177,10 @@ const ItemList = ({
                 )}
                 {itemList.length === 0 && isLoading === false && (
                     <div className="item-loader">
-                        <span className="no-content-info"> No items found </span>
+                        <span className="no-content-info">
+                            {t("No items found")}
+                            {" "}
+                        </span>
                     </div>
                 )}
                 {isLoading && (

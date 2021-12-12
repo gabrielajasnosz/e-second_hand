@@ -183,20 +183,20 @@ const Carousel = ({ classes, resetData }) => {
                 </div>
                 <div className="carousel-item carousel-first active">
                     <div className="carousel-caption">
-                        <p>My Caption Title (1st Image)</p>
-                        <span>The whole caption will only show up if the screen is at least medium size.</span>
+                        <p>e-second-hand</p>
+                        <span>{t("Sign up and start selling!")}</span>
                     </div>
                 </div>
                 <div className="carousel-item carousel-second">
                     <div className="carousel-caption">
-                        <p>My Caption Title (1st Image)</p>
-                        <span>The whole caption will only show up if the screen is at least medium size.</span>
+                        <p>e-second-hand</p>
+                        <span>{t("Browse items and contact other users")}</span>
                     </div>
                 </div>
                 <div className="carousel-item carousel-third">
                     <div className="carousel-caption">
-                        <p>My Caption Title (1st Image)</p>
-                        <span>The whole caption will only show up if the screen is at least medium size.</span>
+                        <p>e-second-hand</p>
+                        <span>{t("Take care of ecology and stop fast fashion")}</span>
                     </div>
                 </div>
             </div>

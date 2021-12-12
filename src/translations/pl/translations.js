@@ -160,5 +160,11 @@ export const TRANSLATIONS_PL = {
     "Password changed successfully": "Hasło zostało zmienione",
     "Wrong password!": "Błędne hasło",
     "No chats yet" : "Nie masz jeszcze żadnych czatów",
-    "You": "Ty"
+    "You": "Ty",
+    "Email already in use.": "Email jest już zajęty.",
+    "Account confirmed! You can now sign in to your account": "Rejestracja zakończona. Możesz zalogować się na swoje konto.",
+    "Sign up and start selling!": "Utwórz konto i zacznij sprzedawać!",
+    "Browse items and contact other users": "Przeglądaj przedmioty i kontaktuj się z innymi użytkownikami",
+    "Take care of ecology and stop fast fashion": "Zadbaj o ekologię i skończ z fast fashion",
+    "black": "czarny"
 };

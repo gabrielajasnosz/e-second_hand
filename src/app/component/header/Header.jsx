@@ -30,7 +30,8 @@ import {
     fetchColors as fetchColorsActionCreator,
     fetchChat as fetchChatActionCreator,
     fetchMessages as fetchMessagesActionCreator,
-    fetchUnreadCounter as fetchUnreadCounterActionCreator
+    fetchUnreadCounter as fetchUnreadCounterActionCreator,
+    setMessages as setMessagesActionCreator
 } from "./action/header";
 import MenuIconButton from "../button/MenuIconButton";
 import UserPopover from "../popoverContent/UserPopover";
@@ -67,7 +68,8 @@ const propTypes = {
     chat: PropTypes.array.isRequired,
     fetchMessages: PropTypes.func.isRequired,
     fetchUnreadCounter: PropTypes.func.isRequired,
-    unreadCounter: PropTypes.number.isRequired
+    unreadCounter: PropTypes.number.isRequired,
+    setMessages: PropTypes.func.isRequired
 };
 
 const styles = {
@@ -152,7 +154,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setCategory: setCategoryIdActionCreator,
     fetchChat: fetchChatActionCreator,
     fetchMessages: fetchMessagesActionCreator,
-    fetchUnreadCounter: fetchUnreadCounterActionCreator
+    fetchUnreadCounter: fetchUnreadCounterActionCreator,
+    setMessages: setMessagesActionCreator
 }, dispatch);
 
 const enhance = compose(
@@ -180,7 +183,8 @@ const Header = ({
     chat,
     fetchMessages,
     fetchUnreadCounter,
-    unreadCounter
+    unreadCounter,
+    setMessages
 }) => {
     const { t } = useTranslation();
     const [anchorFemale, setAnchorFemale] = React.useState(null);
@@ -303,11 +307,12 @@ const Header = ({
             setUserId(UserService.decodedTokenValue.userId);
             fetchChat();
             fetchUnreadCounter();
-            MessageService.subscribeOnNewMessages(() => {
-                console.log("lmaoo");
+            MessageService.subscribeOnNewMessages((message) => {
+                setMessages(JSON.parse(message.body));
+                fetchUnreadCounter();
             });
         }
-    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, fetchUnreadCounter]);
+    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, fetchUnreadCounter, setMessages]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">

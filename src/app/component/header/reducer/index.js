@@ -51,7 +51,7 @@ const header = (state = initialState, action) => {
         case headerActions.setMessages: {
             return {
                 ...state,
-                messages: action.messages
+                messages: [...state.messages, ...action.messages]
             };
         }
         default:

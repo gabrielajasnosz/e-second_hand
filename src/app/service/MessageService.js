@@ -3,21 +3,21 @@ import { getOrCreateStompClient } from "./stompClient";
 import { UserService } from "./UserService";
 
 function loadChat() {
-    return fetch("http://localhost:8080/messages/all", {
+    return fetch("http://localhost:8080/chat/all", {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getUnreadCounter() {
-    return fetch("http://localhost:8080/messages/unread-counter", {
+    return fetch("http://localhost:8080/chat/unread-counter", {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function loadMessages(chatId) {
-    return fetch(`http://localhost:8080/messages/chat?chatId=${encodeURIComponent(chatId)}`, {
+    return fetch(`http://localhost:8080/chat/chat?chatId=${encodeURIComponent(chatId)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
@@ -27,38 +27,39 @@ function loadMessages(chatId) {
 function subscribeOnNewMessages(onNewMessage) {
     const stompClient = getOrCreateStompClient();
     const headers = {
-        Authorization: `Bearer ${UserService.currentUserValue}`,
-        "Content-Type": "application/json",
-        Accept: "application/json"
+        "x-auth-token": `${UserService.currentUserValue}`,
     };
     stompClient.connect(headers, () => {
         // eslint-disable-next-line max-len
-        stompClient.subscribe(headers, "/topic/message", onNewMessage);
+        stompClient.subscribe("/topic/message", onNewMessage);
     });
 }
+//
+// const getCircularReplacer = () => {
+//     const seen = new WeakSet();
+//     return (key, value) => {
+//         if (typeof value === "object" && value !== null) {
+//             seen.add(value);
+//         }
+//         // eslint-disable-next-line consistent-return
+//         return value;
+//     };
+// };
 
-const getCircularReplacer = () => {
-    const seen = new WeakSet();
-    return (key, value) => {
-        if (typeof value === "object" && value !== null) {
-            if (seen.has(value)) {
-                return;
-            }
-            seen.add(value);
-        }
-        // eslint-disable-next-line consistent-return
-        return value;
-    };
-};
-
-function postMessage({ content, receiver, chat }) {
+function postMessage({
+    content, receiver, chat, author
+}) {
     const stompClient = getOrCreateStompClient();
     const transaction = stompClient.begin();
-    stompClient.send("/ws/messages/add", {}, JSON.stringify({
+    const headers = {
+        "x-auth-token": `${UserService.currentUserValue}`,
+    };
+    stompClient.send("/add", headers, JSON.stringify({
         receiverId: receiver,
         chatId: chat,
-        message: content
-    }, getCircularReplacer()));
+        message: content,
+        authorId: author
+    }));
     transaction.commit();
 }
 

@@ -140,7 +140,7 @@ const LoginPage = ({
                                     severity="info"
                                     classes={{ root: classes.alert, message: classes.message }}
                                 >
-                                    {registrationMessage}
+                                    {t(registrationMessage)}
                                 </Alert>
                                 )}
                                 {isLoginSuccessful === false && (

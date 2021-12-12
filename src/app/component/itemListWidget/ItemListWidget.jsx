@@ -6,7 +6,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useTranslation } from "react-i18next";
 import ItemPreview from "../itemPreview/ItemPreview";
 import TextButton from "../button/TextButton";
-import Progress from "../progress/Progress";
 
 const styles = {
     root: {
@@ -42,14 +41,19 @@ const ItemListWidget = ({
                 </TextButton>
             </div>
 
-            { items ? (
+            { items && items.length > 0 ? (
                 <div className="image-list">
                     {items.map((item) => (
                         <ItemPreview item={item} classes={classes} history={history} />
                     ))}
                 </div>
             ) : (
-                <Progress />
+                <div className="item-loader">
+                    <span className="no-content-info">
+                        {t("No items found")}
+                        {" "}
+                    </span>
+                </div>
             )}
         </div>
     );

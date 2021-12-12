@@ -17,10 +17,14 @@ export const setChat = (chat) => ({
     chat
 });
 
-export const setMessages = (messages) => ({
-    type: headerActions.setMessages,
-    messages
-});
+export const setMessages = (messages) => (dispatch) => {
+    console.log("redux chuj");
+    console.log(messages);
+    dispatch({
+        type: headerActions.setMessages,
+        messages
+    });
+};
 
 export const setSizes = (sizes) => ({
     type: headerActions.setSizes,
