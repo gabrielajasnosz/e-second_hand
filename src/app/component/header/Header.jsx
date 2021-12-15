@@ -41,7 +41,6 @@ import AsyncAutocomplete from "../input/AsyncAutocomplete";
 import ModalContainer from "../modal/ModalContainer";
 import ChangePassword from "../changePasswordModal/ChangePassword";
 import MessagesContainer from "../popoverContent/MessagessContainer";
-import { MessageService } from "../../service/MessageService";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -307,10 +306,6 @@ const Header = ({
             setUserId(UserService.decodedTokenValue.userId);
             fetchChat();
             fetchUnreadCounter();
-            MessageService.subscribeOnNewMessages((message) => {
-                setMessages(JSON.parse(message.body));
-                fetchUnreadCounter();
-            });
         }
     }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, fetchUnreadCounter, setMessages]);
 

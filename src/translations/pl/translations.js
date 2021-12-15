@@ -166,5 +166,9 @@ export const TRANSLATIONS_PL = {
     "Sign up and start selling!": "Utwórz konto i zacznij sprzedawać!",
     "Browse items and contact other users": "Przeglądaj przedmioty i kontaktuj się z innymi użytkownikami",
     "Take care of ecology and stop fast fashion": "Zadbaj o ekologię i skończ z fast fashion",
-    "black": "czarny"
+    "black": "czarny",
+    "Wrong email or password": "Błędny email lub hasło",
+    "Send message": "Wyślij wiadomość",
+    "Send new message": "Wyślij nową wiadomość",
+    "Send": "Wyślij"
 };

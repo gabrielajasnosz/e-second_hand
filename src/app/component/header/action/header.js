@@ -56,6 +56,7 @@ export const fetchUnreadCounter = () => (dispatch) => {
 };
 
 export const fetchMessages = (chatId) => (dispatch) => {
+    dispatch(setMessages([]));
     MessageService.loadMessages(chatId)
         .then((response) => response.json())
         .then((json) => {

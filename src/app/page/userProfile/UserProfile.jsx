@@ -78,7 +78,7 @@ const UserProfile = ({
 
     return (
         <div className="profile-container">
-            <UserDetails counters={counters} />
+            <UserDetails counters={counters} history={history} />
             <UserTabs
                 userItemsList={userItemsList}
                 history={history}

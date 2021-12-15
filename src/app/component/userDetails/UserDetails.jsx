@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import compose from "recompose/compose";
@@ -14,6 +15,7 @@ import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Badge from "@mui/material/Badge";
 import Dialog from "@mui/material/Dialog";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import EmailIcon from "@mui/icons-material/Email";
 import {
     getUserData,
 } from "../../page/userProfile/selectors";
@@ -29,6 +31,12 @@ import EditProfile from "../editProfileModalContent/EditProfile";
 import RatingCustom from "../rating/RatingCustom";
 import { FollowerService } from "../../service/FollowerService";
 import FollowDialog from "../followDialog/FollowDialog";
+
+import {
+    fetchMessages as fetchMessagesActionCreator,
+    fetchChat as fetchChatActionCreator
+} from "../header/action/header";
+import SendNewMessageDialog from "./SendNewMessageDialog";
 
 const styles = {
     icon: {
@@ -54,19 +62,24 @@ const styles = {
     },
 };
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    fetchMessages: fetchMessagesActionCreator,
+    fetchChat: fetchChatActionCreator
+}, dispatch);
+
 const mapStateToProps = (state) => ({
     userData: getUserData(state),
 });
 
 const enhance = compose(
     connect(mapStateToProps,
-        null),
+        mapDispatchToProps),
     withStyles(styles)
 );
 
 const UserDetails = ({
 // eslint-disable-next-line no-unused-vars
-    userData, classes, counters
+    userData, classes, counters, history, fetchMessages, fetchChat
 }) => {
     // eslint-disable-next-line no-unused-vars
     const date = moment(userData.creationDate).locale("pl").format("DD MMM, YYYY");
@@ -74,6 +87,7 @@ const UserDetails = ({
     const isUsersProfile = isLoggedIn && UserService.decodedTokenValue.userId === userData.id;
 
     const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [newMessageDialog, setNewMessageDialog] = React.useState(false);
     const [list, setList] = useState([]);
 
     const handleDialogOpen = () => {
@@ -83,7 +97,13 @@ const UserDetails = ({
     const handleDialogClose = () => {
         setDialogOpen(false);
     };
+    const handleMessageDialogOpen = () => {
+        setNewMessageDialog(true);
+    };
 
+    const handleMessageDialogClose = () => {
+        setNewMessageDialog(false);
+    };
     const followUser = () => {
         FollowerService.addToFollowed(userData.id).then(() => {
             window.location.reload(true);
@@ -132,6 +152,16 @@ const UserDetails = ({
     const [title, setTitle] = React.useState("");
     const [empty, setEmpty] = React.useState("");
 
+    // useEffect(() => {
+    //     MessageService.subscribeOnNewMessages((message) => {
+    //         const body = JSON.parse(message.body);
+    //         const { chatId } = body[0];
+    //         fetchMessages(chatId);
+    //         fetchChat();
+    //         history.push(`/chat/${chatId}`);
+    //     });
+    // }, [fetchChat, fetchMessages, history]);
+
     const handleUsersModalOpen = (context) => {
         if (context === "followers") {
             FollowerService.getFollowers(userData.id).then((response) => response.json()).then((json) => {
@@ -163,9 +193,15 @@ const UserDetails = ({
     return (
         <div className="user-info">
             <div className="user-details">
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{
+                    display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-around"
+                }}
+                >
                     <div className="edit-profile">
-                        <div style={{ display: "flex", flexDirection: "row" }}>
+                        <div style={{
+                            display: "flex", flexDirection: "row"
+                        }}
+                        >
                             <Badge
                                 overlap="circular"
                                 anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -244,8 +280,26 @@ const UserDetails = ({
                                 )}
                             </>
                         )}
+                        { !isUsersProfile && (
+                            <div style={{ marginTop: "1rem" }}>
+                                <Tooltip title={t("Send message")}>
+                                    <IconButton
+                                        onClick={() => {
+                                            if (userData.chatWithUserId) {
+                                                fetchMessages(userData.chatWithUserId);
+                                                history.push(`/chat/${userData.chatWithUserId}`);
+                                            } else {
+                                                handleMessageDialogOpen();
+                                            }
+                                        }}
+                                        classes={{ root: classes.root }}
+                                    >
+                                        <EmailIcon className={classes.followIcon} />
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                        )}
                     </div>
-
                     <div className="avatar-container">
                         <div className="user-info-details">
                             <div style={{ display: "flex", flexDirection: "column", marginBottom: "0.5rem" }}>
@@ -324,6 +378,25 @@ const UserDetails = ({
                     <ChangeImageDialog handleClose={handleDialogClose} />
                 </Dialog>
                 <Dialog
+                    open={newMessageDialog}
+                    onClose={handleMessageDialogClose}
+                    PaperProps={{
+                        sx: {
+                            backgroundColor: "#F0EFEB",
+                            width: "25rem",
+                            height: "15rem",
+                            padding: "0 1rem",
+                        }
+                    }}
+                >
+                    <SendNewMessageDialog
+                        receiverId={userData.id}
+                        handleClose={handleMessageDialogClose}
+                        history={history}
+                        fetchMessages={fetchMessages}
+                    />
+                </Dialog>
+                <Dialog
                     open={usersModalOpen}
                     onClose={handleUsersModelClose}
                     PaperProps={{
@@ -362,7 +435,8 @@ UserDetails.propTypes = {
         zipCode: PropTypes.string,
         profilePictureLocation: PropTypes.string,
         rating: PropTypes.number,
-        followedByUser: PropTypes.bool.isRequired
+        followedByUser: PropTypes.bool.isRequired,
+        chatWithUserId: PropTypes.number
     }).isRequired,
     classes: PropTypes.shape({
         icon: PropTypes.string.isRequired,
@@ -370,7 +444,11 @@ UserDetails.propTypes = {
         followIcon: PropTypes.string.isRequired
     }).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    counters: PropTypes.object.isRequired
+    counters: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object.isRequired,
+    fetchMessages: PropTypes.func.isRequired,
+    fetchChat: PropTypes.func.isRequired
 };
 
 export default enhance(UserDetails);

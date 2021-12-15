@@ -88,7 +88,7 @@ export const fetchItems = () => (dispatch) => {
                 dispatch(setNextItemId(json.nextItemId));
                 dispatch(setNextItemValue(json.nextItemValue));
                 dispatch(setLoading(false));
-            }, 2000);
+            }, 1000);
         });
     }
     return true;
@@ -283,7 +283,7 @@ export const saveFilters = (name) => (dispatch) => {
         setTimeout(() => {
             dispatch(fetchSavedFilters());
             dispatch(setFiltersLoading(false));
-        }, 4000);
+        }, 1000);
     });
 
     return true;

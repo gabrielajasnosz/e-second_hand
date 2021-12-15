@@ -148,7 +148,7 @@ const LoginPage = ({
                                     severity="error"
                                     classes={{ root: classes.alert, message: classes.message }}
                                 >
-                                    {t("wrongEmail")}
+                                    {t("Wrong email or password")}
                                 </Alert>
                                 )}
                                 <h3 className="login-heading mb-3">{t("welcomeBack")}</h3>

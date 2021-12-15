@@ -40,6 +40,7 @@ const styles = {
 };
 
 const MessagessContainer = ({
+// eslint-disable-next-line no-unused-vars
     classes, chat, history, fetchMessages
 }) => {
     // eslint-disable-next-line no-unused-vars
@@ -56,7 +57,7 @@ const MessagessContainer = ({
                                     disableRipple
                                     onClick={() => {
                                         fetchMessages(e.chatId);
-                                        history.push(`/chat/${e.chatId}`);
+                                        window.location.href = `/chat/${e.chatId}`;
                                     }}
                                 >
                                     <Avatar

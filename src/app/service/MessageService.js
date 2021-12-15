@@ -24,27 +24,16 @@ function loadMessages(chatId) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function subscribeOnNewMessages(onNewMessage) {
+function subscribeOnNewMessages(chatId, onNewMessage) {
     const stompClient = getOrCreateStompClient();
     const headers = {
         "x-auth-token": `${UserService.currentUserValue}`,
     };
     stompClient.connect(headers, () => {
         // eslint-disable-next-line max-len
-        stompClient.subscribe("/topic/message", onNewMessage);
+        stompClient.subscribe(`/user/${chatId}/newMessage`, onNewMessage);
     });
 }
-//
-// const getCircularReplacer = () => {
-//     const seen = new WeakSet();
-//     return (key, value) => {
-//         if (typeof value === "object" && value !== null) {
-//             seen.add(value);
-//         }
-//         // eslint-disable-next-line consistent-return
-//         return value;
-//     };
-// };
 
 function postMessage({
     content, receiver, chat, author

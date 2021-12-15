@@ -119,10 +119,10 @@ const AddItemSelects = ({
                 </div>
             ) : (
                 <div className="form-floating mb-3 step-content">
-                    <span className={classes.cssLabelName}>Category *</span>
+                    <span className={classes.cssLabelName}>{t("Category")}</span>
                     {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                     <div className={classes.chosenCategory} role="button" onClick={handleClickGender} tabIndex={0}>
-                        <span className={classes.cssLabelCategory}>{newItemCategory.name}</span>
+                        <span className={classes.cssLabelCategory}>{t(newItemCategory.name)}</span>
                         <EditIcon className={classes.editIcon} />
                     </div>
                     <Popover
