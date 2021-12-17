@@ -18,8 +18,6 @@ export const setChat = (chat) => ({
 });
 
 export const setMessages = (messages) => (dispatch) => {
-    console.log("redux chuj");
-    console.log(messages);
     dispatch({
         type: headerActions.setMessages,
         messages
@@ -34,10 +32,14 @@ export const setColors = (colors) => ({
     type: headerActions.setColors,
     colors
 });
-export const setUnreadCounter = (unreadCounter) => ({
-    type: headerActions.setUnreadCounter,
-    unreadCounter
-});
+
+export const setUnreadCounter = (unreadCounter) => (dispatch) => {
+    console.log(unreadCounter);
+    dispatch({
+        type: headerActions.setUnreadCounter,
+        unreadCounter
+    });
+};
 
 export const fetchChat = () => (dispatch) => {
     MessageService.loadChat()

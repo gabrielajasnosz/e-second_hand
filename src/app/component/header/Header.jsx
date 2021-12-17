@@ -29,7 +29,6 @@ import {
     fetchSizes as fetchSizesActionCreator,
     fetchColors as fetchColorsActionCreator,
     fetchChat as fetchChatActionCreator,
-    fetchMessages as fetchMessagesActionCreator,
     fetchUnreadCounter as fetchUnreadCounterActionCreator,
     setMessages as setMessagesActionCreator
 } from "./action/header";
@@ -41,6 +40,7 @@ import AsyncAutocomplete from "../input/AsyncAutocomplete";
 import ModalContainer from "../modal/ModalContainer";
 import ChangePassword from "../changePasswordModal/ChangePassword";
 import MessagesContainer from "../popoverContent/MessagessContainer";
+import { MessageService } from "../../service/MessageService";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -152,7 +152,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setGender: setGenderActionCreator,
     setCategory: setCategoryIdActionCreator,
     fetchChat: fetchChatActionCreator,
-    fetchMessages: fetchMessagesActionCreator,
     fetchUnreadCounter: fetchUnreadCounterActionCreator,
     setMessages: setMessagesActionCreator
 }, dispatch);
@@ -180,7 +179,6 @@ const Header = ({
     setCategory,
     fetchChat,
     chat,
-    fetchMessages,
     fetchUnreadCounter,
     unreadCounter,
     setMessages
@@ -304,10 +302,19 @@ const Header = ({
         setLoggedIn(UserService.validateToken(UserService.currentUserValue));
         if (UserService.validateToken(UserService.currentUserValue)) {
             setUserId(UserService.decodedTokenValue.userId);
-            fetchChat();
-            fetchUnreadCounter();
         }
-    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, fetchUnreadCounter, setMessages]);
+    }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, setMessages]);
+
+    useEffect(() => {
+        if (UserService.validateToken(UserService.currentUserValue)) {
+            fetchUnreadCounter();
+            fetchChat();
+            MessageService.subscribeNewNotification(UserService.decodedTokenValue.userId, () => {
+                fetchUnreadCounter();
+                fetchChat();
+            });
+        }
+    }, [fetchChat, fetchUnreadCounter]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -490,7 +497,7 @@ const Header = ({
                     paper: classes.paperMessages
                 }}
             >
-                <MessagesContainer chat={chat} history={history} fetchMessages={fetchMessages} />
+                <MessagesContainer chat={chat} />
             </Popover>
         </div>
     );

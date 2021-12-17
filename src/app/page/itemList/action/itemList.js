@@ -294,7 +294,6 @@ export const setOnlyFollowedUsers = (onlyFollowedUsers) => (dispatch) => {
         type: itemActions.setOnlyFollowedUsers,
         onlyFollowedUsers
     });
-    console.log(onlyFollowedUsers);
     if (onlyFollowedUsers === false) {
         dispatch({
             type: itemActions.resetList

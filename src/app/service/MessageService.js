@@ -35,6 +35,30 @@ function subscribeOnNewMessages(chatId, onNewMessage) {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
+function subscribeNewNotification(userId, onNewMessage) {
+    const stompClient = getOrCreateStompClient();
+    const headers = {
+        "x-auth-token": `${UserService.currentUserValue}`,
+    };
+    stompClient.connect(headers, () => {
+        // eslint-disable-next-line max-len
+        stompClient.subscribe(`/user/${userId}/newNotification`, onNewMessage);
+    });
+}
+
+// eslint-disable-next-line no-unused-vars
+function subscribeNewChatCreated(userId, onNewChat) {
+    const stompClient = getOrCreateStompClient();
+    const headers = {
+        "x-auth-token": `${UserService.currentUserValue}`,
+    };
+    stompClient.connect(headers, () => {
+        // eslint-disable-next-line max-len
+        stompClient.subscribe(`/user/${userId}/newChat`, onNewChat);
+    });
+}
+
 function postMessage({
     content, receiver, chat, author
 }) {
@@ -58,5 +82,7 @@ export const MessageService = {
     loadChat,
     postMessage,
     subscribeOnNewMessages,
+    subscribeNewNotification,
+    subscribeNewChatCreated,
     getUnreadCounter
 };

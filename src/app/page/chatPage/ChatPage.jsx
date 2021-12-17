@@ -8,9 +8,16 @@ import { useParams } from "react-router";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { bindActionCreators } from "redux";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
+import withHandlers from "recompose/withHandlers";
 import { UserService } from "../../service/UserService";
 import StandardInput from "../../component/input/StandardInput";
 import { MessageService } from "../../service/MessageService";
+import {
+    fetchUnreadCounter as fetchUnreadCounterActionCreator,
+} from "../../component/header/action/header";
 
 const styles = {
     icon: {
@@ -30,8 +37,22 @@ const styles = {
     },
 };
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    fetchUnreadCounter: fetchUnreadCounterActionCreator,
+}, dispatch);
+
+const enhance = compose(
+    connect(null,
+        mapDispatchToProps),
+    withHandlers(() => ({
+        setPassword: ({ setPassword }) => (e) => setPassword(e.target.value),
+        setEmail: ({ setEmail }) => (e) => setEmail(e.target.value),
+    })),
+    withStyles(styles)
+);
+
 const ChatPage = ({
-    classes,
+    classes, fetchUnreadCounter
 }) => {
     const { id } = useParams();
 
@@ -49,14 +70,15 @@ const ChatPage = ({
                 setMessages(e.messageDtoList);
             });
         }
-    }, [id]);
+    }, [fetchUnreadCounter, id]);
 
     useEffect(() => {
         if (id != null && isConnected === false) {
             MessageService.subscribeOnNewMessages(id, (message) => {
-                const body = JSON.parse(message.body);
+                // eslint-disable-next-line no-debugger
                 setIsConnected(true);
-                setMessages([...messages, ...body]);
+                const body = JSON.parse(message.body);
+                setMessages((oldMessages) => [...oldMessages, ...body]);
             });
         }
     }, [id, isConnected, messages]);
@@ -96,7 +118,12 @@ const ChatPage = ({
             </div>
             <div className="input-field">
                 <StandardInput label="Send message" onChange={(e) => setMessageContent(e.target.value)} defaultValue="" />
-                <IconButton onClick={sendMessage} size="small" classes={{ root: classes.icon }} disabled={messageContent === null}>
+                <IconButton
+                    onClick={sendMessage}
+                    size="small"
+                    classes={{ root: classes.icon }}
+                    disabled={messageContent === null || messageContent === ""}
+                >
                     <SendIcon className={classes.iconStyle} />
                 </IconButton>
             </div>
@@ -110,6 +137,7 @@ ChatPage.propTypes = {
         icon: PropTypes.string.isRequired,
         iconStyle: PropTypes.string.isRequired
     }).isRequired,
+    fetchUnreadCounter: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(ChatPage);
+export default enhance(ChatPage);

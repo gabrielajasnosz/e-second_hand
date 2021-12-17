@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -37,6 +37,7 @@ import {
     fetchChat as fetchChatActionCreator
 } from "../header/action/header";
 import SendNewMessageDialog from "./SendNewMessageDialog";
+import { MessageService } from "../../service/MessageService";
 
 const styles = {
     icon: {
@@ -152,15 +153,14 @@ const UserDetails = ({
     const [title, setTitle] = React.useState("");
     const [empty, setEmpty] = React.useState("");
 
-    // useEffect(() => {
-    //     MessageService.subscribeOnNewMessages((message) => {
-    //         const body = JSON.parse(message.body);
-    //         const { chatId } = body[0];
-    //         fetchMessages(chatId);
-    //         fetchChat();
-    //         history.push(`/chat/${chatId}`);
-    //     });
-    // }, [fetchChat, fetchMessages, history]);
+    useEffect(() => {
+        if (UserService.validateToken(UserService.currentUserValue)) {
+            MessageService.subscribeNewChatCreated(UserService.decodedTokenValue.userId, (chat) => {
+                const body = JSON.parse(chat.body);
+                history.push(`/chat/${body.id}`);
+            });
+        }
+    }, [history, isUsersProfile]);
 
     const handleUsersModalOpen = (context) => {
         if (context === "followers") {

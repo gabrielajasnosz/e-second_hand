@@ -119,7 +119,6 @@ const LoginPage = ({
             UserService.confirmRegistration(token).then((response) => response.text())
                 .then((json) => {
                     setRegistrationMessage(json);
-                    console.log(json);
                 });
         }
     }, [isAccountConfirmation, token]);

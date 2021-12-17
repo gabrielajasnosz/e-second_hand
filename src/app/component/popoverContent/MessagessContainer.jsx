@@ -41,7 +41,7 @@ const styles = {
 
 const MessagessContainer = ({
 // eslint-disable-next-line no-unused-vars
-    classes, chat, history, fetchMessages
+    classes, chat
 }) => {
     // eslint-disable-next-line no-unused-vars
     const { t } = useTranslation();
@@ -56,7 +56,6 @@ const MessagessContainer = ({
                                 <ListItemButton
                                     disableRipple
                                     onClick={() => {
-                                        fetchMessages(e.chatId);
                                         window.location.href = `/chat/${e.chatId}`;
                                     }}
                                 >
@@ -125,10 +124,7 @@ MessagessContainer.propTypes = {
         messageNotSeen: PropTypes.string.isRequired
     }).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    chat: PropTypes.array.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    history: PropTypes.object.isRequired,
-    fetchMessages: PropTypes.func.isRequired
+    chat: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(MessagessContainer);
