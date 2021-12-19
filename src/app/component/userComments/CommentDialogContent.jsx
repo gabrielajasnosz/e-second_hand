@@ -50,7 +50,7 @@ const CommentDialogContent = ({ handleClose, userId }) => {
                 </TextButton>
                 <TextButton
                     onClick={addComment}
-                    sx={{ mr: 1 }}
+                    sx={{ mr: 2 }}
                     disabled={rating === 0 || comment === ""}
                 >
                     <span>{t("Add")}</span>

@@ -93,7 +93,7 @@ const ChangePassword = ({ handleClose, classes }) => {
     return (
         <div className="app-modal-content">
             <div className="add-item-row">
-                <span>{t("Change password")}</span>
+                <span style={{ fontSize: "18px" }}>{t("Change password")}</span>
                 <IconButton onClick={handleClose} size="small" classes={{ root: classes.icon }}>
                     <CloseIcon />
                 </IconButton>

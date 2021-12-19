@@ -52,8 +52,8 @@ const styles = {
         fontSize: "26px !important",
     },
     root: {
-        padding: "0 !important",
-        marginLeft: "3rem !important",
+        padding: "6px 8px !important",
+        marginLeft: "1rem !important",
         color: "rgba(0, 0, 0, 0.54) !important",
         alignItems: "flex-start",
         fontSize: "30px !important",
@@ -90,6 +90,8 @@ const UserDetails = ({
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [newMessageDialog, setNewMessageDialog] = React.useState(false);
     const [list, setList] = useState([]);
+
+    const userRole = localStorage.getItem("role");
 
     const handleDialogOpen = () => {
         setDialogOpen(true);
@@ -154,13 +156,13 @@ const UserDetails = ({
     const [empty, setEmpty] = React.useState("");
 
     useEffect(() => {
-        if (UserService.validateToken(UserService.currentUserValue)) {
+        if (UserService.validateToken(UserService.currentUserValue) && userRole === "USER") {
             MessageService.subscribeNewChatCreated(UserService.decodedTokenValue.userId, (chat) => {
                 const body = JSON.parse(chat.body);
-                history.push(`/chat/${body.id}`);
+                window.location.href = `/chat/${body.id}`;
             });
         }
-    }, [history, isUsersProfile]);
+    }, [history, isUsersProfile, userRole]);
 
     const handleUsersModalOpen = (context) => {
         if (context === "followers") {
@@ -242,63 +244,59 @@ const UserDetails = ({
                                 ) }
                             </div>
                         </div>
-                        <div style={{ marginTop: "0.5rem" }}>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            marginTop: "0.5rem"
+                        }}
+                        >
                             <TextButton onClick={() => handleUsersModalOpen("followers")}>
                                 <span>{createLabel(t("Followers"), counters.followersCounter)}</span>
                             </TextButton>
-                        </div>
-                        <div style={{ marginTop: "0.5rem" }}>
                             <TextButton onClick={() => handleUsersModalOpen("following")}>
                                 <span>{createLabel(t("Following"), counters.followingCounter)}</span>
                             </TextButton>
-                        </div>
-                        { isUsersProfile && (
-                            <div style={{ marginTop: "0.5rem" }}>
-                                <TextButton onClick={handleModalOpen}>
-                                    <span>{t("Edit profile")}</span>
-                                </TextButton>
-                            </div>
-                        ) }
-                        { !isUsersProfile && (
-                            <>
-                                {!userData.followedByUser ? (
-                                    <div style={{ marginTop: "1rem" }}>
+                            { isUsersProfile && (
+                            <TextButton onClick={handleModalOpen}>
+                                <span>{t("Edit profile")}</span>
+                            </TextButton>
+                            ) }
+                            { !isUsersProfile && userRole === "USER" && (
+                                <>
+                                    {!userData.followedByUser ? (
                                         <Tooltip title={t("Add user to followed")}>
                                             <IconButton onClick={followUser} classes={{ root: classes.root }}>
                                                 <PersonAddIcon className={classes.followIcon} />
                                             </IconButton>
                                         </Tooltip>
-                                    </div>
-                                ) : (
-                                    <div style={{ marginTop: "1rem" }}>
+                                    ) : (
                                         <Tooltip title={t("Delete user from followed")}>
                                             <IconButton onClick={deleteFromFollowed} classes={{ root: classes.root }}>
                                                 <PersonRemoveIcon className={classes.followIcon} />
                                             </IconButton>
                                         </Tooltip>
-                                    </div>
-                                )}
-                            </>
-                        )}
-                        { !isUsersProfile && (
-                            <div style={{ marginTop: "1rem" }}>
-                                <Tooltip title={t("Send message")}>
-                                    <IconButton
-                                        onClick={() => {
-                                            if (userData.chatWithUserId) {
-                                                fetchMessages(userData.chatWithUserId);
-                                                history.push(`/chat/${userData.chatWithUserId}`);
-                                            } else {
-                                                handleMessageDialogOpen();
-                                            }
-                                        }}
-                                        classes={{ root: classes.root }}
-                                    >
-                                        <EmailIcon className={classes.followIcon} />
-                                    </IconButton>
-                                </Tooltip>
-                            </div>
-                        )}
+                                    )}
+                                </>
+                            )}
+                            { !isUsersProfile && userRole === "USER" && (
+                            <Tooltip title={t("Send message")}>
+                                <IconButton
+                                    onClick={() => {
+                                        if (userData.chatWithUserId) {
+                                            fetchMessages(userData.chatWithUserId);
+                                            window.location.href = `/chat/${userData.chatWithUserId}`;
+                                        } else {
+                                            handleMessageDialogOpen();
+                                        }
+                                    }}
+                                    classes={{ root: classes.root }}
+                                >
+                                    <EmailIcon className={classes.followIcon} />
+                                </IconButton>
+                            </Tooltip>
+                            )}
+                        </div>
                     </div>
                     <div className="avatar-container">
                         <div className="user-info-details">
@@ -371,7 +369,6 @@ const UserDetails = ({
                             width: "25rem",
                             minHeight: "15rem",
                             maxHeight: "25rem",
-                            padding: "0 1rem",
                         }
                     }}
                 >
@@ -384,8 +381,7 @@ const UserDetails = ({
                         sx: {
                             backgroundColor: "#F0EFEB",
                             width: "25rem",
-                            height: "15rem",
-                            padding: "0 1rem",
+                            height: "13rem",
                         }
                     }}
                 >
@@ -404,7 +400,6 @@ const UserDetails = ({
                             backgroundColor: "#F0EFEB",
                             width: "25rem",
                             height: "25rem",
-                            padding: "0 1rem",
                         }
                     }}
                 >

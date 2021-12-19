@@ -22,6 +22,8 @@ function login(loginCredentials) {
             throw "error";
         })
         .then((user) => {
+            const decodedToken = decodeToken(user.token);
+            localStorage.setItem("role", decodedToken.role[0].authority);
             localStorage.setItem("currentUser", user.token);
             currentUserSubject.next(user);
             return user;
@@ -45,6 +47,7 @@ function register(registerCredentials) {
 
 function logout() {
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("role");
     currentUserSubject.next(null);
 }
 

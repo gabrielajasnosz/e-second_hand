@@ -26,14 +26,17 @@ const SendNewMessageDialog = ({
 
     return (
         <>
-            <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }}>
+            <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important", fontSize: "18px !important", marginLeft: "1rem" }}>
                 {t("Send new message")}
                 {" "}
             </DialogTitle>
-            <DialogContent sx={{ display: "flex", alignItems: "center" }}>
+            <DialogContent sx={{
+                display: "flex", alignItems: "center", paddingBottom: "0 !important", justifyContent: "center"
+            }}
+            >
                 <TextInput label={null} onChange={(e) => setNewMessage(e.target.value)} defaultValue={newMessage || ""} />
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{ marginRight: "1rem" }}>
                 <TextButton
                     onClick={handleClose}
                     sx={{ mr: 1 }}
@@ -43,7 +46,7 @@ const SendNewMessageDialog = ({
                 <TextButton
                     onClick={sendMessage}
                     disabled={newMessage === null || newMessage === ""}
-                    sx={{ mr: 1 }}
+                    sx={{ mr: 2 }}
                 >
                     <span>{t("Send")}</span>
                 </TextButton>

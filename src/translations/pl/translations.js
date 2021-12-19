@@ -170,5 +170,18 @@ export const TRANSLATIONS_PL = {
     "Wrong email or password": "Błędny email lub hasło",
     "Send message": "Wyślij wiadomość",
     "Send new message": "Wyślij nową wiadomość",
-    "Send": "Wyślij"
+    "Send": "Wyślij",
+    "No users found": "Nie znaleziono użytkowników",
+    "This page doesn't exist": "Strona nie istnieje",
+    "Add category": "Dodaj kategorię",
+    "Report item": "Zgłoś przedmiot",
+    "Add report cause": "Podaj przyczynę zgłoszenia",
+    "Report": "Zgłoś",
+    "Report and delete item": "Zgłoś i usuń przedmiot",
+    "Item was succesfully reported.": "Przedmiot został zgłoszony",
+    "Add new category": "Dodaj nową kategorię",
+    "Category name": "Nazwa kategorii",
+    "Choose parent category": "Wybierz miejsce kategorii",
+    "New main category": "Nowa główna kategoria",
+    "New category was created.": "Nowa kategoria została utworzona."
 };

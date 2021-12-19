@@ -70,6 +70,8 @@ const FilterPanel = ({
     const [anchorColor, setAnchorColor] = React.useState(null);
     const [anchorSortingColumn, setAnchorSortingColumn] = React.useState(null);
     const [anchorSortingOrder, setAnchorSortingOrder] = React.useState(null);
+
+    const userRole = localStorage.getItem("role");
     // eslint-disable-next-line no-unused-vars
     const { t } = useTranslation();
 
@@ -330,6 +332,7 @@ const FilterPanel = ({
                         })
                     )}
                 </div>
+                { userRole === "USER" && (
                 <SavedFilters
                     saveFilters={saveFilters}
                     savedFilters={savedFilters}
@@ -338,6 +341,7 @@ const FilterPanel = ({
                     fetchFiltersById={fetchFiltersById}
                     fetchSavedFilters={fetchSavedFilters}
                 />
+                )}
             </div>
         </div>
 

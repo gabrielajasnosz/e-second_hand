@@ -112,7 +112,7 @@ const AsyncAutocomplete = ({
             disablePortal
             loading={isLoading}
             loadingText={<Progress />}
-            noOptionsText={t("No options")}
+            noOptionsText={t("No users found")}
             getOptionLabel={(option) => {
                 if (typeof option === "string") {
                     return option;

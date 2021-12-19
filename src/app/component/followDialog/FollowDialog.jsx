@@ -8,7 +8,7 @@ import "./FollowDialog.scss";
 // eslint-disable-next-line no-empty-pattern
 const FollowDialog = ({ list, title, emptyMessage }) => (
     <>
-        <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }}>
+        <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important", fontSize: "18px" }}>
             {title}
         </DialogTitle>
         <DialogContent sx={{

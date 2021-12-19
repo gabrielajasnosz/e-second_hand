@@ -27,7 +27,7 @@
 
     .user-name {
       font-size: 20px;
-      font-family: $logo-font;
+      font-family: $preferred-font;
       text-transform: capitalize;
     }
 
@@ -41,6 +41,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
   width: 100%;
   justify-content: space-between;
   align-items: center;

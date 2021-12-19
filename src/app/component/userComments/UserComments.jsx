@@ -23,6 +23,8 @@ const UserComments = ({
 
     const [commentDialogOpen, setCommentDialogOpen] = React.useState(false);
 
+    const userRole = localStorage.getItem("role");
+
     const handleDialogOpen = () => {
         setCommentDialogOpen(true);
     };
@@ -33,7 +35,7 @@ const UserComments = ({
 
     return (
         <div className="user-comments-container">
-            {!isUsersProfile && (
+            {!isUsersProfile && userRole === "USER" && (
                 <div className="comments-button">
                     <TextButton onClick={handleDialogOpen}>
                         <AddIcon />
@@ -70,7 +72,6 @@ const UserComments = ({
                         sx: {
                             backgroundColor: "#F0EFEB",
                             width: "30rem",
-                            padding: "0 1rem"
                         }
                     }}
                 >

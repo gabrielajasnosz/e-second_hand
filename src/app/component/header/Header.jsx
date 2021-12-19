@@ -41,6 +41,8 @@ import ModalContainer from "../modal/ModalContainer";
 import ChangePassword from "../changePasswordModal/ChangePassword";
 import MessagesContainer from "../popoverContent/MessagessContainer";
 import { MessageService } from "../../service/MessageService";
+import TextButton from "../button/TextButton";
+import AddCategoryModal from "../addCategoryModal/AddCategoryModal";
 
 const propTypes = {
     fetchCategories: PropTypes.func.isRequired,
@@ -194,7 +196,11 @@ const Header = ({
     const [isLoading, setIsLoading] = React.useState(false);
     const [userId, setUserId] = React.useState(null);
 
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
     const [languageCode, setLanguageCode] = useState(localStorage.getItem("i18nextLng"));
+
+    const userRole = localStorage.getItem("role");
 
     const changeLanguage = () => {
         const lng = languageCode === "pl" ? "en" : "pl";
@@ -306,15 +312,17 @@ const Header = ({
     }, [fetchCategories, fetchSizes, fetchBrands, fetchColors, fetchChat, setMessages]);
 
     useEffect(() => {
-        if (UserService.validateToken(UserService.currentUserValue)) {
-            fetchUnreadCounter();
-            fetchChat();
-            MessageService.subscribeNewNotification(UserService.decodedTokenValue.userId, () => {
+        if (UserService.validateToken(UserService.currentUserValue) && userRole === "USER") {
+            if (!(window.location.pathname).includes("chat")) {
                 fetchUnreadCounter();
                 fetchChat();
-            });
+                MessageService.subscribeNewNotification(UserService.decodedTokenValue.userId, () => {
+                    fetchUnreadCounter();
+                    fetchChat();
+                });
+            }
         }
-    }, [fetchChat, fetchUnreadCounter]);
+    }, [fetchChat, fetchUnreadCounter, userRole]);
 
     return (
         <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -324,7 +332,7 @@ const Header = ({
                 <div className="navbar-brand" role="button" onClick={() => history.push("/")}>e-second-hand</div>
                 <MenuIconButton label="lol" onButtonClick={() => {}} buttonClassName="navbar-toggler" />
                 <div className="collapse navbar-collapse justify-content-between" id="navbarResponsive">
-                    <div className="navbar-nav">
+                    <div className="navbar-nav" style={{ display: "flex", alignItems: "center" }}>
                         <Button
                             aria-describedby={femaleId}
                             className={classNames(classes.button, "nav-link")}
@@ -396,6 +404,16 @@ const Header = ({
                                 />
                             </div>
                         ) }
+                        { isLoggedIn && userRole === "MODERATOR" && (
+                            <div className="nav-link">
+                                <TextButton
+                                    onClick={() => setCategoryModalOpen(true)}
+                                    sx={{ mr: 1 }}
+                                >
+                                    <span>{t("Add category")}</span>
+                                </TextButton>
+                            </div>
+                        )}
                     </div>
                     {!isLoggedIn ? (
                         <div className="navbar-nav">
@@ -413,7 +431,7 @@ const Header = ({
                             >
                                 {t("register")}
                             </Button>
-                            <div className="language-switch">
+                            <div className={classNames("language-switch", "nav-link")}>
                                 <span>pl</span>
                                 <Switch
                                     checked={languageCode === "en"}
@@ -432,22 +450,28 @@ const Header = ({
                                 display: "flex", alignItems: "center", textAlign: "center", justifyContent: "center"
                             }}
                             >
-                                <Button
-                                    className={classNames(classes.button, "nav-link")}
-                                    disableRipple
-                                    onClick={handleClickMessages}
-                                >
-                                    <Badge
-                                        overlap="rectangular"
-                                        badgeContent={unreadCounter}
-                                        color="primary"
-                                        classes={{
-                                            badge: classes.badge
-                                        }}
+                                { userRole === "USER" ? (
+                                    <Button
+                                        className={classNames(classes.button, "nav-link")}
+                                        disableRipple
+                                        onClick={handleClickMessages}
                                     >
-                                        <EmailIcon />
-                                    </Badge>
-                                </Button>
+                                        <Badge
+                                            overlap="rectangular"
+                                            badgeContent={unreadCounter}
+                                            color="primary"
+                                            classes={{
+                                                badge: classes.badge
+                                            }}
+                                        >
+                                            <EmailIcon />
+                                        </Badge>
+                                    </Button>
+                                ) : (
+                                    <div className="moderator-badge">
+                                        <span> MODERATOR </span>
+                                    </div>
+                                )}
                                 <IconButton onClick={handleClick} size="small" classes={{ root: classes.userIcon }}>
                                     <Avatar
                                         src={`http://localhost:8080/users/profile-picture/${userId}`}
@@ -499,6 +523,12 @@ const Header = ({
             >
                 <MessagesContainer chat={chat} />
             </Popover>
+            <ModalContainer
+                handleClose={() => setCategoryModalOpen(false)}
+                open={categoryModalOpen}
+            >
+                <AddCategoryModal handleClose={() => setCategoryModalOpen(false)} />
+            </ModalContainer>
         </div>
     );
 };

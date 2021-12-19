@@ -26,6 +26,8 @@ const HomePage = ({ history, setOnlyFollowedUsers }) => {
     const [followedUsersItems, setFollowedUsersItems] = useState([]);
     const userId = UserService.validateToken(UserService.currentUserValue) ? UserService.decodedTokenValue.userId : null;
 
+    const userRole = localStorage.getItem("role");
+
     const navigateToItemsList = () => {
         // eslint-disable-next-line react/prop-types
         history.push("/list");
@@ -50,7 +52,9 @@ const HomePage = ({ history, setOnlyFollowedUsers }) => {
 
     return (
         <>
-            <Carousel />
+            { userRole !== "MODERATOR" && (
+                <Carousel />
+            )}
             <ImageListWidget items={newestItems.itemList} history={history} title={t("Explore newest items")} onButtonClick={navigateToItemsList} />
             { userId && followedUsersItems && followedUsersItems.length > 0 && (
                 <ImageListWidget

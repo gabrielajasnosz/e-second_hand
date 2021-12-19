@@ -34,6 +34,8 @@ const UserPopover = ({ classes, history, handleChangePasswordModalOpen }) => {
     const [languageCode, setLanguageCode] = useState(localStorage.getItem("i18nextLng"));
     const { t } = useTranslation();
 
+    const userRole = localStorage.getItem("role");
+
     const user = UserService.decodedTokenValue;
 
     const changeLanguage = () => {
@@ -46,21 +48,25 @@ const UserPopover = ({ classes, history, handleChangePasswordModalOpen }) => {
     return (
         <Box sx={{ backgroundColor: "#F0EFEB", height: "auto" }}>
             <List>
-                <ListItem disablePadding>
-                    <ListItemButton
-                        disableRipple
-                        onClick={() => {
-                            window.location.href = `/user/${user.userId}`;
-                        }}
-                    >
-                        <AccountCircleIcon className={classes.icon} />
-                        <ListItemText
-                            disableTypography
-                            primary={<Typography variant="body2" className={classes.field}>{t("My profile")}</Typography>}
-                        />
-                    </ListItemButton>
-                </ListItem>
-                <Divider className={classes.divider} />
+                { userRole === "USER" && (
+                    <>
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                disableRipple
+                                onClick={() => {
+                                    window.location.href = `/user/${user.userId}`;
+                                }}
+                            >
+                                <AccountCircleIcon className={classes.icon} />
+                                <ListItemText
+                                    disableTypography
+                                    primary={<Typography variant="body2" className={classes.field}>{t("My profile")}</Typography>}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider className={classes.divider} />
+                    </>
+                )}
                 <ListItem disablePadding>
                     <ListItemButton
                         disableRipple

@@ -13,6 +13,21 @@ function saveItem(newItem) {
     }).then(handleResponse);
 }
 
+function reportItem({ id, reportCause }) {
+    return fetch("http://localhost:8080/items/report", {
+        method: "POST",
+        body: JSON.stringify({
+            itemId: id,
+            cause: reportCause
+        }),
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${UserService.currentUserValue}`
+        },
+    }).then(handleResponse);
+}
+
 function editItem(editedItem) {
     return fetch("http://localhost:8080/items", {
         method: "PUT",
@@ -90,5 +105,6 @@ export const ItemService = {
     getHiddenItems,
     getPriceExtremeValues,
     manageItemVisibility,
-    getFollowedUsersItems
+    getFollowedUsersItems,
+    reportItem
 };

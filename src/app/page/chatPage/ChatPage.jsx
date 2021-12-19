@@ -17,6 +17,7 @@ import StandardInput from "../../component/input/StandardInput";
 import { MessageService } from "../../service/MessageService";
 import {
     fetchUnreadCounter as fetchUnreadCounterActionCreator,
+    fetchChat as fetchChatActionCreator
 } from "../../component/header/action/header";
 
 const styles = {
@@ -39,6 +40,7 @@ const styles = {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchUnreadCounter: fetchUnreadCounterActionCreator,
+    fetchChat: fetchChatActionCreator
 }, dispatch);
 
 const enhance = compose(
@@ -52,7 +54,7 @@ const enhance = compose(
 );
 
 const ChatPage = ({
-    classes, fetchUnreadCounter
+    classes, fetchUnreadCounter, fetchChat
 }) => {
     const { id } = useParams();
 
@@ -68,9 +70,11 @@ const ChatPage = ({
             MessageService.loadMessages(id).then((response) => response.json()).then((e) => {
                 setChatData({ chatUserId: e.chatUserId, chatUserName: e.chatUserName });
                 setMessages(e.messageDtoList);
+                fetchUnreadCounter();
+                fetchChat();
             });
         }
-    }, [fetchUnreadCounter, id]);
+    }, [fetchChat, fetchUnreadCounter, id]);
 
     useEffect(() => {
         if (id != null && isConnected === false) {
@@ -138,6 +142,7 @@ ChatPage.propTypes = {
         iconStyle: PropTypes.string.isRequired
     }).isRequired,
     fetchUnreadCounter: PropTypes.func.isRequired,
+    fetchChat: PropTypes.func.isRequired
 };
 
 export default enhance(ChatPage);

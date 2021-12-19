@@ -17,9 +17,11 @@ import DialogActions from "@mui/material/DialogActions";
 import { bindActionCreators } from "redux";
 import { Tooltip } from "@material-ui/core";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { Visibility } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import Alert from "@mui/material/Alert";
 import { getItemDetails } from "../../page/itemPage/selectors";
 import { UserService } from "../../service/UserService";
 import EditItemDetails from "./EditItemDetails";
@@ -29,6 +31,8 @@ import {
     hideItem as hideItemActionCreator,
     showItem as showItemActionCreator
 } from "./action/editedItem";
+import TextInput from "../input/TextInput";
+import { ItemService } from "../../service/ItemService";
 
 const styles = {
     icon: {
@@ -38,6 +42,22 @@ const styles = {
             outline: "none"
         }
     },
+    reportIcon: {
+        color: "#b30505",
+        fontSize: "28px !important",
+        "&:hover,&:focus": {
+            outline: "none"
+        }
+    },
+    alert: {
+        justifyContent: "center",
+        width: "20rem",
+        margin: "1rem 0"
+    },
+    message: {
+        fontFamily: "Open Sans, sans-serif",
+        fontSize: "14px",
+    }
 };
 
 const mapStateToProps = (state) => ({
@@ -60,11 +80,29 @@ const ItemDetails = ({
     itemData, classes, deleteItem, hideItem, showItem, history
 }) => {
     const [isEditModeOn, setEditModeOn] = useState(false);
+    const [reportDialogOpen, setReportDialogOpen] = useState(false);
+    const [cause, setCause] = useState("");
     const isLoggedIn = UserService.validateToken(UserService.currentUserValue);
     const userHasRightToEdit = isLoggedIn && UserService.decodedTokenValue.userId === itemData.userId;
 
+    const [reportSuccessful, setReportSuccessful] = useState(false);
+
+    const userRole = localStorage.getItem("role");
+
     const date = moment(itemData.creationDate).format("DD MMM, YYYY");
     const [open, setOpen] = React.useState(false);
+
+    const reportItem = () => {
+        const { id } = itemData;
+        const reportCause = cause;
+        ItemService.reportItem({ id, reportCause }).then(() => {
+            setReportDialogOpen(false);
+            setReportSuccessful(true);
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 2000);
+        });
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -85,6 +123,15 @@ const ItemDetails = ({
                             <span className="hidden-item">
                                 {t("This item is hidden. Only you can see this page.")}
                             </span>
+                        )}
+                        { reportSuccessful && (
+                            <Alert
+                                severity="success"
+                                variant="outlined"
+                                classes={{ root: classes.alert, message: classes.message }}
+                            >
+                                {t("Item was succesfully reported.")}
+                            </Alert>
                         )}
                         <span className="date">
                             {t("Added")}
@@ -140,6 +187,48 @@ const ItemDetails = ({
 
                             </div>
                             )}
+                            { userRole === "MODERATOR" && (
+                                <Tooltip title={t("Report and delete item")}>
+                                    <IconButton onClick={() => setReportDialogOpen(true)} size="small" classes={{ root: classes.reportIcon }}>
+                                        <ReportGmailerrorredIcon className={classes.reportIcon} />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            <Dialog
+                                open={reportDialogOpen}
+                                onClose={() => setReportDialogOpen(false)}
+                                PaperProps={{
+                                    sx: {
+                                        backgroundColor: "#F0EFEB",
+                                        width: "25rem",
+                                        height: "15rem",
+                                        padding: "0 1rem",
+                                    }
+                                }}
+                            >
+                                <DialogTitle sx={{ fontFamily: "Open Sans, sans-serif !important" }}>
+                                    {t("Add report cause")}
+                                    {" "}
+                                </DialogTitle>
+                                <DialogContent sx={{ display: "flex", alignItems: "center" }}>
+                                    <TextInput label={null} onChange={(e) => setCause(e.target.value)} defaultValue={cause || ""} />
+                                </DialogContent>
+                                <DialogActions>
+                                    <TextButton
+                                        onClick={() => setReportDialogOpen(false)}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        <span>{t("Close")}</span>
+                                    </TextButton>
+                                    <TextButton
+                                        onClick={reportItem}
+                                        disabled={cause === ""}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        <span>{t("Report")}</span>
+                                    </TextButton>
+                                </DialogActions>
+                            </Dialog>
                             <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -221,6 +310,7 @@ const ItemDetails = ({
 };
 ItemDetails.propTypes = {
     itemData: PropTypes.shape({
+        id: PropTypes.number,
         userDisplayName: PropTypes.string,
         category: PropTypes.string,
         categoryGender: PropTypes.string,
@@ -236,7 +326,10 @@ ItemDetails.propTypes = {
         isHidden: PropTypes.bool
     }).isRequired,
     classes: PropTypes.shape({
-        icon: PropTypes.string.isRequired
+        icon: PropTypes.string.isRequired,
+        reportIcon: PropTypes.string.isRequired,
+        alert: PropTypes.string,
+        message: PropTypes.string
     }).isRequired,
     deleteItem: PropTypes.func.isRequired,
     hideItem: PropTypes.func.isRequired,

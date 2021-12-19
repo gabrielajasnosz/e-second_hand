@@ -34,7 +34,6 @@ export const setColors = (colors) => ({
 });
 
 export const setUnreadCounter = (unreadCounter) => (dispatch) => {
-    console.log(unreadCounter);
     dispatch({
         type: headerActions.setUnreadCounter,
         unreadCounter

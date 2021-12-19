@@ -44,13 +44,28 @@
   }
 
   .language-switch {
-    margin-left: 1rem;
-    margin-top: 1.5px;
     display: flex;
     align-items: center;
+    justify-content: center;
     color: rgba(0, 0, 0, 0.7);
     text-transform: uppercase;
     font-family: $preferred-font
+  }
+
+  .moderator-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    background-color: #ddbea9;
+    color: black;
+    font-family: $preferred-font;
+    padding: 0 5px;
+    font-size: 16px;
+    width: auto;
+    height: 2rem;
+    border-radius: .3rem;
+    margin-right: 0.5rem;
   }
 
 
