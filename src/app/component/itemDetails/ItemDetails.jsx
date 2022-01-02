@@ -158,7 +158,7 @@ const ItemDetails = ({
                             </div>
                             )}
                             {userHasRightToEdit && (
-                            <div style={{ display: "flex", flexDirection: "row" }}>
+                            <div style={{ display: "flex", flexDirection: "row", marginLeft: "2rem" }}>
                                 <Tooltip
                                     title={t("Edit item")}
                                 >

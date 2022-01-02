@@ -52,7 +52,7 @@ const HomePage = ({ history, setOnlyFollowedUsers }) => {
 
     return (
         <>
-            { userRole !== "MODERATOR" && (
+            { (!userRole || userRole === "USER") && (
                 <Carousel />
             )}
             <ImageListWidget items={newestItems.itemList} history={history} title={t("Explore newest items")} onButtonClick={navigateToItemsList} />
