@@ -1,0 +1,36 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+.app-modal-content{
+  margin:2rem;
+  font-family: $preferred-font;
+  font-size: 20px;
+  color: black;
+
+  .add-item-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+
+    &.buttons{
+      margin-top: 2rem;
+    }
+
+  }
+
+  .step-content{
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  .step-button{
+    padding: 0 8px;
+  }
+
+
+
+
+
+}

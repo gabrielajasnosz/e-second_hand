@@ -1,0 +1,106 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+
+.carousel {
+  margin: 0;
+  width: auto;
+
+  &:hover{
+    cursor: default;
+  }
+
+  .carousel-inner {
+    position: relative;
+    height: 27rem;
+
+    .carousel-item {
+      height: 100%;
+
+      &.carousel-first {
+        background: url("../../assets/images/carousel-first.jpg") no-repeat center center scroll;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+      }
+
+      &.carousel-second {
+        background: url("../../assets/images/carousel-second.jpg") no-repeat center center scroll;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+      }
+
+      &.carousel-third {
+        background: url("../../assets/images/carousel-third.jpg") no-repeat center center scroll;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+
+
+      .carousel-caption {
+        color: white;
+        font-family: $preferred-font !important;
+        width: auto;
+        top: 50% !important;
+        transform: translateY(-50%);
+        text-align: center;
+        bottom: initial;
+        text-shadow: 2px 2px 15px black;
+
+
+        & > p {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        & > span {
+          font-size: 20px;
+        }
+
+      }
+
+    }
+  }
+
+
+  .carousel-indicators {
+    top: 90% !important;
+    transform: translateY(-50%);
+  }
+
+  .carousel-control.left, .carousel-control.right {
+    background-image: none !important;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.navigation-button {
+  margin: 2rem;
+  position: absolute;
+  z-index:99;
+  top: 62% !important;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+}
+
+.navigation-field {
+  display: flex;
+  justify-content: center;
+}
+
+
+

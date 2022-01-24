@@ -1,0 +1,68 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.image-list-widget {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem 0 2rem;
+  width: 100%;
+
+  .widget-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1rem;
+  }
+
+
+  .widget-name{
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: $preferred-font;
+  }
+
+  .image-list{
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: .3rem;
+    background-color: $basic-grey-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+  }
+
+    .see-more-button{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+
+      &:hover{
+        background-color: $basic-light-green;
+        cursor: pointer;
+      }
+
+    }
+    .more-icon{
+      width: 3rem!important;
+      height: 3rem!important;
+      color: $basic-grey-dark;
+      line-height: normal;
+    }
+
+    .more-span{
+      color: $basic-grey-dark;
+      font-family: $preferred-font;
+      font-size: 16px;
+    }
+  }
+
+

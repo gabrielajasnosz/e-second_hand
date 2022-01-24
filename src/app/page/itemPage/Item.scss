@@ -1,0 +1,15 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.content{
+  position: relative;
+  top: 2rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  height: auto;
+}

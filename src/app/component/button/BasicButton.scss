@@ -1,0 +1,100 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.app-button {
+  max-width: 20rem;
+  width: 100%;
+  height: 56px;
+  border-radius: .3rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: $preferred-font !important;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  outline: none;
+  border: none;
+
+  &.submit-button {
+    background-color: $basic-medium-green;
+
+    &:hover {
+      background-color: $basic-dark-green;
+    }
+  }
+
+  &.reverse-button {
+    background-color: $basic-beige-normal;
+
+    &:hover{
+      background-color: $basic-beige-dark;
+    }
+  }
+
+  &.select-button {
+    background-color: $basic-medium-green;
+    margin-top: 1rem;
+
+    &:hover{
+      background-color: $basic-dark-green;
+    }
+  }
+
+  &.cancel-button {
+    background-color: $basic-light-green;
+    margin-top: 1rem;
+
+    &:hover{
+      background-color: $basic-medium-green;
+    }
+  }
+
+
+  &:active, &:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: $disabled;
+    color: white;
+
+    &:hover{
+      background-color: $disabled;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .app-button{
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+
+}
+
+.icon-button{
+  color: black !important;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  &:hover, &:focus {
+    color: $basic-dark-green !important;
+    background: transparent !important;
+    outline: none;
+  }
+}
+
+

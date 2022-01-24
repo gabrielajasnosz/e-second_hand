@@ -1,0 +1,33 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top:4rem;
+
+  .page-content{
+    width: 100% !important;
+    height: auto;
+    overflow: auto;
+  }
+
+  .carousel-content {
+    justify-content: center;
+    width: 100%;
+    height: 100%
+  }
+}
+
+

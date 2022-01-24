@@ -1,0 +1,36 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+
+.filter-panel-container{
+  min-height: 3rem;
+  background-color: $basic-grey-color;
+  border-radius: .3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  flex-wrap: wrap;
+
+  .filters{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+}
+.active-filters {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 70rem;
+
+}
+
+.filters-subpanel{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

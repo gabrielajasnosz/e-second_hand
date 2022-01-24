@@ -1,0 +1,72 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+.navbar {
+  display: flex;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  background-color: $basic-grey-color !important;
+  width: 100%;
+
+  .navbar-brand {
+    margin: 0 1rem;
+    &:hover{
+    cursor: pointer
+  }
+  }
+
+  img {
+    height: 2.8rem;
+  }
+
+  .navbar-brand {
+    font-family: $logo-font !important;
+    font-weight: 500;
+    font-size: 25px;
+    color: black;
+
+    &:hover {
+      color: $basic-dark-green !important;
+    }
+  }
+
+  .nav-link {
+    font-family: $preferred-font !important;
+    color: $basic-grey-dark !important;
+    font-size: 16px;
+
+    &:hover {
+      color: $basic-medium-green !important;
+    }
+
+  }
+
+  .language-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+    font-family: $preferred-font
+  }
+
+  .moderator-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    background-color: #ddbea9;
+    color: black;
+    font-family: $preferred-font;
+    padding: 0 5px;
+    font-size: 16px;
+    width: auto;
+    height: 2rem;
+    border-radius: .3rem;
+    margin-right: 0.5rem;
+  }
+
+
+}

@@ -1,0 +1,77 @@
+@import "../../assets/variables/colors";
+@import "../../assets/variables/fonts";
+
+.user-info{
+  display: flex;
+  margin-right: 1rem;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 60%;
+  overflow: auto;
+  padding: 0.5rem 2rem;
+  font-family: $preferred-font;
+  background-color: $basic-grey-color;
+  margin-bottom: 2rem;
+
+  .user-details{
+    width: 100%;
+    margin-top: 1rem;
+
+  .avatar-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      align-content: center;
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-family: $preferred-font;
+      text-transform: capitalize;
+    }
+
+    .avatar-icon{
+      font-size: 50px;
+    }
+  }
+}
+
+.user-info-details{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.value{
+  text-transform: uppercase;
+  font-weight: bold;
+  color: $basic-dark-green;
+}
+
+.value-empty{
+  font-style: italic;
+  color: grey
+}
+
+.attribute{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.edit-profile{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
+
+
