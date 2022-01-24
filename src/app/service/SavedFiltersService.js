@@ -10,21 +10,21 @@ function saveFilters(filters) {
 }
 
 function getSavedFilters() {
-    return fetch("http://localhost:8080/filters/list", {
+    return fetch("http://localhost:8080/filters", {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getSavedFilterById(id) {
-    return fetch(`http://localhost:8080/filters?id=${encodeURIComponent(id)}`, {
+    return fetch(`http://localhost:8080/filters/${encodeURIComponent(id)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function deleteSavedFilterById(id) {
-    return fetch(`http://localhost:8080/filters?id=${encodeURIComponent(id)}`, {
+    return fetch(`http://localhost:8080/filters/${encodeURIComponent(id)}`, {
         method: "DELETE",
         headers: authHeader(),
     }).then(handleResponse);

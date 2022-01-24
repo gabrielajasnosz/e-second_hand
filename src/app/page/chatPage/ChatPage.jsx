@@ -12,6 +12,8 @@ import { bindActionCreators } from "redux";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import withHandlers from "recompose/withHandlers";
+import moment from "moment";
+import { Tooltip } from "@material-ui/core";
 import { UserService } from "../../service/UserService";
 import StandardInput from "../../component/input/StandardInput";
 import { MessageService } from "../../service/MessageService";
@@ -115,9 +117,19 @@ const ChatPage = ({
             <div className="messages-container">
 
                 {messages.map((m) => (
-                    <div style={{ width: "100%", display: "flex", justifyContent: m.authorId === userId ? "flex-end" : "flex-start" }}>
-                        <div className={m.authorId === userId ? "my-message" : "other-message"}>{m.content}</div>
-                    </div>
+                    <Tooltip
+                        title={moment(m.creationDate).format("DD MMM, YYYY")}
+                    >
+                        <div
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: m.authorId === userId ? "flex-end" : "flex-start",
+                            }}
+                        >
+                            <div className={m.authorId === userId ? "my-message" : "other-message"}>{m.content}</div>
+                        </div>
+                    </Tooltip>
                 ))}
             </div>
             <div className="input-field">

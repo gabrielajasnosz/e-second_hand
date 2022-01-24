@@ -37,7 +37,7 @@ function editItem(editedItem) {
 }
 
 function getItem(itemId) {
-    return fetch(`http://localhost:8080/items?id=${encodeURIComponent(itemId)}`, {
+    return fetch(`http://localhost:8080/items/${encodeURIComponent(itemId)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
@@ -51,14 +51,14 @@ function getHiddenItems() {
 }
 
 function deleteItem(itemId) {
-    return fetch(`http://localhost:8080/items?id=${encodeURIComponent(itemId)}`, {
+    return fetch(`http://localhost:8080/items/${encodeURIComponent(itemId)}`, {
         method: "DELETE",
         headers: authHeader(),
     }).then(handleResponse);
 }
 
 function getUserCounters(userId) {
-    return fetch(`http://localhost:8080/items/counters?user=${encodeURIComponent(userId)}`, {
+    return fetch(`http://localhost:8080/items/counters/${encodeURIComponent(userId)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
@@ -80,7 +80,7 @@ function getPriceExtremeValues() {
 }
 
 function manageItemVisibility(itemId, status) {
-    return fetch(`http://localhost:8080/items/item-visibility?id=${encodeURIComponent(itemId)}&status=${encodeURIComponent(status)}`, {
+    return fetch(`http://localhost:8080/items/item-visibility/${encodeURIComponent(itemId)}?status=${encodeURIComponent(status)}`, {
         method: "PUT",
         headers: authHeader(),
     }).then(handleResponse);

@@ -9,7 +9,7 @@ function addComment(commentBody) {
 }
 
 function getComments(userId, page) {
-    return fetch(`http://localhost:8080/comments?user=${encodeURIComponent(userId)}&page=${encodeURIComponent(page)}`, {
+    return fetch(`http://localhost:8080/comments/${encodeURIComponent(userId)}?page=${encodeURIComponent(page)}`, {
         method: "GET",
         headers: authHeader(),
     }).then(handleResponse);
